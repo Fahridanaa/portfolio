@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
 import Navbar from "@/components/ui/nav/Navbar.astro";
 import TypingAnimation from "@/components/ui/TypingAnimation";
+import SocialButton from "@/components/ui/SocialButton.astro";
 import cat from "@/../public/assets/hero-section-animation.gif";
 import cv from "@/../public/assets/cv_ats.pdf";
 import { Github, Linkedin, Mail, FileUser } from "lucide-react";
@@ -28,42 +29,61 @@ import { Github, Linkedin, Mail, FileUser } from "lucide-react";
 			/>
 		</div>
 		<div class="w-full flex gap-2">
-			<a
+			<SocialButton
 				href="mailto:fahridanaaa@gmail.com"
 				target="_blank"
-				class="social-btn"
 				title="email"
-				aria-label="email">
-				<Mail size={24} />
-			</a>
-			<a
+				ariaLabel="email"
+				icon={Mail}
+			/>
+			<SocialButton
 				href="https://www.linkedin.com/in/fahridana-ahmad-rayyansyah/"
 				target="_blank"
-				class="social-btn"
 				title="linkedIn"
-				aria-label="linkedIn">
-				<Linkedin size={24} />
-			</a>
-			<a
+				ariaLabel="linkedIn"
+				icon={Linkedin}
+			/>
+			<SocialButton
 				href="https://github.com/Fahridanaa"
 				target="_blank"
-				class="social-btn"
 				title="Github"
-				aria-label="Github">
-				<Github size={24} />
-			</a>
-			<a
+				ariaLabel="Github"
+				icon={Github}
+			/>
+			<SocialButton
 				href={cv}
 				target="_blank"
-				class="social-btn"
 				title="CV"
-				aria-label="CV">
-				<FileUser size={24} />
-			</a>
+				ariaLabel="CV"
+				icon={FileUser}
+			/>
+		</div>
+		<div class="absolute bottom-6 left-1/2 transform-translate-x-12">
+			<span class="arrow-down"></span>
 		</div>
 	</div>
-	<div class="absolute bottom-6 left-1/2 transform-translate-x-12">
-		<span class="arrow-down"></span>
+	<div class="my-6">
+		<h2 class="text-3xl font-semibold mb-2">About Me</h2>
+		<p class="text-base md:text-xl leading-relaxed mb-8">
+			I am an Informatics Engineering student with a passion for creating
+			web applications. My expertise lies in front-end development, where
+			I focus on crafting user-friendly and responsive interfaces that
+			provide seamless experiences. I enjoy collaborating on dynamic
+			projects that challenge my skills and creativity.
+		</p>
+		<p class="text-base md:text-xl leading-relaxed mb-8">
+			My interests revolve around building elegant web solutions and
+			staying updated with the latest in front-end technologies. Alongside
+			my front-end expertise, I am currently exploring backend development
+			and mobile application development to expand my skill set and
+			deliver more comprehensive solutions. I enjoy experimenting with
+			frameworks, design systems, and tools that enhance development
+			efficiency and creativity.
+		</p>
+		<p class="text-base md:text-xl leading-relaxed mb-8">
+			When I'm not coding, you can find me exploring new hobbies, gaming
+			to relax, or diving into books about technology and self-growth.
+		</p>
 	</div>
 </Layout>
 <Navbar />
@@ -85,22 +105,6 @@ import { Github, Linkedin, Mail, FileUser } from "lucide-react";
 		border-right-color: #8d7e61;
 		transform: rotate(45deg);
 		animation: arrow-bounce 2s infinite;
-	}
-
-	.social-btn {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 36px;
-		height: 36px;
-		border: #8d7e61 2px solid; /* Dark gray border */
-		border-radius: 4px; /* Rounded square */
-		color: #8d7e61; /* Dark gray icon color */
-		transition: all 0.3s ease;
-	}
-
-	.social-btn:hover {
-		transform: translateY(-5px);
 	}
 
 	@keyframes arrow-bounce {
