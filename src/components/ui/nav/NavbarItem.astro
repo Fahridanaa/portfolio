@@ -1,0 +1,9 @@
+---
+// Props for the NavbarItem component
+const { href, label } = Astro.props;
+---
+
+<div
+	class="duration-500 p-1 lg:px-2 rounded-lg hover:scale-125 cursor-pointer opacity-70 hover:opacity-100">
+	<a href={href} class="hidden lg:block">{label}</a>
+</div>
