@@ -10,7 +10,9 @@ import { Github, Linkedin, Mail, FileUser } from "lucide-react";
 ---
 
 <Layout title="Fahridana Ahmad Rayyansyah">
-	<div class="min-h-[100svh] flex flex-col justify-center items-center">
+	<section
+		id="hero-section"
+		class="min-h-dvh flex flex-col justify-center items-center">
 		<div
 			class="w-full flex flex-col md:flex-row justify-between items-center">
 			<div class="max-w-2xl text-4xl">
@@ -59,10 +61,10 @@ import { Github, Linkedin, Mail, FileUser } from "lucide-react";
 			/>
 		</div>
 		<div class="absolute bottom-6 left-1/2 transform-translate-x-12">
-			<span class="arrow-down"></span>
+			<a href="#about-me" class="arrow-down"></a>
 		</div>
-	</div>
-	<div class="my-6">
+	</section>
+	<section id="about-me" class="my-6">
 		<h2 class="text-3xl font-semibold mb-2">About Me</h2>
 		<p class="text-base md:text-xl leading-relaxed mb-8">
 			I am an Informatics Engineering student with a passion for creating
@@ -84,10 +86,10 @@ import { Github, Linkedin, Mail, FileUser } from "lucide-react";
 			When I'm not coding, you can find me exploring new hobbies, gaming
 			to relax, or diving into books about technology and self-growth.
 		</p>
-	</div>
-	<div class="my-6">
-		<h2 class="text-3xl font-semibold mb-2">My Projects</h2>
-		<div class="min-h-96 flex justify-center items-center">
+	</section>
+	<section id="projects" class="my-6">
+		<h2 class="text-3xl font-semibold mb-2">Personal Projects</h2>
+		<div class="min-h-[50dvh] flex justify-center items-center">
 			<h3 class="text-8xl">WIP</h3>
 			<!-- {
 				sortedPersonalProjects.map((project) => (
@@ -95,65 +97,76 @@ import { Github, Linkedin, Mail, FileUser } from "lucide-react";
 				))
 			} -->
 		</div>
-	</div>
-</Layout>
-<Navbar />
+	</section>
+	<section id="blog">
+		<h2 class="text-3xl font-semibold mb-2">Blog</h2>
+		<div class="min-h-[50dvh] flex justify-center items-center">
+			<h3 class="text-8xl">WIP</h3>
+			<!-- {
+                sortedBlogs.map((blog) => (
+                    <BlogCard blog={blog} key={blog.slug} />
+                ))
+            } -->
+		</div>
+		<Navbar />
+	</section>
 
-<style>
-	.wave {
-		display: inline-block;
-		animation: wave 2s infinite;
-		transform-origin: 70% 70%;
-	}
+	<style>
+		.wave {
+			display: inline-block;
+			animation: wave 2s infinite;
+			transform-origin: 70% 70%;
+		}
 
-	.arrow-down {
-		display: inline-block;
-		opacity: 0;
-		width: 24px;
-		height: 24px;
-		border: solid 2px transparent;
-		border-bottom-color: #8d7e61;
-		border-right-color: #8d7e61;
-		transform: rotate(45deg);
-		animation: arrow-bounce 2s infinite;
-	}
-
-	@keyframes arrow-bounce {
-		%0,
-		100% {
-			transform: translateY(0) rotate(45deg);
+		.arrow-down {
+			display: inline-block;
 			opacity: 0;
+			width: 24px;
+			height: 24px;
+			border: solid 2px transparent;
+			border-bottom-color: #8d7e61;
+			border-right-color: #8d7e61;
+			transform: rotate(45deg);
+			animation: arrow-bounce 2s infinite;
 		}
-		50% {
-			transform: translateY(10px) rotate(45deg);
-			opacity: 1;
-		}
-	}
 
-	@keyframes wave {
-		0% {
-			transform: rotate(0deg);
+		@keyframes arrow-bounce {
+			%0,
+			100% {
+				transform: translateY(0) rotate(45deg);
+				opacity: 0;
+			}
+			50% {
+				transform: translateY(10px) rotate(45deg);
+				opacity: 1;
+			}
 		}
-		10% {
-			transform: rotate(14deg);
+
+		@keyframes wave {
+			0% {
+				transform: rotate(0deg);
+			}
+			10% {
+				transform: rotate(14deg);
+			}
+			20% {
+				transform: rotate(-8deg);
+			}
+			30% {
+				transform: rotate(14deg);
+			}
+			40% {
+				transform: rotate(-4deg);
+			}
+			50% {
+				transform: rotate(10deg);
+			}
+			60% {
+				transform: rotate(0deg);
+			}
+			100% {
+				transform: rotate(0deg);
+			}
 		}
-		20% {
-			transform: rotate(-8deg);
-		}
-		30% {
-			transform: rotate(14deg);
-		}
-		40% {
-			transform: rotate(-4deg);
-		}
-		50% {
-			transform: rotate(10deg);
-		}
-		60% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(0deg);
-		}
-	}
-</style>
+	</style>
+</Layout>
