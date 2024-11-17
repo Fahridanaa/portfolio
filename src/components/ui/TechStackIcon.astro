@@ -1,0 +1,17 @@
+---
+// src/components/ui/TechStackIcon.astro
+interface Props {
+	iconName: string;
+	colored?: boolean;
+}
+
+const { iconName, colored = true } = Astro.props;
+const colorClass = colored ? "colored" : "";
+---
+
+<div
+	class="shadow-md p-2 rounded-lg flex justify-center items-center bg-white/10 backdrop-blur-sm hover:scale-110 transition-transform duration-300">
+	<i
+		class={`devicon-${iconName}-original devicon-${iconName}-plain ${colorClass} text-3xl`}
+	></i>
+</div>

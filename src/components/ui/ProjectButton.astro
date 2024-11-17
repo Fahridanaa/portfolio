@@ -3,17 +3,17 @@ import type { LucideIcon } from "lucide-react";
 
 interface Props {
 	href: string;
-	icon: LucideIcon;
+	icon?: LucideIcon;
 	text: string;
 }
 
 const { href, icon: Icon, text } = Astro.props;
 ---
 
-<a class="w-full" href={href} target="_blank">
+<a class="w-full flex justify-center items-center" href={href} target="_blank">
 	<button
 		class="flex items-center justify-center px-2 py-1 gap-2 border-2 border-[#8d7e61] rounded text-[#8d7e61] transition-all duration-300 hover:bg-[#8d7e61] hover:text-white">
-		<Icon size={24} />
+		{Icon && <Icon size={24} />}
 		{text}
 	</button>
 </a>
