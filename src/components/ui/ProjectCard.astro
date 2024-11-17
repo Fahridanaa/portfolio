@@ -28,7 +28,7 @@ const {
 ---
 
 <div
-	class=`relative flex flex-col gap-8 my-8 lg:my-14 items-center lg:flex-row${isReverse ? '-reverse' : ''}`>
+	class=`relative flex flex-col gap-8 my-8 lg:my-14 items-center lg:${isReverse ? 'flex-row-reverse' : 'flex-row'}`>
 	<div style="opacity: 1; transform: none; will-change: auto;">
 		<div
 			class="videoContainer flex gap-2 relative group rounded-xl overflow-hidden duration-500 hover:scale-[0.97]">
