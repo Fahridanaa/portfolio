@@ -6,7 +6,10 @@ import TypingAnimation from "@/components/ui/TypingAnimation";
 import SocialButton from "@/components/ui/SocialButton.astro";
 import cat from "@/../public/assets/hero-section-animation.gif";
 import cv from "@/../public/assets/cv_ats.pdf";
+import sawira from "@/../public/assets/projects/sawira/cover.png";
+import ordal from "@/../public/assets/projects/ordal/cover.png";
 import { Github, Linkedin, Mail, FileUser } from "lucide-react";
+import ProjectCard from "@/components/ui/ProjectCard.astro";
 ---
 
 <Layout title="Fahridana Ahmad Rayyansyah">
@@ -65,32 +68,60 @@ import { Github, Linkedin, Mail, FileUser } from "lucide-react";
 		</div>
 	</section>
 	<section id="about-me" class="my-6">
-		<h2 class="text-3xl font-semibold mb-2">About Me</h2>
-		<p class="text-base md:text-xl leading-relaxed mb-8">
-			I am an Informatics Engineering student with a passion for creating
-			web applications. My expertise lies in front-end development, where
-			I focus on crafting user-friendly and responsive interfaces that
-			provide seamless experiences. I enjoy collaborating on dynamic
-			projects that challenge my skills and creativity.
-		</p>
-		<p class="text-base md:text-xl leading-relaxed mb-8">
-			My interests revolve around building elegant web solutions and
-			staying updated with the latest in front-end technologies. Alongside
-			my front-end expertise, I am currently exploring backend development
-			and mobile application development to expand my skill set and
-			deliver more comprehensive solutions. I enjoy experimenting with
-			frameworks, design systems, and tools that enhance development
-			efficiency and creativity.
-		</p>
-		<p class="text-base md:text-xl leading-relaxed mb-8">
-			When I'm not coding, you can find me exploring new hobbies, gaming
-			to relax, or diving into books about technology and self-growth.
-		</p>
+		<article>
+			<h2 class="text-3xl font-semibold mb-2">About Me</h2>
+			<p class="text-base md:text-xl leading-relaxed mb-8">
+				I am an Informatics Engineering student with a passion for
+				creating web applications. My expertise lies in front-end
+				development, where I focus on crafting user-friendly and
+				responsive interfaces that provide seamless experiences. I enjoy
+				collaborating on dynamic projects that challenge my skills and
+				creativity.
+			</p>
+			<p class="text-base md:text-xl leading-relaxed mb-8">
+				My interests revolve around building elegant web solutions and
+				staying updated with the latest in front-end technologies.
+				Alongside my front-end expertise, I am currently exploring
+				backend development and mobile application development to expand
+				my skill set and deliver more comprehensive solutions. I enjoy
+				experimenting with frameworks, design systems, and tools that
+				enhance development efficiency and creativity.
+			</p>
+			<p class="text-base md:text-xl leading-relaxed mb-8">
+				When I'm not coding, you can find me exploring new hobbies,
+				gaming to relax, or diving into books about technology and
+				self-growth.
+			</p>
+		</article>
 	</section>
 	<section id="projects" class="my-6">
-		<h2 class="text-3xl font-semibold mb-2">Personal Projects</h2>
-		<div class="min-h-[50dvh] flex justify-center items-center">
-			<h3 class="text-8xl">WIP</h3>
+		<h2 class="text-3xl font-semibold mb-2">Featured Projects</h2>
+		<div class="flex flex-col">
+			<ProjectCard
+				title="Sawira"
+				type="Web Application"
+				description="Sawira is a web app for managing citizen data, archives, correspondence, and zakat distribution, designed to help Villa Bukit Tidar residents. This project was created as a final project in the 4th semester."
+				image={sawira}
+				imageAlt="Sawira - A web application for administration and management citizen data."
+				githubUrl="https://github.com/Fahridanaa/sawira"
+				isReverse={true}
+			/>
+			<ProjectCard
+				title="OrangDalam"
+				type="Web Application"
+				description="OrangDalam is a web app for room reservations in the Department of Information Technology, designed for use by department admins and students/lecturers who want to book rooms. This project was created as a final project in the 3rd semester."
+				image={ordal}
+				imageAlt="Sawira - A web application for administration and management citizen data."
+				githubUrl="https://github.com/Fahridanaa/OrangDalam-PeminjamanRuangan-2F"
+				isReverse={false}
+			/>
+			<div class="text-center text-2xl my-16">
+				<div
+					class="flex justify-center items-center w-full h-full"
+					style="opacity: 1; transform: none; will-change: auto;">
+					<p>See More...</p>
+				</div>
+			</div>
 			<!-- {
 				sortedPersonalProjects.map((project) => (
 					<ProjectCard project={project} key={project.slug} />
@@ -98,75 +129,75 @@ import { Github, Linkedin, Mail, FileUser } from "lucide-react";
 			} -->
 		</div>
 	</section>
-	<section id="blog">
+	<!-- <section id="blog">
 		<h2 class="text-3xl font-semibold mb-2">Blog</h2>
 		<div class="min-h-[50dvh] flex justify-center items-center">
 			<h3 class="text-8xl">WIP</h3>
-			<!-- {
+			{
                 sortedBlogs.map((blog) => (
                     <BlogCard blog={blog} key={blog.slug} />
                 ))
-            } -->
+            }
 		</div>
-		<Navbar />
-	</section>
-
-	<style>
-		.wave {
-			display: inline-block;
-			animation: wave 2s infinite;
-			transform-origin: 70% 70%;
-		}
-
-		.arrow-down {
-			display: inline-block;
-			opacity: 0;
-			width: 24px;
-			height: 24px;
-			border: solid 2px transparent;
-			border-bottom-color: #8d7e61;
-			border-right-color: #8d7e61;
-			transform: rotate(45deg);
-			animation: arrow-bounce 2s infinite;
-		}
-
-		@keyframes arrow-bounce {
-			%0,
-			100% {
-				transform: translateY(0) rotate(45deg);
-				opacity: 0;
-			}
-			50% {
-				transform: translateY(10px) rotate(45deg);
-				opacity: 1;
-			}
-		}
-
-		@keyframes wave {
-			0% {
-				transform: rotate(0deg);
-			}
-			10% {
-				transform: rotate(14deg);
-			}
-			20% {
-				transform: rotate(-8deg);
-			}
-			30% {
-				transform: rotate(14deg);
-			}
-			40% {
-				transform: rotate(-4deg);
-			}
-			50% {
-				transform: rotate(10deg);
-			}
-			60% {
-				transform: rotate(0deg);
-			}
-			100% {
-				transform: rotate(0deg);
-			}
-		}
-	</style>
+	</section> -->
+	<Navbar />
 </Layout>
+
+<style>
+	.wave {
+		display: inline-block;
+		animation: wave 2s infinite;
+		transform-origin: 70% 70%;
+	}
+
+	.arrow-down {
+		display: inline-block;
+		opacity: 0;
+		width: 24px;
+		height: 24px;
+		border: solid 2px transparent;
+		border-bottom-color: #8d7e61;
+		border-right-color: #8d7e61;
+		transform: rotate(45deg);
+		animation: arrow-bounce 2s infinite;
+	}
+
+	@keyframes arrow-bounce {
+		%0,
+		100% {
+			transform: translateY(0) rotate(45deg);
+			opacity: 0;
+		}
+		50% {
+			transform: translateY(10px) rotate(45deg);
+			opacity: 1;
+		}
+	}
+
+	@keyframes wave {
+		0% {
+			transform: rotate(0deg);
+		}
+		10% {
+			transform: rotate(14deg);
+		}
+		20% {
+			transform: rotate(-8deg);
+		}
+		30% {
+			transform: rotate(14deg);
+		}
+		40% {
+			transform: rotate(-4deg);
+		}
+		50% {
+			transform: rotate(10deg);
+		}
+		60% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(0deg);
+		}
+	}
+</style>

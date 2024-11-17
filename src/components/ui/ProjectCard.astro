@@ -1,0 +1,80 @@
+---
+import { Image } from "astro:assets";
+import ProjectButton from "./ProjectButton.astro";
+import type { ImageMetadata } from "astro";
+import { AppWindow, Code } from "lucide-react";
+
+interface Props {
+	title: string;
+	description: string;
+	type: string;
+	image: ImageMetadata;
+	imageAlt: string;
+	livePreviewUrl?: string;
+	githubUrl?: string;
+	isReverse?: boolean;
+}
+
+const {
+	title,
+	description,
+	type,
+	image,
+	imageAlt,
+	livePreviewUrl,
+	githubUrl,
+	isReverse = false,
+} = Astro.props;
+---
+
+<div
+	class=`relative flex flex-col gap-8 my-8 lg:my-14 items-center lg:flex-row${isReverse ? '-reverse' : ''}`>
+	<div style="opacity: 1; transform: none; will-change: auto;">
+		<div
+			class="videoContainer flex gap-2 relative group rounded-xl overflow-hidden duration-500 hover:scale-[0.97]">
+			<span>
+				<Image
+					src={image}
+					alt={imageAlt}
+					width={1600}
+					height={800}
+					class="lg:w-[500px] xl:w-[600px] rounded-xl group-hover:blur-sm duration-500 group-hover:scale-[1.1]"
+				/>
+			</span>
+		</div>
+	</div>
+
+	<div
+		class=`flex flex-col items-center gap-4 lg:${isReverse ? 'items-end' : 'items-start'}`>
+		<div
+			class=`flex flex-col items-center lg:${isReverse ? 'items-end' : 'items-start'}`
+			style="opacity: 1; will-change: auto;">
+			<h2 class="text-2xl font-semibold">{title}</h2>
+			<p class="text-lg font-medium text-[#8d7e61]">{type}</p>
+		</div>
+
+		<p
+			class=`transition-all lg:w-[280px] xl:w-[350px] text-center lg:${isReverse ? 'text-end' : 'text-start'}`
+			style="opacity: 1; will-change: auto;">
+			{description}
+		</p>
+
+		<div class="flex flex-col gap-2">
+			{
+				livePreviewUrl && (
+					<ProjectButton
+						href={livePreviewUrl}
+						icon={AppWindow}
+						text="Live Preview"
+					/>
+				)
+			}
+
+			{
+				githubUrl && (
+					<ProjectButton href={githubUrl} icon={Code} text="Client" />
+				)
+			}
+		</div>
+	</div>
+</div>
