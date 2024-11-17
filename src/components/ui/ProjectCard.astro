@@ -28,7 +28,7 @@ const {
 ---
 
 <div
-	class=`relative flex flex-col gap-8 my-8 lg:my-14 items-center lg:${isReverse ? 'flex-row-reverse' : 'flex-row'}`>
+	class=`relative flex flex-col gap-8 my-8 lg:my-14 items-center ${isReverse ? 'lg:flex-row-reverse' : 'lg:flex-row'}`>
 	<div style="opacity: 1; transform: none; will-change: auto;">
 		<div
 			class="videoContainer flex gap-2 relative group rounded-xl overflow-hidden duration-500 hover:scale-[0.97]">
@@ -45,16 +45,16 @@ const {
 	</div>
 
 	<div
-		class=`flex flex-col items-center gap-4 lg:${isReverse ? 'items-end' : 'items-start'}`>
+		class=`flex flex-col items-center gap-4 ${isReverse ? 'lg:items-end' : 'lg:items-start'}`>
 		<div
-			class=`flex flex-col items-center lg:${isReverse ? 'items-end' : 'items-start'}`
+			class=`flex flex-col items-center ${isReverse ? 'lg:items-end' : 'lg:items-start'}`
 			style="opacity: 1; will-change: auto;">
 			<h2 class="text-2xl font-semibold">{title}</h2>
 			<p class="text-lg font-medium text-[#8d7e61]">{type}</p>
 		</div>
 
 		<p
-			class=`transition-all lg:w-[280px] xl:w-[350px] text-center lg:${isReverse ? 'text-end' : 'text-start'}`
+			class=`transition-all lg:w-[280px] xl:w-[350px] text-center ${isReverse ? 'lg:text-end' : 'lg:text-start'}`
 			style="opacity: 1; will-change: auto;">
 			{description}
 		</p>
