@@ -6,9 +6,9 @@ import TypingAnimation from "@/components/ui/TypingAnimation";
 import SocialButton from "@/components/ui/SocialButton.astro";
 import cat from "@/../public/assets/hero-section-animation.gif";
 import cv from "@/../public/assets/cv_ats.pdf";
-import hero from "@/../public/assets/hero.png";
+import portfolio from "@/../public/assets/projects/portfolio/cover.png";
 import sawira from "@/../public/assets/projects/sawira/cover.png";
-import ordal from "@/../public/assets/projects/ordal/cover.png";
+import ordal from "@/../public/assets/projects/orang-dalam-ruangan/cover.png";
 import { Github, Linkedin, Mail, FileUser } from "lucide-react";
 import ProjectCard from "@/components/ui/ProjectCard.astro";
 import TechStack from "@/components/ui/TechStack.astro";
@@ -72,7 +72,7 @@ import TechStack from "@/components/ui/TechStack.astro";
 	<section id="about-me" class="my-6">
 		<article>
 			<h2 class="text-3xl font-semibold mb-2">About Me</h2>
-			<p class="text-base md:text-xl leading-relaxed mb-8">
+			<p class="text-base md:text-xl leading-relaxed mb-6">
 				I'm an Informatics Engineering student specializing in front-end
 				web development, with experience using frameworks like React,
 				Astro, and Next.js. I have also built projects with Laravel for
@@ -80,7 +80,7 @@ import TechStack from "@/components/ui/TechStack.astro";
 				with Flutter and diving into machine learning to expand my
 				technical expertise.
 			</p>
-			<p class="text-base md:text-xl leading-relaxed mb-8">
+			<p class="text-base md:text-xl leading-relaxed mb-6">
 				I enjoy working on challenging projects, experimenting with new
 				tools, and finding efficient ways to build great web
 				applications. Outside of coding, I spend time gaming, exploring
@@ -108,6 +108,7 @@ import TechStack from "@/components/ui/TechStack.astro";
 				<TechStack iconName="Prisma" />
 				<TechStack iconName="NodeJS" />
 				<TechStack iconName="Bun" />
+				<TechStack iconName="Jest" />
 			</div>
 		</article>
 	</section>
@@ -118,9 +119,9 @@ import TechStack from "@/components/ui/TechStack.astro";
 				title="Portfolio"
 				type="Web Application"
 				description="This Website! It showcases my projects, blog posts, and contact information."
-				image={hero}
+				image={portfolio}
 				imageAlt="Sawira - A web application for administration and management citizen data."
-				githubUrl="https://github.com/Fahridanaa/sawira"
+				githubUrl="https://github.com/Fahridanaa/portfolio"
 				isReverse={true}
 				techStack={["astro", "react", "typescript", "tailwindcss"]}
 			/>
@@ -135,7 +136,7 @@ import TechStack from "@/components/ui/TechStack.astro";
 				techStack={["laravel", "mysql", "bootstrap"]}
 			/>
 			<ProjectCard
-				title="OrangDalam"
+				title="Orang Dalam Ruangan"
 				type="Web Application"
 				description="OrangDalam is a web app for room reservations in the Department of Information Technology, designed for use by department admins and students/lecturers who want to book rooms. This project was created as a final project in the 3rd semester."
 				image={ordal}

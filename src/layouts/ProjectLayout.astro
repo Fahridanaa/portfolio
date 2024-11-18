@@ -1,0 +1,45 @@
+---
+import type { ProjectMeta } from "@/models/project";
+import Layout from "@/layouts/Layout.astro";
+import { Image } from "astro:assets";
+
+export type Props = {
+	frontmatter: ProjectMeta;
+	slug: string;
+};
+const { frontmatter, slug } = Astro.props as Props;
+---
+
+<Layout title={frontmatter.title}>
+	<div class="h-0.5 bg-[#8d7e61] rounded-full"></div>
+	<div class="relative text-[#8d7e61] text-md mt-8">
+		<a href="/">-- Back to home</a>
+	</div>
+	<section class="max-w-screen-lg flex flex-col items-start my-8">
+		<div class="w-full">
+			<div class="overflow-hidden border rounded-md">
+				<Image
+					src={`/assets/projects/${slug}/cover.png`}
+					alt={frontmatter.title}
+					loading="lazy"
+					width={1600}
+					height={800}
+				/>
+			</div>
+			<h1 class="text-2xl font-semibold">
+				{frontmatter.title}
+			</h1>
+		</div>
+		<div class="w-full rounded-md">
+			<span class="block font-semibold text-xl pb-2"> Tech Stack </span>
+		</div>
+		<div class="font-serif text-lg leading-relaxed">
+			<div
+				class="flex flex-col md:flex-row gap-4 items-center justify-between mt-2 pb-4">
+				<main>
+					<slot />
+				</main>
+			</div>
+		</div>
+	</section>
+</Layout>

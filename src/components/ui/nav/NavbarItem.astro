@@ -6,6 +6,12 @@ interface Props {
 
 const { href, label } = Astro.props;
 const sectionId = href.replace("#", "");
+
+declare global {
+	interface Window {
+		previousObserver: IntersectionObserver | undefined;
+	}
+}
 ---
 
 <div
@@ -14,30 +20,42 @@ const sectionId = href.replace("#", "");
 	<a href={href} class="hidden lg:block">{label}</a>
 </div>
 <script>
-	const sections = document.querySelectorAll("section[id]");
-	const navItems = document.querySelectorAll(".nav-item");
+	function initializeNavObserver() {
+		const sections = document.querySelectorAll("section[id]");
+		const navItems = document.querySelectorAll(".nav-item");
 
-	const observer = new IntersectionObserver(
-		(entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					const activeId = entry.target.id;
-					navItems.forEach((item) => {
-						if (
-							(item as HTMLElement).dataset.section === activeId
-						) {
-							item.classList.add("active");
-						} else {
-							item.classList.remove("active");
-						}
-					});
-				}
-			});
-		},
-		{ threshold: 0.5 }
-	);
+		if (window.previousObserver) {
+			window.previousObserver.disconnect();
+		}
 
-	sections.forEach((section) => observer.observe(section));
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						const activeId = entry.target.id;
+						navItems.forEach((item) => {
+							if (
+								(item as HTMLElement).dataset.section ===
+								activeId
+							) {
+								item.classList.add("active");
+							} else {
+								item.classList.remove("active");
+							}
+						});
+					}
+				});
+			},
+			{ threshold: 0.5 }
+		);
+
+		sections.forEach((section) => observer.observe(section));
+		window.previousObserver = observer;
+	}
+
+	initializeNavObserver();
+
+	document.addEventListener("astro:after-swap", initializeNavObserver);
 </script>
 
 <style>
