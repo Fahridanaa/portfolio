@@ -7,7 +7,7 @@ export default function TypingAnimation() {
 			strings: [
 				"Software Engineer",
 				"FullStack Developer",
-				"UI/UX Designer",
+				"Project Manager",
 				"Game Developer",
 			],
 			typeSpeed: 50,
