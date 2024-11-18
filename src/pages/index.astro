@@ -11,6 +11,7 @@ import sawira from "@/../public/assets/projects/sawira/cover.png";
 import ordal from "@/../public/assets/projects/ordal/cover.png";
 import { Github, Linkedin, Mail, FileUser } from "lucide-react";
 import ProjectCard from "@/components/ui/ProjectCard.astro";
+import TechStack from "@/components/ui/TechStack.astro";
 ---
 
 <Layout title="Fahridana Ahmad Rayyansyah">
@@ -89,7 +90,22 @@ import ProjectCard from "@/components/ui/ProjectCard.astro";
 	</section>
 	<section>
 		<h2 class="text-3xl font-semibold mb-2">Tech Stack</h2>
-		<div class="flex flex-wrap"></div>
+		<div class="flex flex-wrap gap-3">
+			<TechStack iconName="Laravel" />
+			<TechStack iconName="NextJS" />
+			<TechStack iconName="Astro" />
+			<TechStack iconName="React" />
+			<TechStack iconName="Flutter" />
+			<TechStack iconName="TailwindCSS" />
+			<TechStack iconName="Javascript" />
+			<TechStack iconName="Typescript" />
+			<TechStack iconName="PHP" />
+			<TechStack iconName="Java" />
+			<TechStack iconName="bootstrap" />
+			<TechStack iconName="MySQL" />
+			<TechStack iconName="PostgreSQL" />
+			<TechStack iconName="Prisma" />
+		</div>
 	</section>
 	<section id="projects" class="my-6">
 		<h2 class="text-3xl font-semibold mb-2">Featured Projects</h2>

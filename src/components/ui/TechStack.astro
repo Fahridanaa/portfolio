@@ -1,0 +1,15 @@
+---
+interface Props {
+	iconName: string;
+}
+
+const { iconName } = Astro.props;
+---
+
+<div
+	class="flex justify-center items-center gap-2 text-[#4C9057] border py-1 px-4 rounded-lg border-[#4C9057] hover:bg-[#4C9057] hover:text-white transition-all duration-300">
+	<i
+		class=`devicon-${iconName.toLowerCase()}-original devicon-${iconName.toLowerCase()}-plain text-3xl`
+	></i>
+	<p class="text-2xl font-regular">{iconName}</p>
+</div>
