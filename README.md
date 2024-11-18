@@ -2,4 +2,4 @@
 
 > WIP
 
-![alt text](public/assets/hero.png)
+![alt text](public/assets/projects/portfolio/cover.png)
