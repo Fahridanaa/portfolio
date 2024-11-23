@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 interface Props {
 	iconName: string;
 }
@@ -9,9 +10,12 @@ const { iconName } = Astro.props;
 <div
 	class="flex justify-center items-center gap-1 text-[#2E5C37] border px-4 py-2 rounded-md border-[#2E5C37] cursor-default">
 	<div class="relative block mr-1">
-		<img
-			src={`/public/assets/icons/${iconName.toLowerCase()}.svg`}
+		<Image
+			src={`/assets/icons/${iconName.toLowerCase()}.svg`}
 			alt={`${iconName}`}
+			width={24}
+			height={24}
+			loading="lazy"
 			class="w-6 h-6 md:w-8 md:h-8"
 		/>
 	</div>
