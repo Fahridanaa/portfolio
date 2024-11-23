@@ -66,7 +66,11 @@ import TechStack from "@/components/ui/TechStack.astro";
 			/>
 		</div>
 		<div class="absolute bottom-6 left-1/2 transform-translate-x-12">
-			<a href="#about-me" class="arrow-down"></a>
+			<a
+				href="#about-me"
+				class="arrow-down"
+				aria-label="arrow-down"
+				title="arrow-down"></a>
 		</div>
 	</section>
 	<section id="about-me" class="my-6">
@@ -159,20 +163,20 @@ import TechStack from "@/components/ui/TechStack.astro";
 			} -->
 		</div>
 	</section>
-	<section>
+	<!-- <section>
 		<h2 class="text-3xl font-semibold mb-2">Pixel Stuff</h2>
 	</section>
 	<section id="blog">
 		<h2 class="text-3xl font-semibold mb-2">Blog</h2>
-		<!-- <div class="min-h-[50dvh] flex justify-center items-center">
+		<div class="min-h-[50dvh] flex justify-center items-center">
 			<h3 class="text-8xl">WIP</h3>
 			{
                 sortedBlogs.map((blog) => (
                     <BlogCard blog={blog} key={blog.slug} />
                 ))
             }
-		</div> -->
-	</section>
+		</div>
+	</section> -->
 	<Navbar />
 </Layout>
 
