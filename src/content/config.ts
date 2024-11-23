@@ -5,6 +5,7 @@ const projectCollection = defineCollection({
         title: z.string(),
         type: z.string(),
         hasImage: z.boolean().default(true),
+        date: z.coerce.date(),
         description: z.string(),
         demo: z.string().url().nullable().default(null),
         sourceClient: z.string().url().nullable().default(null),
