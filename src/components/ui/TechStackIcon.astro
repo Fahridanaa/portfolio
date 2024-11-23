@@ -11,7 +11,12 @@ const colorClass = colored ? "colored" : "";
 
 <div
 	class="shadow-md p-2 rounded-lg flex justify-center items-center bg-white/10 backdrop-blur-sm hover:scale-110 transition-transform duration-300">
-	<i
+	<!-- <i
 		class={`devicon-${iconName}-original devicon-${iconName}-plain ${colorClass} text-3xl`}
-	></i>
+	></i> -->
+	<img
+		src={`/public/assets/icons/${iconName.toLowerCase()}.svg`}
+		alt={`${iconName}`}
+		class="w-8 h-8"
+	/>
 </div>
