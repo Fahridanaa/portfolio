@@ -6,18 +6,15 @@ import TypingAnimation from "@/components/ui/TypingAnimation";
 import SocialButton from "@/components/ui/SocialButton.astro";
 import cat from "@/../public/assets/hero-section-animation.gif";
 import cv from "@/../public/assets/cv_ats.pdf";
-import portfolio from "@/../public/assets/projects/portfolio/cover.png";
-import sawira from "@/../public/assets/projects/sawira/cover.png";
-import ordal from "@/../public/assets/projects/orang-dalam-ruangan/cover.png";
 import { Github, Linkedin, Mail, FileUser } from "lucide-react";
 import ProjectCard from "@/components/ui/ProjectCard";
 import TechStack from "@/components/ui/TechStack.astro";
 import { getCollection } from "astro:content";
-import type { Project, ProjectMeta } from "@/models/project";
+import type { Project } from "@/models/project";
 
 const personalProjects = await getCollection("projects");
 const sortedPersonalProjects = personalProjects.sort(
-	(a: ProjectMeta, b: ProjectMeta) => (a.data.date > b.data.date ? -1 : 1)
+	(a: Project, b: Project) => (a.data.date > b.data.date ? -1 : 1)
 );
 ---
 
