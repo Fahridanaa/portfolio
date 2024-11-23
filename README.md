@@ -2,4 +2,4 @@
 
 > WIP
 
-![alt text](public/assets/projects/portfolio/cover.png)
+![alt text](public/assets/hero-section-animation.gif)
