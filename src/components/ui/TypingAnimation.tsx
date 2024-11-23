@@ -24,7 +24,7 @@ export default function TypingAnimation() {
 	return (
 		<span
 			id="typing"
-			className="z-10 inline-block relative text-left text-[#8DDEFC] font-semibold px-2"
+			className="z-10 inline-block relative text-left text-[#2E5C37] font-semibold px-2"
 		></span>
 	);
 }
