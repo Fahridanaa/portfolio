@@ -10,8 +10,15 @@ import portfolio from "@/../public/assets/projects/portfolio/cover.png";
 import sawira from "@/../public/assets/projects/sawira/cover.png";
 import ordal from "@/../public/assets/projects/orang-dalam-ruangan/cover.png";
 import { Github, Linkedin, Mail, FileUser } from "lucide-react";
-import ProjectCard from "@/components/ui/ProjectCard.astro";
+import ProjectCard from "@/components/ui/ProjectCard";
 import TechStack from "@/components/ui/TechStack.astro";
+import { getCollection } from "astro:content";
+import type { Project, ProjectMeta } from "@/models/project";
+
+const personalProjects = await getCollection("projects");
+const sortedPersonalProjects = personalProjects.sort(
+	(a: ProjectMeta, b: ProjectMeta) => (a.data.date > b.data.date ? -1 : 1)
+);
 ---
 
 <Layout title="Fahridana Ahmad Rayyansyah">
@@ -107,6 +114,7 @@ import TechStack from "@/components/ui/TechStack.astro";
 				<TechStack iconName="Typescript" />
 				<TechStack iconName="PHP" />
 				<TechStack iconName="Java" />
+				<TechStack iconName="Python" />
 				<TechStack iconName="bootstrap" />
 				<TechStack iconName="MySQL" />
 				<TechStack iconName="PostgreSQL" />
@@ -118,36 +126,17 @@ import TechStack from "@/components/ui/TechStack.astro";
 	<section id="projects" class="my-6">
 		<h2 class="text-3xl font-semibold mb-2">Featured Projects</h2>
 		<div class="flex flex-col">
-			<ProjectCard
-				title="Portfolio"
-				type="Web Application"
-				description="This Website! It showcases my projects, blog posts, and contact information."
-				image={portfolio}
-				imageAlt="Sawira - A web application for administration and management citizen data."
-				githubUrl="https://github.com/Fahridanaa/portfolio"
-				isReverse={true}
-				techStack={["astro", "react", "typescript", "tailwindcss"]}
-			/>
-			<ProjectCard
-				title="Sawira"
-				type="Web Application"
-				description="Sawira is a web app for managing citizen data, archives, correspondence, and zakat distribution, designed to help Villa Bukit Tidar residents. This project was created as a final project in the 4th semester."
-				image={sawira}
-				imageAlt="Sawira - A web application for administration and management citizen data."
-				githubUrl="https://github.com/Fahridanaa/sawira"
-				isReverse={false}
-				techStack={["laravel", "mysql", "bootstrap"]}
-			/>
-			<ProjectCard
-				title="Orang Dalam Ruangan"
-				type="Web Application"
-				description="OrangDalam is a web app for room reservations in the Department of Information Technology, designed for use by department admins and students/lecturers who want to book rooms. This project was created as a final project in the 3rd semester."
-				image={ordal}
-				imageAlt="Sawira - A web application for administration and management citizen data."
-				githubUrl="https://github.com/Fahridanaa/OrangDalam-PeminjamanRuangan-2F"
-				isReverse={true}
-				techStack={["php", "mysql", "tailwindcss"]}
-			/>
+			{
+				sortedPersonalProjects.map(
+					(project: Project, index: number) => (
+						<ProjectCard
+							project={project.data}
+							href={`assets/projects/${project.slug}/cover.png`}
+							isReverse={index % 2 === 0}
+						/>
+					)
+				)
+			}
 			<div class="text-center text-2xl my-16">
 				<div
 					class="flex justify-center items-center w-full h-full"
@@ -155,11 +144,6 @@ import TechStack from "@/components/ui/TechStack.astro";
 					<p>See More...</p>
 				</div>
 			</div>
-			<!-- {
-				sortedPersonalProjects.map((project) => (
-					<ProjectCard project={project} key={project.slug} />
-				))
-			} -->
 		</div>
 	</section>
 	<!-- <section>
