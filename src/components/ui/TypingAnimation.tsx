@@ -22,9 +22,12 @@ export default function TypingAnimation() {
 	}, []);
 
 	return (
-		<span
-			id="typing"
-			className="z-10 inline-block relative text-left text-[#2E5C37] font-semibold px-2"
-		></span>
+		<p>
+			A
+			<span
+				id="typing"
+				className="z-10 inline-block relative text-left text-[#2E5C37] font-semibold ml-2"
+			></span>
+		</p>
 	);
 }
