@@ -19,66 +19,66 @@ const sortedPersonalProjects = personalProjects.sort(
 ---
 
 <Layout title="Fahridana Ahmad Rayyansyah">
-	<section
-		id="hero-section"
-		class="min-h-dvh flex flex-col justify-center items-center">
-		<div
-			class="w-full flex flex-col md:flex-row justify-between items-center">
-			<div class="max-w-2xl text-4xl">
-				<h1>
-					Hi,<span class="wave">👋</span> I'm Fahridana Ahmad Rayyansyah,
-				</h1>
-				<TypingAnimation client:visible />
-				<p class="text-[#8d7e61] mt-2">Proud Bug Maker & Solver</p>
+	<article id="hero" class="max-w-5xl w-full mx-auto">
+		<section class="min-h-dvh flex flex-col justify-center items-center">
+			<div
+				class="w-full flex flex-col md:flex-row justify-between items-center">
+				<div class="max-w-2xl text-4xl">
+					<h1>
+						Hi,<span class="wave">👋</span> I'm Fahridana Ahmad Rayyansyah,
+					</h1>
+					<TypingAnimation client:visible />
+					<p class="text-[#8d7e61] mt-2">Proud Bug Maker & Solver</p>
+				</div>
+				<Image
+					width={300}
+					height={300}
+					src={cat}
+					alt="A pixel animation featuring a black cat with a waving tail sitting on grass. The black cat has yellow eyes and is wearing a red collar with a gold bell."
+					loading={"eager"}
+				/>
 			</div>
-			<Image
-				width={300}
-				height={300}
-				src={cat}
-				alt="A pixel animation featuring a black cat with a waving tail sitting on grass. The black cat has yellow eyes and is wearing a red collar with a gold bell."
-				loading={"eager"}
-			/>
-		</div>
-		<div class="w-full flex gap-2">
-			<SocialButton
-				href="mailto:fahridanaaa@gmail.com"
-				target="_blank"
-				title="email"
-				ariaLabel="email"
-				icon={Mail}
-			/>
-			<SocialButton
-				href="https://www.linkedin.com/in/fahridana-ahmad-rayyansyah/"
-				target="_blank"
-				title="linkedIn"
-				ariaLabel="linkedIn"
-				icon={Linkedin}
-			/>
-			<SocialButton
-				href="https://github.com/Fahridanaa"
-				target="_blank"
-				title="Github"
-				ariaLabel="Github"
-				icon={Github}
-			/>
-			<SocialButton
-				href={cv}
-				target="_blank"
-				title="CV"
-				ariaLabel="CV"
-				icon={FileUser}
-			/>
-		</div>
-		<div class="absolute bottom-6 left-1/2 transform-translate-x-12">
-			<a
-				href="#about-me"
-				class="arrow-down"
-				aria-label="arrow-down"
-				title="arrow-down"></a>
-		</div>
-	</section>
-	<section id="about-me" class="my-6">
-		<article>
+			<div class="w-full flex gap-2">
+				<SocialButton
+					href="mailto:fahridanaaa@gmail.com"
+					target="_blank"
+					title="email"
+					ariaLabel="email"
+					icon={Mail}
+				/>
+				<SocialButton
+					href="https://www.linkedin.com/in/fahridana-ahmad-rayyansyah/"
+					target="_blank"
+					title="linkedIn"
+					ariaLabel="linkedIn"
+					icon={Linkedin}
+				/>
+				<SocialButton
+					href="https://github.com/Fahridanaa"
+					target="_blank"
+					title="Github"
+					ariaLabel="Github"
+					icon={Github}
+				/>
+				<SocialButton
+					href={cv}
+					target="_blank"
+					title="CV"
+					ariaLabel="CV"
+					icon={FileUser}
+				/>
+			</div>
+			<div class="absolute bottom-6 left-1/2 transform-translate-x-12">
+				<a
+					href="#about-me"
+					class="arrow-down"
+					aria-label="arrow-down"
+					title="arrow-down"></a>
+			</div>
+		</section>
+	</article>
+	<article id="about-me" class="max-w-5xl w-full mx-auto">
+		<section class="my-6">
 			<h2 class="text-3xl font-semibold mb-2">About Me</h2>
 			<p class="text-base md:text-xl leading-relaxed mb-6">
 				I'm an Informatics Engineering student specializing in front-end
@@ -94,10 +94,10 @@ const sortedPersonalProjects = personalProjects.sort(
 				applications. Outside of coding, I spend time gaming, exploring
 				new hobbies, and learning about technology and self-improvement.
 			</p>
-		</article>
-	</section>
-	<section id="tech-stack" class="my-6">
-		<article>
+		</section>
+	</article>
+	<article id="tech-stack" class="max-w-5xl w-full mx-auto">
+		<article class="my-6">
 			<h2 class="text-3xl font-semibold mb-2">Tech Stack</h2>
 			<div class="flex flex-wrap gap-3">
 				<TechStack iconName="Laravel" />
@@ -119,30 +119,32 @@ const sortedPersonalProjects = personalProjects.sort(
 				<TechStack iconName="Bun" />
 			</div>
 		</article>
-	</section>
-	<section id="projects" class="my-6">
-		<h2 class="text-3xl font-semibold mb-2">Featured Projects</h2>
-		<div class="flex flex-col">
-			{
-				sortedPersonalProjects.map(
-					(project: Project, index: number) => (
-						<ProjectCard
-							project={project.data}
-							href={`assets/projects/${project.slug}/cover.webp`}
-							isReverse={index % 2 === 0}
-						/>
+	</article>
+	<article id="projects" class="max-w-5xl w-full mx-auto">
+		<section class="my-6">
+			<h2 class="text-3xl font-semibold mb-2">Featured Projects</h2>
+			<div class="flex flex-col">
+				{
+					sortedPersonalProjects.map(
+						(project: Project, index: number) => (
+							<ProjectCard
+								project={project.data}
+								href={`assets/projects/${project.slug}/cover.webp`}
+								isReverse={index % 2 === 0}
+							/>
+						)
 					)
-				)
-			}
-			<div class="text-center text-2xl my-16">
-				<div
-					class="flex justify-center items-center w-full h-full"
-					style="opacity: 1; transform: none; will-change: auto;">
-					<p>See More...</p>
+				}
+				<div class="text-center text-2xl my-16">
+					<div
+						class="flex justify-center items-center w-full h-full"
+						style="opacity: 1; transform: none; will-change: auto;">
+						<p>See More...</p>
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</article>
 	<!-- <section>
 		<h2 class="text-3xl font-semibold mb-2">Pixel Stuff</h2>
 	</section>
