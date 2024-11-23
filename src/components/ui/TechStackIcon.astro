@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+
 // src/components/ui/TechStackIcon.astro
 interface Props {
 	iconName: string;
@@ -11,12 +13,12 @@ const colorClass = colored ? "colored" : "";
 
 <div
 	class="shadow-md p-2 rounded-lg flex justify-center items-center bg-white/10 backdrop-blur-sm hover:scale-110 transition-transform duration-300">
-	<!-- <i
-		class={`devicon-${iconName}-original devicon-${iconName}-plain ${colorClass} text-3xl`}
-	></i> -->
-	<img
-		src={`/public/assets/icons/${iconName.toLowerCase()}.svg`}
+	<Image
+		src={`/assets/icons/${iconName.toLowerCase()}.svg`}
 		alt={`${iconName}`}
+		width={24}
+		height={24}
+		loading="lazy"
 		class="w-8 h-8"
 	/>
 </div>
