@@ -16,6 +16,53 @@ const personalProjects = await getCollection("projects");
 const sortedPersonalProjects = personalProjects.sort(
 	(a: Project, b: Project) => (a.data.date > b.data.date ? -1 : 1)
 );
+
+const social = [
+	{
+		href: "mailto:fahridanaaa@gmail.com",
+		title: "email",
+		ariaLabel: "email",
+		icon: Mail,
+	},
+	{
+		href: "https://www.linkedin.com/in/fahridana-ahmad-rayyansyah/",
+		title: "linkedIn",
+		ariaLabel: "linkedIn",
+		icon: Linkedin,
+	},
+	{
+		href: "https://github.com/Fahridanaa",
+		title: "github",
+		ariaLabel: "github",
+		icon: Github,
+	},
+	{
+		href: cv,
+		title: "cv",
+		ariaLabel: "cv",
+		icon: FileUser,
+	},
+];
+
+const techStack = [
+	"Laravel",
+	"NextJS",
+	"Astro",
+	"React",
+	"Svelte",
+	"Flutter",
+	"TailwindCSS",
+	"Javascript",
+	"Typescript",
+	"PHP",
+	"Java",
+	"Python",
+	"bootstrap",
+	"MySQL",
+	"PostgreSQL",
+	"Prisma",
+	"Bun",
+];
 ---
 
 <Layout title="Fahridana Ahmad Rayyansyah">
@@ -39,34 +86,16 @@ const sortedPersonalProjects = personalProjects.sort(
 				/>
 			</div>
 			<div class="w-full flex gap-2">
-				<SocialButton
-					href="mailto:fahridanaaa@gmail.com"
-					target="_blank"
-					title="email"
-					ariaLabel="email"
-					icon={Mail}
-				/>
-				<SocialButton
-					href="https://www.linkedin.com/in/fahridana-ahmad-rayyansyah/"
-					target="_blank"
-					title="linkedIn"
-					ariaLabel="linkedIn"
-					icon={Linkedin}
-				/>
-				<SocialButton
-					href="https://github.com/Fahridanaa"
-					target="_blank"
-					title="Github"
-					ariaLabel="Github"
-					icon={Github}
-				/>
-				<SocialButton
-					href={cv}
-					target="_blank"
-					title="CV"
-					ariaLabel="CV"
-					icon={FileUser}
-				/>
+				{
+					social.map((item) => (
+						<SocialButton
+							href={item.href}
+							title={item.title}
+							ariaLabel={item.ariaLabel}
+							icon={item.icon}
+						/>
+					))
+				}
 			</div>
 			<div class="absolute bottom-6 left-1/2 transform-translate-x-12">
 				<a
@@ -100,23 +129,11 @@ const sortedPersonalProjects = personalProjects.sort(
 		<article class="my-6">
 			<h2 class="text-3xl font-semibold mb-2">Tech Stack</h2>
 			<div class="flex flex-wrap gap-3">
-				<TechStack iconName="Laravel" />
-				<TechStack iconName="NextJS" />
-				<TechStack iconName="Astro" />
-				<TechStack iconName="React" />
-				<TechStack iconName="Svelte" />
-				<TechStack iconName="Flutter" />
-				<TechStack iconName="TailwindCSS" />
-				<TechStack iconName="Javascript" />
-				<TechStack iconName="Typescript" />
-				<TechStack iconName="PHP" />
-				<TechStack iconName="Java" />
-				<TechStack iconName="Python" />
-				<TechStack iconName="bootstrap" />
-				<TechStack iconName="MySQL" />
-				<TechStack iconName="PostgreSQL" />
-				<TechStack iconName="Prisma" />
-				<TechStack iconName="Bun" />
+				{
+					techStack.map((tech: string) => (
+						<TechStack tech={tech} size="medium" />
+					))
+				}
 			</div>
 		</article>
 	</article>
