@@ -8,5 +8,43 @@ sourceServer: https://github.com/Fahridanaa/comic_scraper_api
 stack: ["svelte", "python", "typescript", "tailwindcss", "postgresql"]
 ---
 
-Komikr is an web project built to learn Sveltekit, using Shadcn components. The site use cloudinary to store the image. The comic is scrapped from komikcast using BeautifulSoup4.
+Komikrr is a comic reading website I made to try out SvelteKit and practice my web development skills. I was honestly just messing around, but it turned into something pretty cool!
+
+Here's what it looks like in action:
+![demo](public/assets/projects/komikrr/demo.gif)
+
+I used some pretty neat tools to build this:
+- **SvelteKit**: The main framework - it's been super fun to work with!
+- **Shadcn-Svelte**: For those slick-looking UI components
+- **TailwindCSS**: Making everything look good without losing my mind with CSS
+- **PostgreSQL**: Keeping all the comic data organized
+- **Cloudinary**: Handling all the comic images
+
+One of the coolest parts of this project is how I get the comics. I built a Python script that scrapes comic data using BeautifulSoup4. It's like having a robot that reads comic websites and saves all the good stuff. And here's how it looks in action:
+
+```terminal
+(venv) C:\Users\fahri\Documents\project\comic_scraper_api>python main.py solo-leveling
+
+=== Comic Information ===
+Title    : Solo Leveling
+Author   : Chu-Gong
+Type     : manhwa
+Status   : completed
+Rating   : 9.70
+Genres   : Action, Adventure, Fantasy, Supernatural
+Synopsis : 10 years ago, after "the Gate" that connected the real world with the monster world opened...
+=====================
+
+INFO:src.comic_scraper:Latest chapter: 179.0
+Enter starting chapter number (press Enter to scrape all):
+Saved comic metadata to database: solo-leveling
+
+Downloading chapters: 100%|██████████| 179/179 [05:23<00:00, 0.55it/s]
 ```
+
+### What I Learned
+This project taught me a bunch of stuff:
+- SvelteKit is awesome for building full-stack apps
+- Managing state in Svelte is way simpler than I expected
+- PostgreSQL + Drizzle ORM = A really nice database setup
+- It was a fun to practice my Python skills with the scraper
