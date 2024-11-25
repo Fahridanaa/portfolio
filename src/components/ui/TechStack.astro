@@ -1,25 +1,40 @@
 ---
 import { Image } from "astro:assets";
 interface Props {
-	iconName: string;
+	tech: string;
+	size: "small" | "medium" | "large";
+	isLazy?: boolean;
 }
 
-const { iconName } = Astro.props;
+const { tech, size, isLazy = true } = Astro.props;
 ---
 
 <div
-	class="flex justify-center items-center gap-1 text-[#2E5C37] border px-4 py-2 rounded-md border-[#2E5C37] cursor-default">
+	class={`flex justify-center items-center gap-1 text-[#2E5C37] border rounded-md border-[#2E5C37] cursor-default ${size} ${size === "small" ? "px-2 py-1" : ""} ${size === "medium" ? "px-4 py-2" : ""} ${size === "large" ? "px-6 py-3" : ""}`}>
 	<div class="relative block mr-1">
 		<Image
-			src={`/assets/icons/${iconName.toLowerCase()}.svg`}
-			alt={`${iconName}`}
+			src={`/assets/icons/${tech.toLowerCase()}.svg`}
+			alt={`${tech}`}
 			width={24}
 			height={24}
-			loading="lazy"
-			class="w-6 h-6 md:w-8 md:h-8"
+			loading={isLazy ? "lazy" : "eager"}
+			class={`w-6 h-6 ${size === "medium" ? "md:w-8 md:h-8" : ""} ${size === "large" ? "lg:w-10 lg:h-10" : ""}`}
 		/>
 	</div>
-	<p class="text-lg md:text-xl lg:text-2xl text-[#2E5C37]">
-		{iconName}
+	<p
+		class={`text-lg ${size === "medium" ? "md:text-xl" : ""} ${size === "large" ? "lg:text-2xl" : ""} text-[#2E5C37]`}>
+		{tech}
 	</p>
 </div>
+
+<style>
+	.small {
+		font-size: 0.875rem;
+	}
+	.medium {
+		font-size: 1rem;
+	}
+	.large {
+		font-size: 1.25rem;
+	}
+</style>
