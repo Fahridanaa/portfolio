@@ -35,7 +35,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 					<span>
 						<img
 							src={href}
-							alt="Project Image"
+							alt={title}
 							width={900}
 							height={450}
 							className="lg:w-[500px] xl:w-[600px] rounded-xl group-hover:blur-sm duration-500 group-hover:scale-[1.1]"
@@ -102,7 +102,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
 					<ProjectButton
 						href={`/projects/${slugify(title)}`}
-						text="See More"
+						text={`Learn more about ${title}`}
 						isNewTab={false}
 					/>
 				</div>

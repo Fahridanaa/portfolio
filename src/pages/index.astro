@@ -69,33 +69,37 @@ const techStack = [
 	<article id="hero" class="max-w-5xl w-full mx-auto">
 		<section class="min-h-dvh flex flex-col justify-center items-center">
 			<div
-				class="w-full flex flex-col md:flex-row justify-between items-center">
-				<div class="max-w-2xl text-4xl">
-					<h1>
-						Hi,<span class="wave">👋</span> I'm Fahridana Ahmad Rayyansyah,
-					</h1>
-					<TypingAnimation client:visible />
-					<p class="text-[#8d7e61] mt-2">Proud Bug Maker & Solver</p>
+				class="w-full flex flex-col md:flex-row justify-between items-stretch">
+				<div class="max-w-2xl flex flex-col justify-evenly mb-4">
+					<div class="text-4xl">
+						<h1>
+							Hi,<span class="wave">👋</span> I'm Fahridana Ahmad Rayyansyah,
+						</h1>
+						<TypingAnimation client:visible />
+						<p class="text-[#8d7e61] mt-2">
+							Proud Bug Maker & Solver
+						</p>
+					</div>
+					<div class="flex gap-2">
+						{
+							social.map((item) => (
+								<SocialButton
+									href={item.href}
+									title={item.title}
+									ariaLabel={item.ariaLabel}
+									icon={item.icon}
+								/>
+							))
+						}
+					</div>
 				</div>
 				<Image
 					width={300}
-					height={300}
+					height={219}
 					src={cat}
 					alt="A pixel animation featuring a black cat with a waving tail sitting on grass. The black cat has yellow eyes and is wearing a red collar with a gold bell."
 					loading={"eager"}
 				/>
-			</div>
-			<div class="w-full flex gap-2">
-				{
-					social.map((item) => (
-						<SocialButton
-							href={item.href}
-							title={item.title}
-							ariaLabel={item.ariaLabel}
-							icon={item.icon}
-						/>
-					))
-				}
 			</div>
 			<div class="absolute bottom-6 left-1/2 transform-translate-x-12">
 				<a
@@ -162,20 +166,6 @@ const techStack = [
 			</div>
 		</section>
 	</article>
-	<!-- <section>
-		<h2 class="text-3xl font-semibold mb-2">Pixel Stuff</h2>
-	</section>
-	<section id="blog">
-		<h2 class="text-3xl font-semibold mb-2">Blog</h2>
-		<div class="min-h-[50dvh] flex justify-center items-center">
-			<h3 class="text-8xl">WIP</h3>
-			{
-                sortedBlogs.map((blog) => (
-                    <BlogCard blog={blog} key={blog.slug} />
-                ))
-            }
-		</div>
-	</section> -->
 	<Navbar />
 </Layout>
 
@@ -199,7 +189,7 @@ const techStack = [
 	}
 
 	@keyframes arrow-bounce {
-		%0,
+		0%,
 		100% {
 			transform: translateY(0) rotate(45deg);
 			opacity: 0;
