@@ -23,10 +23,10 @@ export default function TypingAnimation() {
 
 	return (
 		<p>
-			A
+			A&nbsp;
 			<span
 				id="typing"
-				className="z-10 inline-block relative text-left text-[#2E5C37] font-semibold ml-2"
+				className="inline-block relative text-left text-[#2E5C37] font-semibold"
 			></span>
 		</p>
 	);
