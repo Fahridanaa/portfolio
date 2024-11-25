@@ -58,7 +58,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 								<ProjectButton
 									href={sourceServer}
 									icon={Code}
-									text="Server"
+									text="API"
 								/>
 							)}
 						</div>
