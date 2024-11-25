@@ -2,6 +2,9 @@
 import type { ProjectMeta } from "@/models/project";
 import Layout from "@/layouts/Layout.astro";
 import { Image } from "astro:assets";
+import ProjectButton from "@/components/ui/ProjectButton";
+import { Code } from "lucide-react";
+import TechStack from "@/components/ui/TechStack.astro";
 
 export type Props = {
 	frontmatter: ProjectMeta;
@@ -19,33 +22,56 @@ const { frontmatter, slug } = Astro.props as Props;
 	</header>
 	<article class="max-w-5xl w-full mx-auto">
 		<section class="max-w-screen-lg flex flex-col items-start my-8">
-			<div class="w-full">
-				<div class="overflow-hidden border rounded-md">
+			<div class="w-full flex flex-col gap-2">
+				<div class="flex justify-between">
+					<h1 class="text-3xl font-semibold text-[#2E5C37]">
+						{frontmatter.title}
+					</h1>
+					<div class="flex gap-2">
+						{
+							frontmatter.sourceClient && (
+								<ProjectButton
+									href={frontmatter.sourceClient}
+									icon={Code}
+									text="Client"
+								/>
+							)
+						}
+						{
+							frontmatter.sourceServer && (
+								<ProjectButton
+									href={frontmatter.sourceServer}
+									icon={Code}
+									text="Api"
+								/>
+							)
+						}
+					</div>
+				</div>
+				<div class="overflow-hidden rounded-md">
 					<Image
-						src={`/assets/projects/${slug}/cover.png`}
+						src={`/assets/projects/${slug}/cover.webp`}
 						alt={frontmatter.title}
-						loading="lazy"
+						loading="eager"
 						width={1600}
 						height={800}
 					/>
 				</div>
-				<h1 class="text-2xl font-semibold">
-					{frontmatter.title}
-				</h1>
 			</div>
-			<div class="w-full rounded-md">
-				<span class="block font-semibold text-xl pb-2">
-					Tech Stack
-				</span>
+		</section>
+		<section
+			class="w-full pb-4 rounded-md border-b border-[#8d7e61] border-dashed">
+			<div class="flex flex-wrap gap-2">
+				{
+					frontmatter.stack.map((tech: string) => (
+						<TechStack tech={tech} size="small" isLazy={false} />
+					))
+				}
 			</div>
-			<div class="font-serif text-lg leading-relaxed">
-				<div
-					class="flex flex-col md:flex-row gap-4 items-center justify-between mt-2 pb-4">
-					<main>
-						<slot />
-					</main>
-				</div>
-			</div>
+		</section>
+		<section
+			class="relative text-justify text-base leading-relaxed min-w-full mt-2 pb-4 prose-lg prose-headings:text-[#2E5C37]">
+			<slot />
 		</section>
 	</article>
 </Layout>
