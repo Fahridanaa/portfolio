@@ -6,6 +6,37 @@ date: 2024-04-22
 sourceClient: https://github.com/Fahridanaa/sawira
 stack: ["laravel", "mysql", "bootstrap"]
 ---
+SAWIRA is a web-based e-government app my team and I built during our 4th semester to make administrative tasks simpler for the Villa Bukit Tidar community. The app helps residents with things like managing archives, correspondence, and even zakat fitrah (charitable donations).
 
-Sawira is a web app for managing citizen data, archives, correspondence, and zakat distribution, designed to help Villa Bukit Tidar residents. This project was created as a final project in the 4th semester. It is built with Laravel, MySQL, and Bootstrap.
-```
+In this project, I worked as a full-stack developer, handling both the front-end and back-end. We used the [Stisla](https://github.com/stisla/stisla) template to keep the design clean, user-friendly, and responsive, making the development process smoother.
+
+### Key Features
+- **Warga:**
+    - View and manage family details, including financial data like income and expenses.
+    - Send formal letters to RT.
+- **RT:**
+    - Manage citizen data and track life events like moving out or passing away.
+    - Oversee their specific group of residents.
+- **RW:**
+    - Manage multiple RTs and their residents (from RT1 to RT18).
+    - Handle and process formal letters sent by citizens.
+- **Amil:**
+    - Use SPK (Decision Support System) to identify citizens most in need of zakat fitrah.
+    - View, save, or print SPK results.
+
+### SPK for Zakat Fitrah Distribution
+One of SAWIRA's standout features is its SPK for distributing zakat fitrah. Using the **SAW** (Simple Additive Weighting) and **SMART** (Simple Multi-Attribute Rating Technique) methods, the system evaluates financial conditions and ranks families in need. This ensures that zakat reaches the poorest citizens in the RW effectively.
+
+![amil-zakat](public/assets/projects/sawira/amil-zakat.png)
+
+### Dashboard Insights
+Each actor has access to a dashboard with diagrams that summarize key data at a glance
+![dashboard](public/assets/projects/sawira/dashboard.png)
+
+
+### Lessons Learned
+- **System Design:** Designing structured database relationships and ensuring smooth integration of front-end and back-end components.
+- **Decision-Making Systems:** Implementing and fine-tuning the SAW and SMART methods for practical use in SPK.
+- **Team Collaboration:** Coordinating tasks with team members and meeting deadlines effectively.
+- **Full-Stack Development:** Managing both Laravel-based back-end logic and Bootstrap-powered front-end design.
+- **Data Visualization:** Creating dashboard diagrams to present data clearly and intuitively.
