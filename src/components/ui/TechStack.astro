@@ -10,7 +10,7 @@ const { tech, size, isLazy = true } = Astro.props;
 ---
 
 <div
-	class={`flex justify-center items-center gap-1 text-[#2E5C37] border rounded-md border-[#2E5C37] cursor-default ${size} ${size === "small" ? "px-2 py-1" : ""} ${size === "medium" ? "px-4 py-2" : ""} ${size === "large" ? "px-6 py-3" : ""}`}>
+	class={`flex justify-center items-center gap-1 text-[#2E5C37] border rounded-md border-[#2E5C37] cursor-default hover:bg-[#2E5C37] hover:border-[#9FDC7F] transition-all duration-300 group ${size} ${size === "small" ? "px-2 py-1" : ""} ${size === "medium" ? "px-4 py-2" : ""} ${size === "large" ? "px-6 py-3" : ""}`}>
 	<div class="relative block mr-1">
 		<Image
 			src={`/assets/icons/${tech.toLowerCase()}.svg`}
@@ -22,7 +22,7 @@ const { tech, size, isLazy = true } = Astro.props;
 		/>
 	</div>
 	<p
-		class={`text-lg ${size === "medium" ? "md:text-xl" : ""} ${size === "large" ? "lg:text-2xl" : ""} text-[#2E5C37]`}>
+		class={`text-lg ${size === "medium" ? "md:text-xl" : ""} ${size === "large" ? "lg:text-2xl" : ""} text-[#2E5C37] transition-all duration-300 group-hover:text-white`}>
 		{tech}
 	</p>
 </div>
