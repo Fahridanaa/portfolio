@@ -1,0 +1,67 @@
+---
+interface Props {
+	languages?: Array<{
+		greeting: string;
+		language: string;
+	}>;
+}
+
+const { languages = [] } = Astro.props;
+---
+
+<div
+	id="splash-screen"
+	class="splash-screen fixed inset-0 flex justify-center items-center bg-gradient-to-br from-[#f7f6ef] to-[#ebe9dd] z-50 transition-all duration-500 ease-out opacity-0 pointer-events-none">
+	<div class="greeting-container text-center text-[#4a4639]">
+		<div id="greeting" class="greeting text-4xl font-bold mb-4"></div>
+		<div id="language" class="language text-xl opacity-70"></div>
+	</div>
+</div>
+
+<script define:vars={{ languages }}>
+	document.addEventListener("DOMContentLoaded", () => {
+		const splashScreen = document.getElementById("splash-screen");
+
+		splashScreen.classList.remove("opacity-0", "pointer-events-none");
+		const greetingElement = document.getElementById("greeting");
+		const languageElement = document.getElementById("language");
+
+		document.body.classList.add("overflow-hidden");
+
+		let currentIndex = 0;
+
+		function cycleGreetings() {
+			const current = languages[currentIndex];
+			greetingElement.textContent = current.greeting;
+			languageElement.textContent = current.language;
+
+			currentIndex++;
+
+			if (currentIndex >= languages.length) {
+				clearInterval(greetingInterval);
+
+				setTimeout(() => {
+					document.body.classList.remove("overflow-hidden");
+					setTimeout(() => {
+						splashScreen.classList.add("-translate-y-full");
+
+						setTimeout(() => {
+							splashScreen.remove();
+						}, 500);
+					}, 400);
+				}, 400);
+			}
+		}
+
+		cycleGreetings();
+		const greetingInterval = setInterval(cycleGreetings, 200);
+	});
+</script>
+
+<style>
+	.splash-screen {
+		transition:
+			transform 0.5s ease-out,
+			opacity 0.5s ease-out;
+	}
+</style>
