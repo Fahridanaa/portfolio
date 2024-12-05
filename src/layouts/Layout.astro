@@ -30,5 +30,25 @@ const { title } = Astro.props;
 		font-family: sans-serif, Arial;
 		background: #f7f6ef;
 		scroll-behavior: smooth;
+		scrollbar-gutter: stable;
+	}
+
+	::-webkit-scrollbar {
+		width: 10px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: #f1f1f1;
+		border-radius: 10px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background-color: #8d7e61;
+		border-radius: 10px;
+		border: 2px solid #f1f1f1;
+	}
+
+	::-webkit-scrollbar-button {
+		display: none;
 	}
 </style>
