@@ -79,7 +79,6 @@ const techStack = [
 ---
 
 <Layout title="Fahridana Ahmad Rayyansyah">
-	<Navbar />
 	<article id="hero" class="max-w-5xl w-full mx-auto">
 		<section class="min-h-dvh flex flex-col justify-center items-center">
 			<div
@@ -142,7 +141,7 @@ const techStack = [
 		</section>
 	</article>
 	<article id="tech-stack" class="max-w-5xl w-full mx-auto">
-		<article class="my-6">
+		<section class="my-6">
 			<h2 class="text-3xl font-semibold my-12 text-center">Tech Stack</h2>
 			<div class="flex flex-wrap gap-3">
 				{
@@ -151,7 +150,7 @@ const techStack = [
 					))
 				}
 			</div>
-		</article>
+		</section>
 	</article>
 	<article id="projects" class="max-w-5xl w-full mx-auto">
 		<section class="my-6">
@@ -196,7 +195,7 @@ const techStack = [
 	<article id="contact" class="max-w-5xl w-full mx-auto">
 		<h2 class="text-lg font-semibold text-center">Want to Collaborate?</h2>
 		<h2 class="text-4xl font-bold text-center">Let's Have a Chat</h2>
-		<div class="flex flex-col justify-center items-center gap-2">
+		<section class="flex flex-col justify-center items-center gap-2">
 			<p class="text-base md:text-xl leading-loose mb-6 text-center">
 				Feel free to reach out to me if you have any questions, want to
 				collaborate on a project, or just want to chat. I'm always open
@@ -214,7 +213,7 @@ const techStack = [
 					))
 				}
 			</div>
-		</div>
+		</section>
 	</article>
 	<footer
 		class="max-w-5xl text-gray-500 w-full mx-auto mt-24 mb-6 text-center">
@@ -226,6 +225,7 @@ const techStack = [
 			without permission.
 		</p>
 	</footer>
+	<Navbar client:load />
 	<SplashScreen languages={languages} />
 </Layout>
 

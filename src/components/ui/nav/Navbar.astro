@@ -1,15 +1,16 @@
 ---
-import NavbarItem from "./NavbarItem.astro";
+import NavbarItem from "./NavbarItem.tsx";
 ---
 
 <nav
 	class="h-fit fixed right-3 lg:right-5 top-1/2 -translate-y-[50%] z-20 flex flex-col gap-8">
 	<div class="container flex justify-center">
 		<div class="flex flex-col gap-3">
-			<NavbarItem href="#hero" label="Home" />
-			<NavbarItem href="#about-me" label="About" />
-			<NavbarItem href="#tech-stack" label="Tech Stack" />
-			<NavbarItem href="#projects" label="Projects" />
+			<NavbarItem href="#hero" label="Home" client:load />
+			<NavbarItem href="#about-me" label="About" client:load />
+			<NavbarItem href="#tech-stack" label="Tech Stack" client:load />
+			<NavbarItem href="#projects" label="Projects" client:load />
+			<NavbarItem href="#contact" label="Contact" client:load />
 		</div>
 	</div>
 </nav>
