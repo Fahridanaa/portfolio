@@ -54,6 +54,7 @@ const languages = [
 	{ language: "Mandarin", greeting: "你好" },
 	{ language: "Arabic", greeting: "مرحبا" },
 	{ language: "Hindi", greeting: "नमस्ते" },
+	{ language: "Indonesia", greeting: "Halo" },
 ];
 
 const techStack = [
@@ -123,8 +124,8 @@ const techStack = [
 	</article>
 	<article id="about-me" class="max-w-5xl w-full mx-auto">
 		<section class="my-6">
-			<h2 class="text-3xl font-semibold mb-2">About Me</h2>
-			<p class="text-base md:text-xl leading-relaxed mb-6">
+			<h2 class="text-3xl font-semibold my-12 text-center">About Me</h2>
+			<p class="text-base md:text-xl leading-loose mb-6 text-center">
 				I'm an Informatics Engineering student specializing in front-end
 				web development, with experience using frameworks like React,
 				Astro, and Next.js. I have also built projects with Laravel for
@@ -132,7 +133,7 @@ const techStack = [
 				with Flutter and diving into machine learning to expand my
 				technical expertise.
 			</p>
-			<p class="text-base md:text-xl leading-relaxed mb-6">
+			<p class="text-base md:text-xl leading-loose mb-6 text-center">
 				I enjoy working on challenging projects, experimenting with new
 				tools, and finding efficient ways to build great web
 				applications. Outside of coding, I spend time gaming, exploring
@@ -142,7 +143,7 @@ const techStack = [
 	</article>
 	<article id="tech-stack" class="max-w-5xl w-full mx-auto">
 		<article class="my-6">
-			<h2 class="text-3xl font-semibold mb-2">Tech Stack</h2>
+			<h2 class="text-3xl font-semibold my-12 text-center">Tech Stack</h2>
 			<div class="flex flex-wrap gap-3">
 				{
 					techStack.map((tech: string) => (
@@ -154,8 +155,10 @@ const techStack = [
 	</article>
 	<article id="projects" class="max-w-5xl w-full mx-auto">
 		<section class="my-6">
-			<h2 class="text-3xl font-semibold mb-2">Featured Projects</h2>
-			<div class="flex flex-col">
+			<h2 class="text-3xl font-semibold my-12 text-center">
+				Featured Projects
+			</h2>
+			<div class="flex flex-col justify-center items-center gap-2">
 				{
 					sortedPersonalProjects.map(
 						(project: Project, index: number) => (
@@ -163,6 +166,7 @@ const techStack = [
 								project={project.data}
 								href={`assets/projects/${project.slug}/cover.webp`}
 								isReverse={index % 2 === 0}
+								client:load
 							/>
 						)
 					)
@@ -171,12 +175,57 @@ const techStack = [
 					<div
 						class="flex justify-center items-center w-full h-full"
 						style="opacity: 1; transform: none; will-change: auto;">
-						<p>Coming soon....</p>
+						<p>
+							Checkout out more on my <a
+								href="https://github.com/Fahridanaa"
+								target="_blank"
+								class="text-[#2E5C37] relative inline-block transition-all duration-300 hover:no-underline">
+								<span class="relative">
+									Github
+									<span
+										class="absolute left-0 bottom-0 w-0 h-[2px] bg-[#2E5C37] transition-all duration-300 group-hover:w-full"
+									></span>
+								</span>
+							</a>
+						</p>
 					</div>
 				</div>
 			</div>
 		</section>
 	</article>
+	<article id="contact" class="max-w-5xl w-full mx-auto">
+		<h2 class="text-lg font-semibold text-center">Want to Collaborate?</h2>
+		<h2 class="text-4xl font-bold text-center">Let's Have a Chat</h2>
+		<div class="flex flex-col justify-center items-center gap-2">
+			<p class="text-base md:text-xl leading-loose mb-6 text-center">
+				Feel free to reach out to me if you have any questions, want to
+				collaborate on a project, or just want to chat. I'm always open
+				to new opportunities and connections.
+			</p>
+			<div class="flex gap-2">
+				{
+					social.map((item) => (
+						<SocialButton
+							href={item.href}
+							title={item.title}
+							ariaLabel={item.ariaLabel}
+							icon={item.icon}
+						/>
+					))
+				}
+			</div>
+		</div>
+	</article>
+	<footer
+		class="max-w-5xl text-gray-500 w-full mx-auto mt-24 mb-6 text-center">
+		<p class="text-base md:text-lg leading-loose">
+			&copy; 2024 Fahridana Ahmad Rayyansyah. All rights reserved.
+		</p>
+		<p class="text-base md:text-lg leading-loose">
+			This site showcases my personal projects. Content may not be used
+			without permission.
+		</p>
+	</footer>
 	<SplashScreen languages={languages} />
 </Layout>
 
@@ -197,6 +246,25 @@ const techStack = [
 		border-right-color: #8d7e61;
 		transform: rotate(45deg);
 		animation: arrow-bounce 2s infinite;
+	}
+
+	a {
+		position: relative;
+	}
+
+	a::after {
+		content: "";
+		position: absolute;
+		width: 0;
+		height: 1px;
+		bottom: 0;
+		left: 0;
+		background-color: #2e5c37;
+		transition: width 0.3s ease-in-out;
+	}
+
+	a:hover::after {
+		width: 100%;
 	}
 
 	@keyframes arrow-bounce {
