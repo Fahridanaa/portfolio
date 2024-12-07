@@ -112,12 +112,13 @@ const techStack = [
 					loading={"eager"}
 				/>
 			</div>
-			<div class="absolute bottom-6 left-1/2 transform-translate-x-12">
+			<div class="absolute bottom-6 left-1/2 -translate-x-1/2">
 				<a
 					href="#about-me"
 					class="arrow-down"
 					aria-label="arrow-down"
-					title="arrow-down"></a>
+					title="arrow-down">
+				</a>
 			</div>
 		</section>
 	</article>
@@ -152,7 +153,7 @@ const techStack = [
 			</div>
 		</section>
 	</article>
-	<article id="projects" class="max-w-5xl w-full mx-auto">
+	<article id="projects" class="max-w-5xl w-full mx-auto overflow-hidden">
 		<section class="my-6">
 			<h2 class="text-3xl font-semibold my-12 text-center">
 				Featured Projects
@@ -225,7 +226,7 @@ const techStack = [
 			without permission.
 		</p>
 	</footer>
-	<Navbar client:load />
+	<Navbar />
 	<SplashScreen languages={languages} />
 </Layout>
 
