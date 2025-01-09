@@ -12,6 +12,7 @@ import TechStack from "@/components/ui/TechStack.astro";
 import { getCollection } from "astro:content";
 import type { Project } from "@/models/project";
 import SplashScreen from "@/components/SplashScreen.astro";
+import HoverMe from "@/components/HoverMe.astro";
 
 const personalProjects = await getCollection("projects");
 const sortedPersonalProjects = personalProjects.sort(
@@ -153,21 +154,28 @@ const techStack = [
 			</div>
 		</section>
 	</article>
-	<article id="projects" class="max-w-5xl w-full mx-auto overflow-hidden">
+	<article
+		id="projects"
+		class="relative max-w-5xl w-full mx-auto overflow-hidden">
 		<section class="my-6">
-			<h2 class="text-3xl font-semibold my-12 text-center">
+			<h2 class="text-3xl font-semibold mt-12 text-center">
 				Featured Projects
 			</h2>
-			<div class="flex flex-col justify-center items-center gap-2">
+			<div class="hidden lg:flex justify-end w-full mr-12">
+				<HoverMe />
+			</div>
+			<div class="flex flex-col justify-center items-center">
 				{
 					sortedPersonalProjects.map(
 						(project: Project, index: number) => (
-							<ProjectCard
-								project={project.data}
-								href={`assets/projects/${project.slug}/cover.webp`}
-								isReverse={index % 2 === 0}
-								client:load
-							/>
+							<>
+								<ProjectCard
+									project={project.data}
+									href={`assets/projects/${project.slug}/cover.webp`}
+									isReverse={index % 2 === 0}
+									client:load
+								/>
+							</>
 						)
 					)
 				}

@@ -66,7 +66,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 			}}
 		>
 			<div
-				className={`relative flex flex-col gap-8 my-8 lg:my-14 items-center ${
+				className={`relative flex flex-col gap-8 my-8 lg:my-10 items-center ${
 					isReverse ? "lg:flex-row-reverse" : "lg:flex-row"
 				}`}
 			>
