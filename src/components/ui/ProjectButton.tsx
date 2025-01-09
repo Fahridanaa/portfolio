@@ -23,8 +23,13 @@ const ProjectButton: React.FC<ProjectButtonProps> = ({
 			target={isNewTab ? "_blank" : ""}
 			rel={isNewTab ? "noopener noreferrer" : undefined}
 		>
-			<button className="flex items-center justify-center font-semibold px-2 py-1 gap-2 border-2 border-[#2E40B8] rounded text-[#2E40B8] transition-all duration-300 hover:bg-[#2E40B8] hover:text-white">
-				{Icon && <Icon size={24} />}
+			<button className="flex items-center justify-center font-semibold px-2 py-1 gap-2 border-1 border-[#2E40B8] bg-[#2E40B8] rounded text-[#ffffff] transition-all duration-300 hover:text-white hover:bg-[#3A50D8] hover:border-[#3A50D8] hover:scale-105 hover:shadow-lg">
+				{Icon && (
+					<Icon
+						size={24}
+						className="transition-transform duration-300 hover:rotate-12"
+					/>
+				)}
 				{text}
 			</button>
 		</a>
