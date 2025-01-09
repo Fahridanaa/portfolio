@@ -16,7 +16,8 @@ const { frontmatter, slug } = Astro.props as Props;
 <Layout title={frontmatter.title}>
 	<header>
 		<div class="h-0.5 bg-[#8d7e61] rounded-full"></div>
-		<div class="relative text-[#8d7e61] text-md mt-8">
+		<div
+			class="fixed top-0 text-[#8d7e61] text-md font-semibold mt-8 hover:-translate-x-1 transition-transform duration-300 ease-in-out">
 			<a href="/">-- Back to home</a>
 		</div>
 	</header>
