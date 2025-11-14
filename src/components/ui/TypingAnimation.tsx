@@ -6,9 +6,9 @@ export default function TypingAnimation() {
 		const typed = new Typed("#typing", {
 			strings: [
 				"Software Engineer",
+				"Frontend Engineer",
+				"Backend Engineer",
 				"FullStack Developer",
-				"Project Manager",
-				"Game Developer",
 			],
 			typeSpeed: 50,
 			backSpeed: 50,
