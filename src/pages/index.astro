@@ -59,23 +59,21 @@ const languages = [
 ];
 
 const techStack = [
-	"Laravel",
-	"NextJS",
-	"Astro",
-	"React",
-	"Svelte",
-	"Flutter",
-	"TailwindCSS",
-	"Javascript",
-	"Typescript",
-	"PHP",
-	"Java",
-	"Python",
-	"bootstrap",
-	"MySQL",
-	"PostgreSQL",
-	"Prisma",
-	"Bun",
+	{ name: "Laravel", type: "backend" },
+	{ name: "NextJS", type: "frontend" },
+	{ name: "Astro", type: "frontend" },
+	{ name: "React", type: "frontend" },
+	{ name: "Svelte", type: "frontend" },
+	{ name: "Flutter", type: "frontend" },
+	{ name: "TailwindCSS", type: "frontend" },
+	{ name: "Typescript", type: "frontend" },
+	{ name: "PHP", type: "backend" },
+	{ name: "Java", type: "backend" },
+	{ name: "Python", type: "backend" },
+	{ name: "bootstrap", type: "frontend" },
+	{ name: "MySQL", type: "database" },
+	{ name: "PostgreSQL", type: "database" },
+	{ name: "Prisma", type: "database" },
 ];
 ---
 
@@ -123,7 +121,7 @@ const techStack = [
 			</div>
 		</section>
 	</article>
-	<article id="about-me" class="max-w-5xl w-full mx-auto">
+	<!-- <article id="about-me" class="max-w-5xl w-full mx-auto">
 		<section class="my-6">
 			<h2 class="text-3xl font-semibold my-12 text-center">About Me</h2>
 			<p class="text-base md:text-xl leading-loose mb-6 text-center">
@@ -141,14 +139,14 @@ const techStack = [
 				new hobbies, and learning about technology and self-improvement.
 			</p>
 		</section>
-	</article>
+	</article> -->
 	<article id="tech-stack" class="max-w-5xl w-full mx-auto">
 		<section class="my-6">
 			<h2 class="text-3xl font-semibold my-12 text-center">Tech Stack</h2>
 			<div class="flex flex-wrap gap-3">
 				{
-					techStack.map((tech: string) => (
-						<TechStack tech={tech} size="medium" />
+					techStack.map((tech: { name: string; type: string }) => (
+						<TechStack tech={tech.name} size="medium" />
 					))
 				}
 			</div>
