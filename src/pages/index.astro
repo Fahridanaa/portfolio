@@ -62,30 +62,34 @@ const languages = [
 ];
 
 const techStack = [
-	{ name: "Laravel", type: "backend" },
-	{ name: "NextJS", type: "frontend" },
-	{ name: "Astro", type: "frontend" },
-	{ name: "React", type: "frontend" },
-	{ name: "Svelte", type: "frontend" },
-	{ name: "Flutter", type: "frontend" },
-	{ name: "TailwindCSS", type: "frontend" },
-	{ name: "Typescript", type: "frontend" },
-	{ name: "PHP", type: "backend" },
-	{ name: "Java", type: "backend" },
-	{ name: "Python", type: "backend" },
-	{ name: "bootstrap", type: "frontend" },
-	{ name: "MySQL", type: "backend" },
-	{ name: "PostgreSQL", type: "backend" },
-	{ name: "Prisma", type: "backend" },
-	{ name: "Docker", type: "other" },
-	{ name: "Git", type: "other" },
-	{ name: "GitHub", type: "other" },
-	{ name: "Firebase", type: "other" },
-	{ name: "Azure", type: "other" },
-	{ name: "Figma", type: "other" },
-	{ name: "Vite", type: "other" },
-	{ name: "Webpack", type: "other" },
+	// Languages
+	{ name: "PHP", type: "language" },
+	{ name: "Typescript", type: "language" },
+	{ name: "Python", type: "language" },
+	{ name: "Go", type: "language" },
+
+	// Frameworks
+	{ name: "Laravel", type: "framework" },
+	{ name: "NextJS", type: "framework" },
+
+	// Databases
+	{ name: "MySQL", type: "database" },
+	{ name: "PostgreSQL", type: "database" },
+
+	// Tools
+	{ name: "Docker", type: "tool" },
+	{ name: "Git", type: "tool" },
+	{ name: "GitHub", type: "tool" },
+	{ name: "Vite", type: "tool" },
+	{ name: "Postman", type: "tool" },
 ];
+
+const languageTechStack = techStack.filter((tech) => tech.type === "language");
+const frameworkTechStack = techStack.filter(
+	(tech) => tech.type === "framework"
+);
+const databaseTechStack = techStack.filter((tech) => tech.type === "database");
+const toolTechStack = techStack.filter((tech) => tech.type === "tool");
 ---
 
 <Layout title="Fahridana Ahmad Rayyansyah">
@@ -195,43 +199,204 @@ const techStack = [
 			>
 		</section>
 	</article>
-	<article id="tech-stack" class="max-w-5xl w-full mx-auto">
-		<section class="my-6">
-			<div class="flex items-center gap-2 my-4">
-				<div class="flex gap-2 items-center">
-					<h2 class="text-[#8d7e61] text-2xl font-semibold">
-						Tech Stack
-					</h2>
-				</div>
-				<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
-				<div class="w-64"></div>
+	<!-- <article id="tech-stack" class="max-w-5xl w-full mx-auto px-4">
+		<section class="flex items-center gap-2 my-4">
+			<div class="flex gap-2 items-center">
+				<h2 class="text-[#8d7e61] text-2xl font-semibold">
+					Tech Stack
+				</h2>
 			</div>
-			<div class="flex flex-wrap gap-3">
-				{
-					techStack.map((tech: { name: string; type: string }) => (
-						<TechStack tech={tech.name} size="medium" />
-					))
-				}
+			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
+			<div class="w-64 hidden md:block"></div>
+		</section>
+
+		<section class="mb-8">
+			<div
+				class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+				<div
+					class="relative border-2 border-[#b39c72] bg-[#f9f5ec] rounded-md p-6 hover:shadow-lg transition-all duration-300 overflow-hidden group/card">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="60"
+						height="60"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-code-xml absolute duration-300 text-[#b39c72] opacity-0 group-hover/card:opacity-20 rotate-12 -top-4 -right-4 group-hover/card:rotate-0 group-hover/card:-top-2 group-hover/card:-right-2 transition-all pointer-events-none">
+						<path d="m18 16 4-4-4-4"></path>
+						<path d="m6 8-4 4 4 4"></path>
+						<path d="m14.5 4-5 16"></path>
+					</svg>
+
+					<h3
+						class="text-[#8d7e61] text-xl tracking-wide font-semibold text-center md:text-left relative z-10">
+						Languages
+					</h3>
+					<div
+						class="flex flex-wrap gap-3 justify-center md:justify-start items-center min-h-[120px] relative z-10">
+						{
+							languageTechStack.map(
+								(tech: { name: string; type: string }) => (
+									<TechStack tech={tech.name} size="medium" />
+								)
+							)
+						}
+					</div>
+				</div>
+
+				<div
+					class="relative border-2 border-[#b39c72] bg-[#f9f5ec] rounded-md p-6 hover:shadow-lg transition-all duration-300 overflow-hidden group/card">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="60"
+						height="60"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-boxes absolute duration-300 text-[#b39c72] opacity-0 group-hover/card:opacity-20 -rotate-12 -top-4 -right-4 group-hover/card:rotate-0 group-hover/card:-top-2 group-hover/card:-right-2 transition-all pointer-events-none">
+						<path
+							d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5-3-4.03 2.42Z"
+						></path>
+						<path d="m7 16.5-4.74-2.85"></path>
+						<path d="m7 16.5 5-3"></path>
+						<path d="M7 16.5v5.17"></path>
+						<path
+							d="M12 13.5V19l3.97 2.38a2 2 0 0 0 2.06 0l3-1.8a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L17 10.5l-5 3Z"
+						></path>
+						<path d="m17 16.5-5-3"></path>
+						<path d="m17 16.5 4.74-2.85"></path>
+						<path d="M17 16.5v5.17"></path>
+						<path
+							d="M7.97 4.42A2 2 0 0 0 7 6.13v4.37l5 3 5-3V6.13a2 2 0 0 0-.97-1.71l-3-1.8a2 2 0 0 0-2.06 0l-3 1.8Z"
+						></path>
+						<path d="M12 8 7.26 5.15"></path>
+						<path d="m12 8 4.74-2.85"></path>
+						<path d="M12 13.5V8"></path>
+					</svg>
+
+					<h3
+						class="text-[#8d7e61] text-xl tracking-wide font-semibold text-center md:text-left relative z-10">
+						Frameworks
+					</h3>
+					<div
+						class="flex flex-wrap gap-3 justify-center md:justify-start items-center min-h-[120px] relative z-10">
+						{
+							frameworkTechStack.map(
+								(tech: { name: string; type: string }) => (
+									<TechStack tech={tech.name} size="medium" />
+								)
+							)
+						}
+					</div>
+				</div>
+
+				<div
+					class="relative border-2 border-[#b39c72] bg-[#f9f5ec] rounded-md p-6 hover:shadow-lg transition-all duration-300 overflow-hidden group/card">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="60"
+						height="60"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-database absolute duration-300 text-[#b39c72] opacity-0 group-hover/card:opacity-20 rotate-12 -top-4 -right-4 group-hover/card:rotate-0 group-hover/card:-top-2 group-hover/card:-right-2 transition-all pointer-events-none">
+						<ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+						<path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+						<path d="M3 12A9 3 0 0 0 21 12"></path>
+					</svg>
+
+					<h3
+						class="text-[#8d7e61] text-xl tracking-wide font-semibold text-center md:text-left relative z-10">
+						Databases
+					</h3>
+					<div
+						class="flex flex-wrap gap-3 justify-center md:justify-start items-center min-h-[120px] relative z-10">
+						{
+							databaseTechStack.map(
+								(tech: { name: string; type: string }) => (
+									<TechStack tech={tech.name} size="medium" />
+								)
+							)
+						}
+					</div>
+				</div>
+
+				<div
+					class="relative border-2 border-[#b39c72] bg-[#f9f5ec] rounded-md p-6 hover:shadow-lg transition-all duration-300 overflow-hidden group/card">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="60"
+						height="60"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-wrench absolute duration-300 text-[#b39c72] opacity-0 group-hover/card:opacity-20 -rotate-12 -top-4 -right-4 group-hover/card:rotate-0 group-hover/card:-top-2 group-hover/card:-right-2 transition-all pointer-events-none">
+						<path
+							d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+						></path>
+					</svg>
+
+					<h3
+						class="text-[#8d7e61] text-xl tracking-wide font-semibold text-center md:text-left relative z-10">
+						Tools
+					</h3>
+					<div
+						class="flex flex-wrap gap-3 justify-center md:justify-between items-center min-h-[120px] relative z-10">
+						{
+							toolTechStack.map(
+								(tech: { name: string; type: string }) => (
+									<TechStack tech={tech.name} size="medium" />
+								)
+							)
+						}
+					</div>
+				</div>
 			</div>
 		</section>
-	</article>
+	</article> -->
 	<article id="experience" class="max-w-5xl w-full mx-auto">
+		<section class="flex items-center gap-2 my-4">
+			<div class="flex gap-2 items-center">
+				<h2 class="text-[#8d7e61] text-2xl font-semibold">
+					Experience
+				</h2>
+			</div>
+			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
+			<div class="w-64 hidden md:block"></div>
+		</section>
 		<section class="my-6">
-			<h2 class="text-3xl font-semibold my-12 text-center">Experience</h2>
 			<p>Some experience will be here</p>
 		</section>
 	</article>
 	<article
 		id="projects"
 		class="relative max-w-5xl w-full mx-auto overflow-hidden">
+		<section class="flex items-center gap-2 my-4">
+			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
+			<div class="flex gap-2 items-center">
+				<h2 class="text-[#8d7e61] text-2xl font-semibold">
+					Latest <a
+						href="#"
+						class="text-[#2E5C37] cursor-pointer hover:tracking-wider transition-all duration-300"
+						title="All Projects">Projects</a
+					>
+				</h2>
+			</div>
+			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
+		</section>
 		<section class="my-6">
-			<h2 class="text-3xl font-semibold mt-12 text-center">
-				Latest <a
-					href="#"
-					class="text-[#8d7e61] cursor-pointer hover:tracking-wider transition-all duration-300"
-					title="All Projects">Projects</a
-				>
-			</h2>
 			<div class="hidden lg:flex justify-end w-full mr-12">
 				<HoverMe />
 			</div>

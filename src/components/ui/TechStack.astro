@@ -10,31 +10,19 @@ const { tech, size, isLazy = true } = Astro.props;
 ---
 
 <div
-	class={`flex justify-center items-center gap-1 text-[#2E5C37] border rounded-md border-[#2E5C37] cursor-default hover:bg-[#2E5C37] hover:border-[#9FDC7F] transition-all duration-300 group ${size} ${size === "small" ? "px-2 py-1" : ""} ${size === "medium" ? "px-4 py-2" : ""} ${size === "large" ? "px-6 py-3" : ""}`}>
-	<div class="relative block mr-1">
+	class={`flex flex-col justify-center items-center gap-2 group text-[#8d7e61] transition-all duration-300 hover:scale-110 ${size === "small" ? "px-2 py-1" : ""} ${size === "medium" ? "px-3 py-2" : ""} ${size === "large" ? "px-6 py-3" : ""}`}>
+	<div class="relative">
 		<Image
 			src={`/assets/icons/${tech.toLowerCase()}.svg`}
-			alt={`${tech}`}
-			width={24}
-			height={24}
+			alt={`${tech} icon`}
+			width={size === "large" ? 48 : size === "medium" ? 40 : 32}
+			height={size === "large" ? 48 : size === "medium" ? 40 : 32}
 			loading={isLazy ? "lazy" : "eager"}
-			class={`w-6 h-6 ${size === "medium" ? "md:w-8 md:h-8" : ""} ${size === "large" ? "lg:w-10 lg:h-10" : ""}`}
+			class="transition-transform duration-300 group-hover:rotate-6"
 		/>
 	</div>
 	<p
-		class={`text-lg ${size === "medium" ? "md:text-xl" : ""} ${size === "large" ? "lg:text-2xl" : ""} text-[#2E5C37] transition-all duration-300 group-hover:text-white`}>
+		class={`text-center font-medium ${size === "small" ? "text-xs" : ""} ${size === "medium" ? "text-sm" : ""} ${size === "large" ? "text-base" : ""}`}>
 		{tech}
 	</p>
 </div>
-
-<style>
-	.small {
-		font-size: 0.875rem;
-	}
-	.medium {
-		font-size: 1rem;
-	}
-	.large {
-		font-size: 1.25rem;
-	}
-</style>
