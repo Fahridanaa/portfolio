@@ -5,6 +5,8 @@ import Navbar from "@/components/ui/nav/Navbar.astro";
 import TypingAnimation from "@/components/ui/TypingAnimation";
 import SocialButton from "@/components/ui/SocialButton.astro";
 import cat from "@/../public/assets/hero-section-animation.gif";
+import me from "@/../public/assets/me.jpg";
+import roblox from "@/../public/assets/roblox.webp";
 import cv from "/assets/cv2.pdf";
 import { Github, Linkedin, Mail, FileUser } from "lucide-react";
 import ProjectCard from "@/components/ui/ProjectCard";
@@ -18,6 +20,7 @@ const personalProjects = await getCollection("projects");
 const sortedPersonalProjects = personalProjects.sort(
 	(a: Project, b: Project) => (a.data.date > b.data.date ? -1 : 1)
 );
+const latestPersonalProjects = sortedPersonalProjects.slice(0, 3);
 
 const social = [
 	{
@@ -71,9 +74,17 @@ const techStack = [
 	{ name: "Java", type: "backend" },
 	{ name: "Python", type: "backend" },
 	{ name: "bootstrap", type: "frontend" },
-	{ name: "MySQL", type: "database" },
-	{ name: "PostgreSQL", type: "database" },
-	{ name: "Prisma", type: "database" },
+	{ name: "MySQL", type: "backend" },
+	{ name: "PostgreSQL", type: "backend" },
+	{ name: "Prisma", type: "backend" },
+	{ name: "Docker", type: "other" },
+	{ name: "Git", type: "other" },
+	{ name: "GitHub", type: "other" },
+	{ name: "Firebase", type: "other" },
+	{ name: "Azure", type: "other" },
+	{ name: "Figma", type: "other" },
+	{ name: "Vite", type: "other" },
+	{ name: "Webpack", type: "other" },
 ];
 ---
 
@@ -121,28 +132,80 @@ const techStack = [
 			</div>
 		</section>
 	</article>
-	<!-- <article id="about-me" class="max-w-5xl w-full mx-auto">
-		<section class="my-6">
-			<h2 class="text-3xl font-semibold my-12 text-center">About Me</h2>
-			<p class="text-base md:text-xl leading-loose mb-6 text-center">
-				I'm an Informatics Engineering student specializing in front-end
-				web development, with experience using frameworks like React,
-				Astro, and Next.js. I have also built projects with Laravel for
-				backend development. Currently, I'm exploring mobile development
-				with Flutter and diving into machine learning to expand my
-				technical expertise.
-			</p>
-			<p class="text-base md:text-xl leading-loose mb-6 text-center">
-				I enjoy working on challenging projects, experimenting with new
-				tools, and finding efficient ways to build great web
-				applications. Outside of coding, I spend time gaming, exploring
-				new hobbies, and learning about technology and self-improvement.
-			</p>
+	<article id="about-me" class="max-w-5xl w-full mx-auto">
+		<section class="grid md:grid-cols-2 items-center px-4 my-4 md:px-0">
+			<div></div>
+			<div class="flex gap-2 items-center">
+				<h2 class="text-[#8d7e61] text-2xl font-semibold">About Me</h2>
+				<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
+			</div>
 		</section>
-	</article> -->
+		<section class="grid md:grid-cols-2 items-center px-4 md:px-0">
+			<div class="flex flex-col items-center">
+				<div
+					data-avatar-reveal
+					class="avatar-reveal hidden md:block relative md:h-80 md:w-80 rounded-full overflow-hidden border-4 border-[#8d7e61]">
+					<Image
+						src={me}
+						alt={`Me`}
+						loading={`eager`}
+						width={2048}
+						height={2048}
+						class="avatar-reveal__base w-full h-full object-cover md:animate-spin"
+					/>
+					<Image
+						src={roblox}
+						alt="My Roblox avatar"
+						loading={`lazy`}
+						width={1024}
+						height={1024}
+						class="avatar-reveal__overlay object-cover"
+					/>
+				</div>
+			</div>
+			<div class="flex flex-col items-center">
+				<p class="text-base md:text-lg leading-loose mb-3 text-justify">
+					I build things on the internet and enjoy solving problems.
+					Watching something grow from nothing feels meaningful to me.
+					I don't chase fancy solutions—just things that make sense
+					and actually work. My work moves between frontend, backend,
+					and everything in between, and I like understanding things
+					at their core rather than forcing complicated fixes.
+				</p>
+				<p class="text-base md:text-lg leading-loose mb-6 text-justify">
+					When I'm not coding, I usually play games like <button
+						title="don't click me"
+						class="text-red-500"
+						id="roblox-btn">Roblox</button
+					> or Factorio, explore new interests, or just take time to think.
+					It keeps me balanced and helps me stay curious.
+				</p>
+			</div>
+		</section>
+		<section class="grid md:grid-cols-2 items-center px-4 md:px-0">
+			<div>
+				<p class="hidden md:block text-center text-[#8d7e61]">
+					Don't mind me, i'm just spinning around... <br />Wheeee!!
+				</p>
+			</div>
+			<a
+				href="#contact"
+				class="border-2 border-[#8d7e61] text-center font-semibold text-[#8d7e61] rounded-md p-4 hover:bg-[#72674e] hover:text-white hover:tracking-wider transition-all duration-300"
+				>Say Hi!</a
+			>
+		</section>
+	</article>
 	<article id="tech-stack" class="max-w-5xl w-full mx-auto">
 		<section class="my-6">
-			<h2 class="text-3xl font-semibold my-12 text-center">Tech Stack</h2>
+			<div class="flex items-center gap-2 my-4">
+				<div class="flex gap-2 items-center">
+					<h2 class="text-[#8d7e61] text-2xl font-semibold">
+						Tech Stack
+					</h2>
+				</div>
+				<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
+				<div class="w-64"></div>
+			</div>
 			<div class="flex flex-wrap gap-3">
 				{
 					techStack.map((tech: { name: string; type: string }) => (
@@ -152,19 +215,29 @@ const techStack = [
 			</div>
 		</section>
 	</article>
+	<article id="experience" class="max-w-5xl w-full mx-auto">
+		<section class="my-6">
+			<h2 class="text-3xl font-semibold my-12 text-center">Experience</h2>
+			<p>Some experience will be here</p>
+		</section>
+	</article>
 	<article
 		id="projects"
 		class="relative max-w-5xl w-full mx-auto overflow-hidden">
 		<section class="my-6">
 			<h2 class="text-3xl font-semibold mt-12 text-center">
-				Featured Projects
+				Latest <a
+					href="#"
+					class="text-[#8d7e61] cursor-pointer hover:tracking-wider transition-all duration-300"
+					title="All Projects">Projects</a
+				>
 			</h2>
 			<div class="hidden lg:flex justify-end w-full mr-12">
 				<HoverMe />
 			</div>
 			<div class="flex flex-col justify-center items-center">
 				{
-					sortedPersonalProjects.map(
+					latestPersonalProjects.map(
 						(project: Project, index: number) => (
 							<>
 								<ProjectCard
@@ -177,7 +250,7 @@ const techStack = [
 						)
 					)
 				}
-				<div class="text-center text-2xl my-16">
+				<!-- <div class="text-center text-2xl my-16">
 					<div
 						class="flex justify-center items-center w-full h-full"
 						style="opacity: 1; transform: none; will-change: auto;">
@@ -195,8 +268,14 @@ const techStack = [
 							</a>
 						</p>
 					</div>
-				</div>
+				</div> -->
 			</div>
+		</section>
+	</article>
+	<article id="blog" class="max-w-5xl w-full mx-auto">
+		<section class="my-6">
+			<h2 class="text-3xl font-semibold my-12 text-center">Blog</h2>
+			<p>Some blog content will be here</p>
 		</section>
 	</article>
 	<article id="contact" class="max-w-5xl w-full mx-auto">
@@ -234,8 +313,82 @@ const techStack = [
 		</p>
 	</footer>
 	<Navbar />
-	<SplashScreen languages={languages} />
+	<!-- <SplashScreen languages={languages} /> -->
 </Layout>
+
+<script is:inline>
+	document.addEventListener("DOMContentLoaded", () => {
+		const avatarRevealEls = document.querySelectorAll(
+			"[data-avatar-reveal]"
+		);
+		const robloxBtn = document.getElementById("roblox-btn");
+
+		const updatePosition = (wrapper, event) => {
+			if (wrapper.dataset.easterEgg === "true") return;
+
+			const rect = wrapper.getBoundingClientRect();
+			const x = ((event.clientX - rect.left) / rect.width) * 100;
+			const y = ((event.clientY - rect.top) / rect.height) * 100;
+			const radius = Math.max(rect.width, rect.height) * 0.35;
+
+			wrapper.style.setProperty("--reveal-x", `${x}%`);
+			wrapper.style.setProperty("--reveal-y", `${y}%`);
+			wrapper.style.setProperty("--reveal-size", `${radius}px`);
+		};
+
+		avatarRevealEls.forEach((wrapper) => {
+			wrapper.dataset.revealActive = "false";
+			wrapper.dataset.easterEgg = "false";
+
+			const handleEnter = (event) => {
+				if (wrapper.dataset.easterEgg === "true") return;
+
+				wrapper.dataset.revealActive = "true";
+				updatePosition(wrapper, event);
+			};
+
+			const handleMove = (event) => updatePosition(wrapper, event);
+
+			const handleLeave = () => {
+				if (wrapper.dataset.easterEgg === "true") return;
+
+				wrapper.dataset.revealActive = "false";
+				wrapper.style.setProperty("--reveal-size", "0px");
+			};
+
+			wrapper.addEventListener("pointerenter", handleEnter);
+			wrapper.addEventListener("pointermove", handleMove);
+			wrapper.addEventListener("pointerleave", handleLeave);
+		});
+
+		if (robloxBtn && avatarRevealEls.length) {
+			robloxBtn.addEventListener("click", () => {
+				const isActive =
+					avatarRevealEls[0].dataset.easterEgg === "true";
+				const nextState = isActive ? "false" : "true";
+
+				avatarRevealEls.forEach((wrapper) => {
+					wrapper.dataset.easterEgg = nextState;
+
+					if (nextState === "true") {
+						wrapper.dataset.revealActive = "true";
+						const rect = wrapper.getBoundingClientRect();
+						const maxRadius = Math.hypot(rect.width, rect.height);
+						wrapper.style.setProperty(
+							"--reveal-size",
+							`${maxRadius}px`
+						);
+						wrapper.style.setProperty("--reveal-x", "50%");
+						wrapper.style.setProperty("--reveal-y", "50%");
+					} else {
+						wrapper.dataset.revealActive = "false";
+						wrapper.style.setProperty("--reveal-size", "0px");
+					}
+				});
+			});
+		}
+	});
+</script>
 
 <style>
 	.wave {
@@ -256,7 +409,7 @@ const techStack = [
 		animation: arrow-bounce 2s infinite;
 	}
 
-	a {
+	/* a {
 		position: relative;
 	}
 
@@ -273,7 +426,7 @@ const techStack = [
 
 	a:hover::after {
 		width: 100%;
-	}
+	} */
 
 	@keyframes arrow-bounce {
 		0%,
@@ -312,5 +465,43 @@ const techStack = [
 		100% {
 			transform: rotate(0deg);
 		}
+	}
+
+	.avatar-reveal {
+		--reveal-x: 50%;
+		--reveal-y: 50%;
+		--reveal-size: 0px;
+	}
+
+	.avatar-reveal__base {
+		transition: opacity 0.3s ease;
+	}
+
+	.avatar-reveal__overlay {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		clip-path: circle(
+			var(--reveal-size, 0px) at var(--reveal-x, 50%) var(--reveal-y, 50%)
+		);
+		transition:
+			clip-path 0.25s ease,
+			opacity 0.2s ease;
+		opacity: 0;
+	}
+
+	[data-reveal-active="true"] .avatar-reveal__overlay {
+		opacity: 1;
+	}
+
+	[data-easter-egg="true"] .avatar-reveal__overlay {
+		clip-path: circle(150% at 50% 50%);
+		opacity: 1;
+	}
+
+	[data-easter-egg="true"] .avatar-reveal__base {
+		opacity: 0;
 	}
 </style>

@@ -54,7 +54,7 @@ export default function NavbarItem({ href, label }: Props) {
 				stiffness: 300,
 			}}
 		>
-			<a href={href} className="hidden lg:block">
+			<a href={href} className="hidden xl:block">
 				{label}
 			</a>
 		</motion.div>
