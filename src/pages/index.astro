@@ -10,9 +10,11 @@ import roblox from "@/../public/assets/roblox.webp";
 import cv from "/assets/cv2.pdf";
 import { Github, Linkedin, Mail, FileUser } from "lucide-react";
 import ProjectCard from "@/components/ui/ProjectCard";
+import ExperienceCard from "@/components/ui/ExperienceCard";
 import TechStack from "@/components/ui/TechStack.astro";
 import { getCollection } from "astro:content";
 import type { Project } from "@/models/project";
+import type { Experience } from "@/models/experience";
 import SplashScreen from "@/components/SplashScreen.astro";
 import HoverMe from "@/components/HoverMe.astro";
 
@@ -21,6 +23,11 @@ const sortedPersonalProjects = personalProjects.sort(
 	(a: Project, b: Project) => (a.data.date > b.data.date ? -1 : 1)
 );
 const latestPersonalProjects = sortedPersonalProjects.slice(0, 3);
+
+const experiences = await getCollection("experiences");
+const sortedExperiences = experiences.sort((a: Experience, b: Experience) =>
+	a.data.date > b.data.date ? -1 : 1
+);
 
 const social = [
 	{
@@ -62,35 +69,37 @@ const languages = [
 	{ language: "Work In Progress", greeting: "WIP" },
 ];
 
-const techStack = [
-	// Languages
-	{ name: "PHP", type: "language" },
-	{ name: "Typescript", type: "language" },
-	{ name: "Python", type: "language" },
-	{ name: "Go", type: "language" },
+const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 
-	// Frameworks
-	{ name: "Laravel", type: "framework" },
-	{ name: "NextJS", type: "framework" },
+// const techStack = [
+// 	// Languages
+// 	{ name: "PHP", type: "language" },
+// 	{ name: "Typescript", type: "language" },
+// 	{ name: "Python", type: "language" },
+// 	{ name: "Go", type: "language" },
 
-	// Databases
-	{ name: "MySQL", type: "database" },
-	{ name: "PostgreSQL", type: "database" },
+// 	// Frameworks
+// 	{ name: "Laravel", type: "framework" },
+// 	{ name: "NextJS", type: "framework" },
 
-	// Tools
-	{ name: "Docker", type: "tool" },
-	{ name: "Git", type: "tool" },
-	{ name: "GitHub", type: "tool" },
-	{ name: "Vite", type: "tool" },
-	{ name: "Postman", type: "tool" },
-];
+// 	// Databases
+// 	{ name: "MySQL", type: "database" },
+// 	{ name: "PostgreSQL", type: "database" },
 
-const languageTechStack = techStack.filter((tech) => tech.type === "language");
-const frameworkTechStack = techStack.filter(
-	(tech) => tech.type === "framework"
-);
-const databaseTechStack = techStack.filter((tech) => tech.type === "database");
-const toolTechStack = techStack.filter((tech) => tech.type === "tool");
+// 	// Tools
+// 	{ name: "Docker", type: "tool" },
+// 	{ name: "Git", type: "tool" },
+// 	{ name: "GitHub", type: "tool" },
+// 	{ name: "Vite", type: "tool" },
+// 	{ name: "Postman", type: "tool" },
+// ];
+
+// const languageTechStack = techStack.filter((tech) => tech.type === "language");
+// const frameworkTechStack = techStack.filter(
+// 	(tech) => tech.type === "framework"
+// );
+// const databaseTechStack = techStack.filter((tech) => tech.type === "database");
+// const toolTechStack = techStack.filter((tech) => tech.type === "tool");
 ---
 
 <Layout title="Fahridana Ahmad Rayyansyah">
@@ -124,6 +133,7 @@ const toolTechStack = techStack.filter((tech) => tech.type === "tool");
 					height={219}
 					src={cat}
 					alt="A pixel animation featuring a black cat with a waving tail sitting on grass. The black cat has yellow eyes and is wearing a red collar with a gold bell."
+					class={`hover:-translate-y-2 transition-transform`}
 					loading={"eager"}
 				/>
 			</div>
@@ -198,6 +208,25 @@ const toolTechStack = techStack.filter((tech) => tech.type === "tool");
 				class="border-2 border-[#8d7e61] text-center font-semibold text-[#8d7e61] rounded-md p-4 hover:bg-[#72674e] hover:text-white hover:tracking-wider transition-all duration-300"
 				>Say Hi!</a
 			>
+		</section>
+	</article>
+	<article id="fav-lang" class="max-w-5xl w-full mx-auto">
+		<section class="flex items-center gap-2 my-4">
+			<div class="flex gap-2 items-center">
+				<h2 class="text-[#8d7e61] text-2xl font-semibold">
+					Favorite Language
+				</h2>
+			</div>
+			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
+		</section>
+		<section class="my-6">
+			<div class="flex justify-between items-center max-w-4xl mx-auto">
+				{
+					favoredLanguages.map((tech: string) => (
+						<TechStack tech={tech} size="large" />
+					))
+				}
+			</div>
 		</section>
 	</article>
 	<!-- <article id="tech-stack" class="max-w-5xl w-full mx-auto px-4">
@@ -367,7 +396,7 @@ const toolTechStack = techStack.filter((tech) => tech.type === "tool");
 			</div>
 		</section>
 	</article> -->
-	<article id="experience" class="max-w-5xl w-full mx-auto">
+	<article id="experience" class="max-w-5xl w-full mx-auto px-4 md:px-0">
 		<section class="flex items-center gap-2 my-4">
 			<div class="flex gap-2 items-center">
 				<h2 class="text-[#8d7e61] text-2xl font-semibold">
@@ -377,14 +406,24 @@ const toolTechStack = techStack.filter((tech) => tech.type === "tool");
 			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
 			<div class="w-64 hidden md:block"></div>
 		</section>
-		<section class="my-6">
-			<p>Some experience will be here</p>
+		<section class="my-8 relative">
+			{
+				sortedExperiences.map(
+					(experience: Experience, index: number) => (
+						<ExperienceCard
+							experience={experience.data}
+							index={index}
+							client:visible
+						/>
+					)
+				)
+			}
 		</section>
 	</article>
 	<article
 		id="projects"
 		class="relative max-w-5xl w-full mx-auto overflow-hidden">
-		<section class="flex items-center gap-2 my-4">
+		<!-- <section class="flex items-center gap-2 my-4">
 			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
 			<div class="flex gap-2 items-center">
 				<h2 class="text-[#8d7e61] text-2xl font-semibold">
@@ -396,6 +435,19 @@ const toolTechStack = techStack.filter((tech) => tech.type === "tool");
 				</h2>
 			</div>
 			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
+		</section> -->
+		<section class="flex items-center gap-2 my-4">
+			<div class="flex gap-2 items-center">
+				<h2 class="text-[#8d7e61] text-2xl font-semibold">
+					Latest <a
+						href="#"
+						class="text-[#2E5C37] cursor-pointer hover:tracking-wider transition-all duration-300"
+						title="All Projects">Projects</a
+					>
+				</h2>
+			</div>
+			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
+			<div class="w-64 hidden md:block"></div>
 		</section>
 		<section class="my-6">
 			<div class="hidden lg:flex justify-end w-full mr-12">
@@ -451,6 +503,13 @@ const toolTechStack = techStack.filter((tech) => tech.type === "tool");
 		</section>
 	</article>
 	<article id="contact" class="max-w-5xl w-full mx-auto">
+		<section class="flex items-center gap-2 my-4">
+			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
+			<div class="flex gap-2 items-center">
+				<h2 class="text-[#8d7e61] text-2xl font-semibold">Contact</h2>
+			</div>
+			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
+		</section>
 		<h2 class="text-lg font-semibold text-center">Want to Collaborate?</h2>
 		<h2 class="text-4xl font-bold text-center">Let's Have a Chat</h2>
 		<section class="flex flex-col justify-center items-center gap-2">

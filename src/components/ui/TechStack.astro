@@ -4,19 +4,21 @@ interface Props {
 	tech: string;
 	size: "small" | "medium" | "large";
 	isLazy?: boolean;
+	title?: string;
 }
 
-const { tech, size, isLazy = true } = Astro.props;
+const { tech, size, isLazy = true, title } = Astro.props;
 ---
 
 <div
-	class={`flex flex-col justify-center items-center gap-2 group text-[#8d7e61] transition-all duration-300 hover:scale-110 ${size === "small" ? "px-2 py-1" : ""} ${size === "medium" ? "px-3 py-2" : ""} ${size === "large" ? "px-6 py-3" : ""}`}>
+	class={`flex flex-col justify-center items-center gap-2 group text-[#8d7e61] transition-all duration-300 hover:scale-110 ${size === "small" ? "px-2 py-1" : ""} ${size === "medium" ? "px-3 py-2" : ""} ${size === "large" ? "px-6 py-3" : ""}`}
+	title={title ? title : tech}>
 	<div class="relative">
 		<Image
 			src={`/assets/icons/${tech.toLowerCase()}.svg`}
 			alt={`${tech} icon`}
-			width={size === "large" ? 48 : size === "medium" ? 40 : 32}
-			height={size === "large" ? 48 : size === "medium" ? 40 : 32}
+			width={size === "large" ? 64 : size === "medium" ? 40 : 32}
+			height={size === "large" ? 64 : size === "medium" ? 40 : 32}
 			loading={isLazy ? "lazy" : "eager"}
 			class="transition-transform duration-300 group-hover:rotate-6"
 		/>
