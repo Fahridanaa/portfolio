@@ -70,36 +70,6 @@ const languages = [
 ];
 
 const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
-
-// const techStack = [
-// 	// Languages
-// 	{ name: "PHP", type: "language" },
-// 	{ name: "Typescript", type: "language" },
-// 	{ name: "Python", type: "language" },
-// 	{ name: "Go", type: "language" },
-
-// 	// Frameworks
-// 	{ name: "Laravel", type: "framework" },
-// 	{ name: "NextJS", type: "framework" },
-
-// 	// Databases
-// 	{ name: "MySQL", type: "database" },
-// 	{ name: "PostgreSQL", type: "database" },
-
-// 	// Tools
-// 	{ name: "Docker", type: "tool" },
-// 	{ name: "Git", type: "tool" },
-// 	{ name: "GitHub", type: "tool" },
-// 	{ name: "Vite", type: "tool" },
-// 	{ name: "Postman", type: "tool" },
-// ];
-
-// const languageTechStack = techStack.filter((tech) => tech.type === "language");
-// const frameworkTechStack = techStack.filter(
-// 	(tech) => tech.type === "framework"
-// );
-// const databaseTechStack = techStack.filter((tech) => tech.type === "database");
-// const toolTechStack = techStack.filter((tech) => tech.type === "tool");
 ---
 
 <Layout title="Fahridana Ahmad Rayyansyah">
@@ -166,15 +136,7 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 						loading={`eager`}
 						width={2048}
 						height={2048}
-						class="avatar-reveal__base w-full h-full object-cover md:animate-spin"
-					/>
-					<Image
-						src={roblox}
-						alt="My Roblox avatar"
-						loading={`lazy`}
-						width={1024}
-						height={1024}
-						class="avatar-reveal__overlay object-cover"
+						class="w-full h-full object-cover"
 					/>
 				</div>
 			</div>
@@ -188,24 +150,15 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 					at their core rather than forcing complicated fixes.
 				</p>
 				<p class="text-base md:text-lg leading-loose mb-6 text-justify">
-					When I'm not coding, I usually play games like <button
-						title="don't click me"
-						class="text-red-500"
-						id="roblox-btn">Roblox</button
-					> or Factorio, explore new interests, or just take time to think.
+					When I'm not coding, I usually play games like Roblox or Factorio, explore new interests, or just take time to think.
 					It keeps me balanced and helps me stay curious.
 				</p>
 			</div>
 		</section>
-		<section class="grid md:grid-cols-2 items-center px-4 md:px-0">
-			<div>
-				<p class="hidden md:block text-center text-[#8d7e61]">
-					Don't mind me, i'm just spinning around... <br />Wheeee!!
-				</p>
-			</div>
+		<section class="grid md:grid-cols-2 items-center mt-4 px-4 md:px-0">
 			<a
 				href="#contact"
-				class="border-2 border-[#8d7e61] text-center font-semibold text-[#8d7e61] rounded-md p-4 hover:bg-[#72674e] hover:text-white hover:tracking-wider transition-all duration-300"
+				class="border-2 border-[#8d7e61] col-start-2 text-center font-semibold text-[#8d7e61] rounded-md p-4 hover:bg-[#72674e] hover:text-white hover:tracking-wider transition-all duration-300"
 				>Say Hi!</a
 			>
 		</section>
@@ -229,173 +182,6 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 			</div>
 		</section>
 	</article>
-	<!-- <article id="tech-stack" class="max-w-5xl w-full mx-auto px-4">
-		<section class="flex items-center gap-2 my-4">
-			<div class="flex gap-2 items-center">
-				<h2 class="text-[#8d7e61] text-2xl font-semibold">
-					Tech Stack
-				</h2>
-			</div>
-			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
-			<div class="w-64 hidden md:block"></div>
-		</section>
-
-		<section class="mb-8">
-			<div
-				class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-				<div
-					class="relative border-2 border-[#b39c72] bg-[#f9f5ec] rounded-md p-6 hover:shadow-lg transition-all duration-300 overflow-hidden group/card">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="60"
-						height="60"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="lucide lucide-code-xml absolute duration-300 text-[#b39c72] opacity-0 group-hover/card:opacity-20 rotate-12 -top-4 -right-4 group-hover/card:rotate-0 group-hover/card:-top-2 group-hover/card:-right-2 transition-all pointer-events-none">
-						<path d="m18 16 4-4-4-4"></path>
-						<path d="m6 8-4 4 4 4"></path>
-						<path d="m14.5 4-5 16"></path>
-					</svg>
-
-					<h3
-						class="text-[#8d7e61] text-xl tracking-wide font-semibold text-center md:text-left relative z-10">
-						Languages
-					</h3>
-					<div
-						class="flex flex-wrap gap-3 justify-center md:justify-start items-center min-h-[120px] relative z-10">
-						{
-							languageTechStack.map(
-								(tech: { name: string; type: string }) => (
-									<TechStack tech={tech.name} size="medium" />
-								)
-							)
-						}
-					</div>
-				</div>
-
-				<div
-					class="relative border-2 border-[#b39c72] bg-[#f9f5ec] rounded-md p-6 hover:shadow-lg transition-all duration-300 overflow-hidden group/card">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="60"
-						height="60"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="lucide lucide-boxes absolute duration-300 text-[#b39c72] opacity-0 group-hover/card:opacity-20 -rotate-12 -top-4 -right-4 group-hover/card:rotate-0 group-hover/card:-top-2 group-hover/card:-right-2 transition-all pointer-events-none">
-						<path
-							d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5-3-4.03 2.42Z"
-						></path>
-						<path d="m7 16.5-4.74-2.85"></path>
-						<path d="m7 16.5 5-3"></path>
-						<path d="M7 16.5v5.17"></path>
-						<path
-							d="M12 13.5V19l3.97 2.38a2 2 0 0 0 2.06 0l3-1.8a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L17 10.5l-5 3Z"
-						></path>
-						<path d="m17 16.5-5-3"></path>
-						<path d="m17 16.5 4.74-2.85"></path>
-						<path d="M17 16.5v5.17"></path>
-						<path
-							d="M7.97 4.42A2 2 0 0 0 7 6.13v4.37l5 3 5-3V6.13a2 2 0 0 0-.97-1.71l-3-1.8a2 2 0 0 0-2.06 0l-3 1.8Z"
-						></path>
-						<path d="M12 8 7.26 5.15"></path>
-						<path d="m12 8 4.74-2.85"></path>
-						<path d="M12 13.5V8"></path>
-					</svg>
-
-					<h3
-						class="text-[#8d7e61] text-xl tracking-wide font-semibold text-center md:text-left relative z-10">
-						Frameworks
-					</h3>
-					<div
-						class="flex flex-wrap gap-3 justify-center md:justify-start items-center min-h-[120px] relative z-10">
-						{
-							frameworkTechStack.map(
-								(tech: { name: string; type: string }) => (
-									<TechStack tech={tech.name} size="medium" />
-								)
-							)
-						}
-					</div>
-				</div>
-
-				<div
-					class="relative border-2 border-[#b39c72] bg-[#f9f5ec] rounded-md p-6 hover:shadow-lg transition-all duration-300 overflow-hidden group/card">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="60"
-						height="60"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="lucide lucide-database absolute duration-300 text-[#b39c72] opacity-0 group-hover/card:opacity-20 rotate-12 -top-4 -right-4 group-hover/card:rotate-0 group-hover/card:-top-2 group-hover/card:-right-2 transition-all pointer-events-none">
-						<ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-						<path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
-						<path d="M3 12A9 3 0 0 0 21 12"></path>
-					</svg>
-
-					<h3
-						class="text-[#8d7e61] text-xl tracking-wide font-semibold text-center md:text-left relative z-10">
-						Databases
-					</h3>
-					<div
-						class="flex flex-wrap gap-3 justify-center md:justify-start items-center min-h-[120px] relative z-10">
-						{
-							databaseTechStack.map(
-								(tech: { name: string; type: string }) => (
-									<TechStack tech={tech.name} size="medium" />
-								)
-							)
-						}
-					</div>
-				</div>
-
-				<div
-					class="relative border-2 border-[#b39c72] bg-[#f9f5ec] rounded-md p-6 hover:shadow-lg transition-all duration-300 overflow-hidden group/card">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="60"
-						height="60"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="lucide lucide-wrench absolute duration-300 text-[#b39c72] opacity-0 group-hover/card:opacity-20 -rotate-12 -top-4 -right-4 group-hover/card:rotate-0 group-hover/card:-top-2 group-hover/card:-right-2 transition-all pointer-events-none">
-						<path
-							d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
-						></path>
-					</svg>
-
-					<h3
-						class="text-[#8d7e61] text-xl tracking-wide font-semibold text-center md:text-left relative z-10">
-						Tools
-					</h3>
-					<div
-						class="flex flex-wrap gap-3 justify-center md:justify-between items-center min-h-[120px] relative z-10">
-						{
-							toolTechStack.map(
-								(tech: { name: string; type: string }) => (
-									<TechStack tech={tech.name} size="medium" />
-								)
-							)
-						}
-					</div>
-				</div>
-			</div>
-		</section>
-	</article> -->
 	<article id="experience" class="max-w-5xl w-full mx-auto px-4 md:px-0">
 		<section class="flex items-center gap-2 my-4">
 			<div class="flex gap-2 items-center">
@@ -547,80 +333,6 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 	<SplashScreen languages={languages} />
 </Layout>
 
-<script is:inline>
-	document.addEventListener("DOMContentLoaded", () => {
-		const avatarRevealEls = document.querySelectorAll(
-			"[data-avatar-reveal]"
-		);
-		const robloxBtn = document.getElementById("roblox-btn");
-
-		const updatePosition = (wrapper, event) => {
-			if (wrapper.dataset.easterEgg === "true") return;
-
-			const rect = wrapper.getBoundingClientRect();
-			const x = ((event.clientX - rect.left) / rect.width) * 100;
-			const y = ((event.clientY - rect.top) / rect.height) * 100;
-			const radius = Math.max(rect.width, rect.height) * 0.35;
-
-			wrapper.style.setProperty("--reveal-x", `${x}%`);
-			wrapper.style.setProperty("--reveal-y", `${y}%`);
-			wrapper.style.setProperty("--reveal-size", `${radius}px`);
-		};
-
-		avatarRevealEls.forEach((wrapper) => {
-			wrapper.dataset.revealActive = "false";
-			wrapper.dataset.easterEgg = "false";
-
-			const handleEnter = (event) => {
-				if (wrapper.dataset.easterEgg === "true") return;
-
-				wrapper.dataset.revealActive = "true";
-				updatePosition(wrapper, event);
-			};
-
-			const handleMove = (event) => updatePosition(wrapper, event);
-
-			const handleLeave = () => {
-				if (wrapper.dataset.easterEgg === "true") return;
-
-				wrapper.dataset.revealActive = "false";
-				wrapper.style.setProperty("--reveal-size", "0px");
-			};
-
-			wrapper.addEventListener("pointerenter", handleEnter);
-			wrapper.addEventListener("pointermove", handleMove);
-			wrapper.addEventListener("pointerleave", handleLeave);
-		});
-
-		if (robloxBtn && avatarRevealEls.length) {
-			robloxBtn.addEventListener("click", () => {
-				const isActive =
-					avatarRevealEls[0].dataset.easterEgg === "true";
-				const nextState = isActive ? "false" : "true";
-
-				avatarRevealEls.forEach((wrapper) => {
-					wrapper.dataset.easterEgg = nextState;
-
-					if (nextState === "true") {
-						wrapper.dataset.revealActive = "true";
-						const rect = wrapper.getBoundingClientRect();
-						const maxRadius = Math.hypot(rect.width, rect.height);
-						wrapper.style.setProperty(
-							"--reveal-size",
-							`${maxRadius}px`
-						);
-						wrapper.style.setProperty("--reveal-x", "50%");
-						wrapper.style.setProperty("--reveal-y", "50%");
-					} else {
-						wrapper.dataset.revealActive = "false";
-						wrapper.style.setProperty("--reveal-size", "0px");
-					}
-				});
-			});
-		}
-	});
-</script>
-
 <style>
 	.wave {
 		display: inline-block;
@@ -639,25 +351,6 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 		transform: rotate(45deg);
 		animation: arrow-bounce 2s infinite;
 	}
-
-	/* a {
-		position: relative;
-	}
-
-	a::after {
-		content: "";
-		position: absolute;
-		width: 0;
-		height: 1px;
-		bottom: 0;
-		left: 0;
-		background-color: #2e5c37;
-		transition: width 0.3s ease-in-out;
-	}
-
-	a:hover::after {
-		width: 100%;
-	} */
 
 	@keyframes arrow-bounce {
 		0%,
@@ -696,43 +389,5 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 		100% {
 			transform: rotate(0deg);
 		}
-	}
-
-	.avatar-reveal {
-		--reveal-x: 50%;
-		--reveal-y: 50%;
-		--reveal-size: 0px;
-	}
-
-	.avatar-reveal__base {
-		transition: opacity 0.3s ease;
-	}
-
-	.avatar-reveal__overlay {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		pointer-events: none;
-		clip-path: circle(
-			var(--reveal-size, 0px) at var(--reveal-x, 50%) var(--reveal-y, 50%)
-		);
-		transition:
-			clip-path 0.25s ease,
-			opacity 0.2s ease;
-		opacity: 0;
-	}
-
-	[data-reveal-active="true"] .avatar-reveal__overlay {
-		opacity: 1;
-	}
-
-	[data-easter-egg="true"] .avatar-reveal__overlay {
-		clip-path: circle(150% at 50% 50%);
-		opacity: 1;
-	}
-
-	[data-easter-egg="true"] .avatar-reveal__base {
-		opacity: 0;
 	}
 </style>
