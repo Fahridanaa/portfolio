@@ -6,8 +6,6 @@ import TypingAnimation from "@/components/ui/TypingAnimation";
 import SocialButton from "@/components/ui/SocialButton.astro";
 import cat from "@/../public/assets/hero-section-animation.gif";
 import me from "@/../public/assets/me.jpg";
-import cv from "/assets/cv.pdf";
-import { Github, Linkedin, Mail, FileUser } from "lucide-react";
 import ProjectCard from "@/components/ui/ProjectCard";
 import ExperienceCard from "@/components/ui/ExperienceCard";
 import TechStack from "@/components/ui/TechStack.astro";
@@ -16,6 +14,8 @@ import type { Project } from "@/models/project";
 import type { Experience } from "@/models/experience";
 import SplashScreen from "@/components/SplashScreen.astro";
 import HoverMe from "@/components/HoverMe.astro";
+import { SOCIAL_LINKS, LANGUAGES } from "@/data/site";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
 
 const personalProjects = await getCollection("projects");
 const sortedPersonalProjects = personalProjects.sort(
@@ -27,46 +27,6 @@ const experiences = await getCollection("experiences");
 const sortedExperiences = experiences.sort((a: Experience, b: Experience) =>
 	a.data.date > b.data.date ? -1 : 1
 );
-
-const social = [
-	{
-		href: "mailto:fahridanaaa@gmail.com",
-		title: "email",
-		ariaLabel: "email",
-		icon: Mail,
-	},
-	{
-		href: "https://www.linkedin.com/in/fahridana-ahmad-rayyansyah/",
-		title: "linkedIn",
-		ariaLabel: "linkedIn",
-		icon: Linkedin,
-	},
-	{
-		href: "https://github.com/Fahridanaa",
-		title: "github",
-		ariaLabel: "github",
-		icon: Github,
-	},
-	{
-		href: cv,
-		title: "cv",
-		ariaLabel: "cv",
-		icon: FileUser,
-	},
-];
-
-const languages = [
-	{ language: "English", greeting: "Hi" },
-	{ language: "Spanish", greeting: "Hola" },
-	{ language: "French", greeting: "Bonjour" },
-	{ language: "German", greeting: "Hallo" },
-	{ language: "Japanese", greeting: "こんにちは" },
-	{ language: "Mandarin", greeting: "你好" },
-	{ language: "Arabic", greeting: "مرحبا" },
-	{ language: "Hindi", greeting: "नमस्ते" },
-	{ language: "Indonesia", greeting: "Halo" },
-	{ language: "Work In Progress", greeting: "WIP" },
-];
 
 const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 ---
@@ -82,11 +42,11 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 							Hi,<span class="wave">👋</span> I'm Fahridana Ahmad Rayyansyah,
 						</h1>
 						<TypingAnimation client:visible />
-						<p class="text-[#8d7e61]">Proud Bug Maker & Solver</p>
+						<p class="text-brand-tan">Proud Bug Maker & Solver</p>
 					</div>
 					<div class="flex gap-2">
 						{
-							social.map((item) => (
+							SOCIAL_LINKS.map((item) => (
 								<SocialButton
 									href={item.href}
 									title={item.title}
@@ -120,15 +80,15 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 		<section class="grid md:grid-cols-2 items-center px-4 my-4 md:px-0">
 			<div></div>
 			<div class="flex gap-2 items-center">
-				<h2 class="text-[#8d7e61] text-2xl font-semibold">About Me</h2>
-				<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
+				<h2 class="text-brand-tan text-2xl font-semibold">About Me</h2>
+				<div class="bg-brand-tan h-[2px] rounded-md my-4 flex-1"></div>
 			</div>
 		</section>
 		<section class="grid md:grid-cols-2 items-center px-4 md:px-0">
 			<div class="flex flex-col items-center">
 				<div
 					data-avatar-reveal
-					class="avatar-reveal hidden md:block relative md:h-80 md:w-80 rounded-full overflow-hidden border-4 border-[#8d7e61]">
+					class="avatar-reveal hidden md:block relative md:h-80 md:w-80 rounded-full overflow-hidden border-4 border-brand-tan">
 					<Image
 						src={me}
 						alt={`Me`}
@@ -157,20 +117,13 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 		<section class="grid md:grid-cols-2 items-center mt-4 px-4 md:px-0">
 			<a
 				href="#contact"
-				class="border-2 border-[#8d7e61] col-start-2 text-center font-semibold text-[#8d7e61] rounded-md p-4 hover:bg-[#72674e] hover:text-white hover:tracking-wider transition-all duration-300"
+				class="border-2 border-brand-tan col-start-2 text-center font-semibold text-brand-tan rounded-md p-4 hover:bg-brand-tan-dark hover:text-white hover:tracking-wider transition-all duration-300"
 				>Say Hi!</a
 			>
 		</section>
 	</article>
 	<article id="fav-lang" class="max-w-5xl w-full mx-auto">
-		<section class="flex items-center gap-2 my-4">
-			<div class="flex gap-2 items-center">
-				<h2 class="text-[#8d7e61] text-2xl font-semibold">
-					Favorite Language
-				</h2>
-			</div>
-			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
-		</section>
+		<SectionHeader title="Favorite Language" />
 		<section class="my-6">
 			<div class="flex justify-between items-center max-w-4xl mx-auto">
 				{
@@ -182,15 +135,7 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 		</section>
 	</article>
 	<article id="experience" class="max-w-5xl w-full mx-auto px-4 md:px-0">
-		<section class="flex items-center gap-2 my-4">
-			<div class="flex gap-2 items-center">
-				<h2 class="text-[#8d7e61] text-2xl font-semibold">
-					Experience
-				</h2>
-			</div>
-			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
-			<div class="w-64 hidden md:block"></div>
-		</section>
+		<SectionHeader title="Experience" spacer />
 		<section class="my-8 relative">
 			{
 				sortedExperiences.map(
@@ -208,32 +153,20 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 	<article
 		id="projects"
 		class="relative max-w-5xl w-full mx-auto overflow-hidden">
-		<!-- <section class="flex items-center gap-2 my-4">
-			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
-			<div class="flex gap-2 items-center">
-				<h2 class="text-[#8d7e61] text-2xl font-semibold">
-					Latest <a
-						href="#"
-						class="text-[#2E5C37] cursor-pointer hover:tracking-wider transition-all duration-300"
-						title="All Projects">Projects</a
-					>
-				</h2>
-			</div>
-			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
-		</section> -->
-		<section class="flex items-center gap-2 my-4">
-			<div class="flex gap-2 items-center">
-				<h2 class="text-[#8d7e61] text-2xl font-semibold">
-					Latest <a
-						href="#"
-						class="text-[#2E5C37] cursor-pointer hover:tracking-wider transition-all duration-300"
-						title="All Projects">Projects</a
-					>
-				</h2>
-			</div>
-			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
-			<div class="w-64 hidden md:block"></div>
-		</section>
+		<!-- <SectionHeader spacer>
+			Latest <a
+				href="#"
+				class="text-brand-green cursor-pointer hover:tracking-wider transition-all duration-300"
+				title="All Projects">Projects</a
+			>
+		</SectionHeader> -->
+		<SectionHeader spacer>
+			Latest <a
+				href="#"
+				class="text-brand-green cursor-pointer hover:tracking-wider transition-all duration-300"
+				title="All Projects">Projects</a
+			>
+		</SectionHeader>
 		<section class="my-6">
 			<div class="hidden lg:flex justify-end w-full mr-12">
 				<HoverMe />
@@ -261,11 +194,11 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 							Checkout out more on my <a
 								href="https://github.com/Fahridanaa"
 								target="_blank"
-								class="text-[#2E5C37] relative inline-block transition-all duration-300 hover:no-underline">
+								class="text-brand-green relative inline-block transition-all duration-300 hover:no-underline">
 								<span class="relative">
 									Github
 									<span
-										class="absolute left-0 bottom-0 w-0 h-[2px] bg-[#2E5C37] transition-all duration-300 group-hover:w-full"
+										class="absolute left-0 bottom-0 w-0 h-[2px] bg-brand-green transition-all duration-300 group-hover:w-full"
 									></span>
 								</span>
 							</a>
@@ -276,25 +209,13 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 		</section>
 	</article>
 	<article id="blog" class="max-w-5xl w-full mx-auto">
-		<section class="flex items-center gap-2 my-4">
-			<div class="flex gap-2 items-center">
-				<h2 class="text-[#8d7e61] text-2xl font-semibold">Blog</h2>
-			</div>
-			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
-			<div class="w-64 hidden md:block"></div>
-		</section>
+		<SectionHeader title="Blog" spacer />
 		<section class="my-6">
 			<p>Some blog content will be here</p>
 		</section>
 	</article>
 	<article id="contact" class="max-w-5xl w-full mx-auto">
-		<section class="flex items-center gap-2 my-4">
-			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
-			<div class="flex gap-2 items-center">
-				<h2 class="text-[#8d7e61] text-2xl font-semibold">Contact</h2>
-			</div>
-			<div class="bg-[#8d7e61] h-[2px] rounded-md my-4 flex-1"></div>
-		</section>
+		<SectionHeader title="Contact" variant="centered" />
 		<h2 class="text-lg font-semibold text-center">Want to Collaborate?</h2>
 		<h2 class="text-4xl font-bold text-center">Let's Have a Chat</h2>
 		<section class="flex flex-col justify-center items-center gap-2">
@@ -305,7 +226,7 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 			</p>
 			<div class="flex gap-2">
 				{
-					social.map((item) => (
+					SOCIAL_LINKS.map((item) => (
 						<SocialButton
 							href={item.href}
 							title={item.title}
@@ -329,7 +250,7 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 		</p>
 	</footer>
 	<Navbar />
-	<SplashScreen languages={languages} />
+	<SplashScreen languages={LANGUAGES} />
 </Layout>
 
 <style>

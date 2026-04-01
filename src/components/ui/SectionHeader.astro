@@ -1,0 +1,24 @@
+---
+interface Props {
+	title?: string;
+	variant?: "default" | "centered";
+	spacer?: boolean;
+}
+
+const { title, variant = "default", spacer = false } = Astro.props;
+---
+
+<section class="flex items-center gap-2 my-4">
+	{variant === "centered" && (
+		<div class="bg-brand-tan h-[2px] rounded-md my-4 flex-1"></div>
+	)}
+	<div class="flex gap-2 items-center">
+		<h2 class="text-brand-tan text-2xl font-semibold">
+			<slot>{title}</slot>
+		</h2>
+	</div>
+	<div class="bg-brand-tan h-[2px] rounded-md my-4 flex-1"></div>
+	{spacer && (
+		<div class="w-64 hidden md:block"></div>
+	)}
+</section>

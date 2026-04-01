@@ -15,9 +15,9 @@ const { frontmatter, slug } = Astro.props as Props;
 
 <Layout title={frontmatter.title}>
 	<header>
-		<div class="h-0.5 bg-[#8d7e61] rounded-full"></div>
+		<div class="h-0.5 bg-brand-tan rounded-full"></div>
 		<div
-			class="fixed top-0 text-[#8d7e61] text-md font-semibold mt-8 hover:-translate-x-1 transition-transform duration-300 ease-in-out">
+			class="fixed top-0 text-brand-tan text-md font-semibold mt-8 hover:-translate-x-1 transition-transform duration-300 ease-in-out">
 			<a href="/">-- Back to home</a>
 		</div>
 	</header>
@@ -25,7 +25,7 @@ const { frontmatter, slug } = Astro.props as Props;
 		<section class="max-w-screen-lg flex flex-col items-start my-8">
 			<div class="w-full flex flex-col gap-2">
 				<div class="flex justify-between">
-					<h1 class="text-3xl font-semibold text-[#2E5C37]">
+					<h1 class="text-3xl font-semibold text-brand-green">
 						{frontmatter.title}
 					</h1>
 					<div class="flex gap-2">
@@ -61,7 +61,7 @@ const { frontmatter, slug } = Astro.props as Props;
 			</div>
 		</section>
 		<section
-			class="w-full pb-4 rounded-md border-b border-[#8d7e61] border-dashed">
+			class="w-full pb-4 rounded-md border-b border-brand-tan border-dashed">
 			<div class="flex flex-wrap gap-2">
 				{
 					frontmatter.stack.map((tech: string) => (
@@ -71,7 +71,7 @@ const { frontmatter, slug } = Astro.props as Props;
 			</div>
 		</section>
 		<section
-			class="relative text-justify text-base leading-relaxed min-w-full mt-2 pb-4 prose-lg prose-ul:list-disc prose-headings:text-[#2E5C37]">
+			class="relative text-justify text-base leading-relaxed min-w-full mt-2 pb-4 prose-lg prose-ul:list-disc prose-headings:text-brand-green">
 			<slot />
 		</section>
 	</article>

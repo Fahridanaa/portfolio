@@ -1,15 +1,11 @@
 import { useEffect } from "react";
 import Typed from "typed.js";
+import { TYPING_STRINGS } from "@/data/site";
 
 export default function TypingAnimation() {
 	useEffect(() => {
 		const typed = new Typed("#typing", {
-			strings: [
-				"Software Engineer",
-				"Frontend Engineer",
-				"Backend Engineer",
-				"FullStack Developer",
-			],
+			strings: TYPING_STRINGS,
 			typeSpeed: 50,
 			backSpeed: 50,
 			backDelay: 2000,
@@ -26,7 +22,7 @@ export default function TypingAnimation() {
 			A&nbsp;
 			<span
 				id="typing"
-				className="inline-block relative text-left text-[#2E5C37] font-semibold"
+				className="inline-block relative text-left text-brand-green font-semibold"
 			></span>
 		</p>
 	);

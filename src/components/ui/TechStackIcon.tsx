@@ -1,4 +1,5 @@
 import React from "react";
+import { iconPath } from "@/utils/icons";
 
 interface TechStackIconProps {
 	iconName: string;
@@ -8,7 +9,7 @@ const TechStackIcon: React.FC<TechStackIconProps> = ({ iconName }) => {
 	return (
 		<div className="shadow-md p-2 rounded-lg flex justify-center items-center bg-white/10 backdrop-blur-sm hover:scale-110 transition-transform duration-300">
 			<img
-				src={`/assets/icons/${iconName.toLowerCase()}.svg`}
+				src={iconPath(iconName)}
 				alt={`${iconName}`}
 				width={24}
 				height={24}
