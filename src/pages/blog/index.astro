@@ -1,8 +1,8 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
+import BlogPaperNav from "@/components/ui/BlogPaperNav.astro";
 import BlogEntryCard from "@/components/ui/BlogEntryCard.astro";
-import SectionHeader from "@/components/ui/SectionHeader.astro";
 import { shouldShowBlogEntry, sortBlogEntries } from "@/utils/blog";
 
 const blogEntries = sortBlogEntries(
@@ -13,13 +13,9 @@ const blogEntries = sortBlogEntries(
 <Layout title="Blog / Fahridana Ahmad Rayyansyah">
 	<div
 		class="notebook-sheet mx-auto min-h-dvh w-full max-w-6xl overflow-hidden px-5 sm:px-8 lg:px-12">
-		<article class="notebook-section mx-auto max-w-5xl">
-			<a
-				href="/"
-				class="ink-button mb-10 inline-flex min-h-11 items-center justify-center rounded-sm bg-brand-paper/90 px-5 py-3 font-black uppercase tracking-normal text-brand-ink transition-[transform,box-shadow,background-color] duration-150 hover:bg-brand-green-soft">
-				Back To Home
-			</a>
+		<BlogPaperNav backHref="/" />
 
+		<article class="notebook-section mx-auto max-w-5xl pt-16">
 			<header class="mb-10 space-y-5">
 				<p class="sketch-label">public notebook</p>
 				<h1
@@ -32,13 +28,11 @@ const blogEntries = sortBlogEntries(
 				</p>
 			</header>
 
-			<SectionHeader title="Newest First" />
-
 			{
 				blogEntries.length > 0 ? (
-					<div class="mt-8 space-y-5">
-						{blogEntries.map((entry) => (
-							<BlogEntryCard entry={entry} />
+					<div class="mt-12 grid gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+						{blogEntries.map((entry, index) => (
+							<BlogEntryCard entry={entry} index={index} />
 						))}
 					</div>
 				) : (

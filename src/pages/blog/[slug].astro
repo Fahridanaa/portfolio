@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import BlogBanner from "@/components/ui/BlogBanner.astro";
+import BlogPaperNav from "@/components/ui/BlogPaperNav.astro";
 import BlogTags from "@/components/ui/BlogTags.astro";
 import {
 	estimateReadingTime,
@@ -31,13 +32,9 @@ const hasBanner = Boolean(entry.data.banner);
 <Layout title={`${entry.data.title} / Blog`}>
 	<div
 		class="notebook-sheet mx-auto min-h-dvh w-full max-w-6xl overflow-hidden px-5 sm:px-8 lg:px-12">
-		<article class="notebook-section mx-auto max-w-5xl">
-			<a
-				href="/blog"
-				class="ink-button mb-10 inline-flex min-h-11 items-center justify-center rounded-sm bg-brand-paper/90 px-5 py-3 font-black uppercase tracking-normal text-brand-ink transition-[transform,box-shadow,background-color] duration-150 hover:bg-brand-green-soft">
-				Back To Blog
-			</a>
+		<BlogPaperNav backHref="/blog" />
 
+		<article class="notebook-section mx-auto max-w-5xl pt-16">
 			<BlogBanner entry={entry} />
 
 			<header
