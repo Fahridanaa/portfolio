@@ -32,13 +32,8 @@
 
   body {
     min-height: 100dvh;
-    background: linear-gradient(
-          90deg,
-          rgba(46, 92, 55, 0.16) 1px,
-          transparent 1px
-        )
-        calc(50% - min(43rem, 48vw)) 0 / 1px 100% no-repeat,
-      linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 28px 28px,
+    background: linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 28px
+        28px,
       linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 28px 28px,
       var(--paper);
     color: var(--ink);
