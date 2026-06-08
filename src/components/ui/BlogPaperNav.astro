@@ -1,0 +1,20 @@
+---
+import { ArrowLeft, Home } from "lucide-react";
+
+interface Props {
+	backHref: string;
+	homeHref?: string;
+}
+
+const { backHref, homeHref = "/" } = Astro.props;
+---
+
+<nav class="paper-tab-nav" aria-label="Blog navigation">
+	<a href={backHref} class="paper-tab paper-tab-back">
+		<ArrowLeft size={16} strokeWidth={3} aria-hidden="true" />
+		<span>Back</span>
+	</a>
+	<a href={homeHref} class="paper-tab paper-tab-home" aria-label="Home">
+		<Home size={17} strokeWidth={3} aria-hidden="true" />
+	</a>
+</nav>
