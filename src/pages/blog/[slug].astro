@@ -1,0 +1,106 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import BlogBanner from "@/components/ui/BlogBanner.astro";
+import BlogTags from "@/components/ui/BlogTags.astro";
+import {
+	estimateReadingTime,
+	formatBlogDate,
+	shouldShowBlogEntry,
+	sortBlogEntries,
+} from "@/utils/blog";
+
+export async function getStaticPaths() {
+	const entries = sortBlogEntries(
+		(await getCollection("blog")).filter(shouldShowBlogEntry)
+	);
+
+	return entries.map((entry) => ({
+		params: { slug: entry.slug },
+		props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
+const readingTime = estimateReadingTime(entry.body);
+const hasBanner = Boolean(entry.data.banner);
+---
+
+<Layout title={`${entry.data.title} / Blog`}>
+	<div
+		class="notebook-sheet mx-auto min-h-dvh w-full max-w-6xl overflow-hidden px-5 sm:px-8 lg:px-12">
+		<article class="notebook-section mx-auto max-w-5xl">
+			<a
+				href="/blog"
+				class="ink-button mb-10 inline-flex min-h-11 items-center justify-center rounded-sm bg-brand-paper/90 px-5 py-3 font-black uppercase tracking-normal text-brand-ink transition-[transform,box-shadow,background-color] duration-150 hover:bg-brand-green-soft">
+				Back To Blog
+			</a>
+
+			<BlogBanner entry={entry} />
+
+			<header
+				class={`${hasBanner ? "mt-8" : "mt-2"} soft-divider mb-8 pb-6`}>
+				<div class="max-w-3xl space-y-5">
+					<p class="sketch-label">notebook entry</p>
+					<h1
+						class="text-pretty text-4xl font-black leading-tight text-brand-ink sm:text-6xl">
+						{entry.data.title}
+					</h1>
+					<p
+						class="max-w-[64ch] break-words text-base leading-relaxed text-brand-graphite sm:text-lg">
+						{entry.data.description}
+					</p>
+					<div class="flex flex-wrap items-center gap-3 text-xs font-black uppercase tracking-normal text-brand-graphite">
+						<time datetime={entry.data.date.toISOString()}>
+							{formatBlogDate(entry.data.date)}
+						</time>
+						<span aria-hidden="true">/</span>
+						<span>{readingTime} min read</span>
+						{entry.data.draft && <span class="sketch-label text-[0.62rem]">draft</span>}
+					</div>
+					<BlogTags tags={entry.data.tags} />
+				</div>
+			</header>
+
+			<div
+				class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-start">
+				<div class="min-w-0">
+					<section
+						class="prose prose-lg max-w-none break-words text-brand-graphite prose-headings:scroll-mt-8 prose-headings:text-brand-ink prose-h2:text-3xl prose-h2:font-black prose-h3:text-2xl prose-h3:font-black prose-a:text-brand-green prose-strong:text-brand-ink prose-ul:list-disc">
+						<Content />
+					</section>
+				</div>
+
+				<aside class="lg:sticky lg:top-8 lg:self-start">
+					<div class="paper-scrap scrap-right p-4">
+						<p class="sketch-label mb-4">on this note</p>
+						{
+							tocHeadings.length > 0 ? (
+								<nav aria-label="Table of contents">
+									<ol class="space-y-2 text-sm font-semibold text-brand-graphite">
+										{tocHeadings.map((heading) => (
+											<li class={heading.depth === 3 ? "pl-4" : ""}>
+												<a
+													href={`#${heading.slug}`}
+													class="hover:text-brand-green hover:underline"
+												>
+													{heading.text}
+												</a>
+											</li>
+										))}
+									</ol>
+								</nav>
+							) : (
+								<p class="text-sm leading-relaxed text-brand-graphite">
+									No headings yet. This note is still short.
+								</p>
+							)
+						}
+					</div>
+				</aside>
+			</div>
+		</article>
+	</div>
+</Layout>

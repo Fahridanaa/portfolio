@@ -1,8 +1,5 @@
-import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { MapPin, Calendar } from "lucide-react";
+import { Calendar, ChevronDown, MapPin } from "lucide-react";
 import type { ExperienceMeta } from "@/models/experience";
-import { iconPath } from "@/utils/icons";
 
 interface ExperienceProps {
   experience: ExperienceMeta;
@@ -10,160 +7,81 @@ interface ExperienceProps {
 }
 
 export default function ExperienceCard({ experience, index }: ExperienceProps) {
-  const [isVisible, setIsVisible] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const isReverse = index % 2 !== 0;
-
-  // Get tech stack icons for decoration (max 2), deduped
-  const decorativeIcons = [...new Set(
-    experience.techStack.slice(0, 2).map(iconPath)
-  )];
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
-      }
-    };
-  }, []);
-
-  const cardVariants = {
-    hidden: {
-      opacity: 0,
-      x: isReverse ? 50 : -50,
-    },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
-  };
+  const noteTilt = index % 2 === 0 ? "note-left" : "note-right";
+  const previewTech = experience.techStack.slice(0, 2);
+  const hiddenPreviewCount = experience.techStack.length - previewTech.length;
 
   return (
-    <div ref={cardRef} className="relative flex items-center gap-8 mb-12">
-      {/* Timeline line and dot - only show on desktop */}
-      <div className="hidden md:flex absolute left-1/2 top-0 bottom-0 -translate-x-1/2 flex-col items-center">
-        <div className="w-4 h-4 rounded-full bg-brand-tan border-4 border-brand-cream z-10 mt-6"></div>
-        <div className="w-[2px] h-full bg-brand-tan-light"></div>
-      </div>
+    <details className={`experience-entry ${noteTilt}`}>
+      <summary className="experience-row">
+        <time className="experience-year" dateTime={experience.date.toISOString()}>
+          {experience.startDate}
+        </time>
 
-      {/* Mobile timeline dot (left side) */}
-      <div className="md:hidden absolute left-0 top-6">
-        <div className="w-3 h-3 rounded-full bg-brand-tan border-2 border-brand-cream"></div>
-      </div>
-
-      {/* Decorative tech stack icons on opposite side - only show on desktop */}
-      <div
-        className={`hidden md:flex absolute ${
-          isReverse ? "left-0" : "right-0"
-        } top-1/2 -translate-y-1/2 ${
-          isReverse ? "justify-start" : "justify-end"
-        } w-[calc(50%-2rem)] pointer-events-none`}
-      >
-        <div className="relative w-full h-96">
-          {decorativeIcons.map((icon, idx) => (
-            <img
-              key={idx}
-              src={icon}
-              alt=""
-              className={`absolute w-48 h-48 object-contain opacity-[0.08] ${
-                idx === 0 ? "animate-spin-slow top-0 right-0" : "animate-spin-slower bottom-0 left-0"
-              }`}
-              style={{
-                animationDirection: idx % 2 === 0 ? "normal" : "reverse",
-              }}
-            />
-          ))}
+        <div className="min-w-0">
+          <h3 className="truncate text-base font-black leading-tight text-brand-ink sm:text-lg">
+            {experience.role}
+          </h3>
+          <p className="mt-1 truncate text-sm font-bold text-brand-green">
+            {experience.company}
+          </p>
         </div>
-      </div>
 
-      {/* Card container */}
-      <motion.div
-        variants={cardVariants}
-        initial="hidden"
-        animate={isVisible ? "visible" : "hidden"}
-      >
-        <div
-          className={`md:w-[calc(50%-2rem)] ${
-            isReverse ? "md:ml-auto" : "md:mr-auto"
-          } ml-6 md:ml-0`}
-        >
-          <div className="group/card relative bg-[#f9f5ec] border-2 border-brand-tan-light rounded-md p-6 hover:shadow-lg transition-all duration-300">
-          {/* Company logo and header */}
-          <div className="flex items-start gap-4 mb-4">
-            <div className="flex-shrink-0">
-              <img
-                src={experience.logo}
-                alt={`${experience.company} logo`}
-                className="w-16 h-16 rounded-lg object-contain bg-white p-2 border border-brand-tan-light"
-              />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-xl font-bold text-[#594C40] mb-1">
-                {experience.role}
-              </h3>
-              <p className="text-brand-tan font-semibold mb-1">
-                {experience.company}
-              </p>
-              <p className="text-sm text-brand-tan-dark">{experience.type}</p>
-            </div>
-          </div>
+        <div className="experience-stack-preview">
+          {previewTech.map((tech) => (
+            <span
+              key={tech}
+              className="depth-chip rounded-sm bg-brand-paper/80 px-2 py-1 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-ink"
+            >
+              {tech}
+            </span>
+          ))}
+          {hiddenPreviewCount > 0 && (
+            <span className="depth-chip rounded-sm bg-brand-green-soft px-2 py-1 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-ink">
+              +{hiddenPreviewCount}
+            </span>
+          )}
+        </div>
 
-          {/* Meta information */}
-          <div className="flex flex-wrap gap-4 mb-4 text-sm text-brand-tan-dark">
-            <div className="flex items-center gap-1">
-              <Calendar className="w-4 h-4" />
-              <span>
-                {experience.startDate} - {experience.endDate}
-              </span>
-            </div>
-            <div className="flex items-center gap-1">
-              <MapPin className="w-4 h-4" />
-              <span>
-                {experience.location}
-                {experience.isRemote && " · Remote"}
-              </span>
-            </div>
-          </div>
+        <span className="experience-cue" aria-hidden="true">
+          <ChevronDown className="h-4 w-4" />
+        </span>
+      </summary>
 
-          {/* Summary */}
-          <p className="text-[#594C40] leading-relaxed mb-4">
+      <div className="experience-note">
+        <div className="experience-note-pin" aria-hidden="true"></div>
+        <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs font-semibold text-brand-graphite">
+          <span className="inline-flex items-center gap-1">
+            <Calendar className="h-3.5 w-3.5" aria-hidden="true" />
+            {experience.startDate} - {experience.endDate}
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
+            {experience.location}
+            {experience.isRemote && " / Remote"}
+          </span>
+          <span className="font-bold text-brand-green">{experience.type}</span>
+        </div>
+
+        <div className="mt-3 grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
+          <p className="break-words text-sm leading-relaxed text-brand-graphite">
             {experience.summary}
           </p>
 
-          {/* Tech stack */}
           {experience.techStack.length > 0 && (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex max-w-sm flex-wrap gap-2 md:justify-end">
               {experience.techStack.map((tech) => (
-                <div
+                <span
                   key={tech}
-                  className="px-3 py-1 bg-white border border-brand-tan-light rounded-full text-xs font-semibold text-brand-tan"
+                  className="depth-chip rounded-sm bg-brand-paper/80 px-2 py-1 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-ink"
                 >
                   {tech}
-                </div>
+                </span>
               ))}
             </div>
           )}
-          </div>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </details>
   );
 }

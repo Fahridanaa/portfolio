@@ -18,20 +18,13 @@ const ProjectButton: React.FC<ProjectButtonProps> = ({
 }) => {
   return (
     <a
-      className="flex justify-center items-center"
+      className="ink-button inline-flex min-h-9 items-center justify-center gap-2 rounded-sm bg-brand-green px-3 py-1.5 text-xs font-black uppercase tracking-normal text-white transition-[transform,box-shadow,background-color] duration-150"
       href={href}
-      target={isNewTab ? "_blank" : ""}
+      target={isNewTab ? "_blank" : undefined}
       rel={isNewTab ? "noopener noreferrer" : undefined}
     >
-      <button className="flex items-center justify-center font-semibold px-2 py-1 gap-2 border-1 border-brand-tan bg-brand-tan rounded text-[#ffffff] transition-all duration-300 hover:text-white hover:scale-105 hover:shadow-lg">
-        {Icon && (
-          <Icon
-            size={24}
-            className="transition-transform duration-300 hover:rotate-12"
-          />
-        )}
-        {text}
-      </button>
+      {Icon && <Icon size={16} strokeWidth={2} aria-hidden="true" />}
+      <span className="break-words text-center leading-tight">{text}</span>
     </a>
   );
 };

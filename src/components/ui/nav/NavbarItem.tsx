@@ -38,25 +38,33 @@ export default function NavbarItem({ href, label }: Props) {
 	}, [sectionId]);
 
 	return (
-		<motion.div
-			className="nav-item p-1 lg:px-2 rounded-lg cursor-pointer"
+		<motion.a
+			href={href}
+			aria-current={isActive ? "location" : undefined}
+			className={`flex min-h-9 items-center justify-between gap-3 rounded-md px-3 py-2 text-xs font-black uppercase tracking-normal transition-[background-color,color,box-shadow] duration-200 ${
+				isActive
+					? "depth-control bg-brand-highlighter text-brand-ink"
+					: "depth-chip bg-white/45 text-brand-graphite hover:bg-white/80 hover:text-brand-ink"
+			}`}
 			animate={{
-				scale: isActive ? 1.25 : 1,
+				x: isActive ? -4 : 0,
 				opacity: isActive ? 1 : 0.7,
 			}}
 			whileHover={{
-				scale: 1.25,
+				x: -4,
 				opacity: 1,
 			}}
 			transition={{
-				duration: 0.3,
+				duration: 0.2,
 				type: "spring",
 				stiffness: 300,
 			}}
 		>
-			<a href={href} className="hidden xl:block">
-				{label}
-			</a>
-		</motion.div>
+			<span
+				className="h-2 w-2 bg-current shadow-[0_1px_2px_rgba(36,49,42,0.24)]"
+				aria-hidden="true"
+			/>
+			<span>{label}</span>
+		</motion.a>
 	);
 }

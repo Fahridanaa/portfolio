@@ -1,0 +1,56 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import BlogEntryCard from "@/components/ui/BlogEntryCard.astro";
+import SectionHeader from "@/components/ui/SectionHeader.astro";
+import { shouldShowBlogEntry, sortBlogEntries } from "@/utils/blog";
+
+const blogEntries = sortBlogEntries(
+	(await getCollection("blog")).filter(shouldShowBlogEntry)
+);
+---
+
+<Layout title="Blog / Fahridana Ahmad Rayyansyah">
+	<div
+		class="notebook-sheet mx-auto min-h-dvh w-full max-w-6xl overflow-hidden px-5 sm:px-8 lg:px-12">
+		<article class="notebook-section mx-auto max-w-5xl">
+			<a
+				href="/"
+				class="ink-button mb-10 inline-flex min-h-11 items-center justify-center rounded-sm bg-brand-paper/90 px-5 py-3 font-black uppercase tracking-normal text-brand-ink transition-[transform,box-shadow,background-color] duration-150 hover:bg-brand-green-soft">
+				Back To Home
+			</a>
+
+			<header class="mb-10 space-y-5">
+				<p class="sketch-label">public notebook</p>
+				<h1
+					class="max-w-[11ch] text-pretty text-5xl font-black leading-[0.98] text-brand-ink sm:text-6xl">
+					Blog Notes
+				</h1>
+				<p class="max-w-[62ch] text-lg leading-relaxed text-brand-graphite">
+					Casual notes, small thoughts, debugging stories, and things I want
+					to remember out loud.
+				</p>
+			</header>
+
+			<SectionHeader title="Newest First" />
+
+			{
+				blogEntries.length > 0 ? (
+					<div class="mt-8 space-y-5">
+						{blogEntries.map((entry) => (
+							<BlogEntryCard entry={entry} />
+						))}
+					</div>
+				) : (
+					<div class="paper-scrap scrap-left mt-8 max-w-2xl p-6">
+						<p class="sketch-label mb-4">empty page</p>
+						<p class="text-lg leading-relaxed text-brand-graphite">
+							No public notes yet. Drafts can stay here quietly until they are
+							ready.
+						</p>
+					</div>
+				)
+			}
+		</article>
+	</div>
+</Layout>

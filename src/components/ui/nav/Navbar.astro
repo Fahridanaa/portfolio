@@ -3,15 +3,16 @@ import NavbarItem from "./NavbarItem.tsx";
 ---
 
 <nav
-	class="h-fit fixed right-3 lg:right-5 top-1/2 -translate-y-[50%] z-20 flex flex-col gap-8">
-	<div class="container flex justify-center">
-		<div class="flex flex-col gap-3">
+	class="fixed right-3 top-1/2 z-20 hidden -translate-y-1/2 flex-col gap-8 lg:right-5 lg:flex"
+	aria-label="Page sections">
+	<div class="flex justify-center">
+		<div
+			class="paper-scrap flex flex-col gap-1 bg-brand-paper/95 p-2 shadow-paper-sm">
 			<NavbarItem href="#hero" label="Home" client:load />
 			<NavbarItem href="#about-me" label="About" client:load />
-			<!-- <NavbarItem href="#tech-stack" label="Tech Stack" client:load /> -->
-			<NavbarItem href="#experience" label="Experience" client:load />
-			<NavbarItem href="#projects" label="Projects" client:load />
 			<NavbarItem href="#blog" label="Blog" client:load />
+			<NavbarItem href="#experience" label="Experience" client:load />
+			<!-- <NavbarItem href="#projects" label="Projects" client:load /> -->
 			<NavbarItem href="#contact" label="Contact" client:load />
 		</div>
 	</div>

@@ -5,8 +5,9 @@ const { href, target = "_blank", title, ariaLabel, icon: Icon } = Astro.props;
 <a
 	href={href}
 	target={target}
-	class="flex items-center justify-center w-8 h-8 border-2 border-brand-tan rounded text-brand-tan transition-transform duration-300 ease-in-out hover:-translate-y-1"
+	rel={target === "_blank" ? "noopener noreferrer" : undefined}
+	class="glued-social flex h-12 w-12 items-center justify-center rounded-sm"
 	title={title}
 	aria-label={ariaLabel}>
-	<Icon />
+	<Icon size={25} strokeWidth={2.25} aria-hidden="true" />
 </a>

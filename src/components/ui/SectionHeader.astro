@@ -8,17 +8,20 @@ interface Props {
 const { title, variant = "default", spacer = false } = Astro.props;
 ---
 
-<section class="flex items-center gap-2 my-4">
+<section
+	class={`section-heading flex items-center gap-3 ${variant === "centered" ? "justify-center" : ""} ${spacer ? "md:pr-56" : ""}`}>
 	{variant === "centered" && (
-		<div class="bg-brand-tan h-[2px] rounded-md my-4 flex-1"></div>
+		<div class="soft-rule hidden flex-1 md:block"></div>
 	)}
-	<div class="flex gap-2 items-center">
-		<h2 class="text-brand-tan text-2xl font-semibold">
+	<div class="flex min-w-0 items-center gap-3">
+		<span
+			class="depth-chip hidden h-4 w-4 rotate-3 rounded-sm bg-brand-highlighter sm:block"
+			aria-hidden="true">
+		</span>
+		<h2
+			class="text-pretty text-2xl font-black uppercase tracking-normal text-brand-ink sm:text-3xl">
 			<slot>{title}</slot>
 		</h2>
 	</div>
-	<div class="bg-brand-tan h-[2px] rounded-md my-4 flex-1"></div>
-	{spacer && (
-		<div class="w-64 hidden md:block"></div>
-	)}
+	<div class="soft-rule flex-1"></div>
 </section>

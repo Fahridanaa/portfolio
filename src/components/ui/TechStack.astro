@@ -13,7 +13,7 @@ const { tech, size, isLazy = true, title } = Astro.props;
 ---
 
 <div
-	class={`flex flex-col justify-center items-center gap-2 group text-brand-tan transition-all duration-300 hover:scale-110 ${size === "small" ? "px-2 py-1" : ""} ${size === "medium" ? "px-3 py-2" : ""} ${size === "large" ? "px-6 py-3" : ""}`}
+	class={`paper-lift depth-control flex flex-col items-center justify-center gap-2 rounded-md bg-white/70 text-brand-ink ${size === "small" ? "px-2 py-1" : ""} ${size === "medium" ? "px-3 py-2" : ""} ${size === "large" ? "px-4 py-3 sm:px-6" : ""}`}
 	title={title ? title : tech}>
 	<div class="relative">
 		<Image
@@ -22,11 +22,11 @@ const { tech, size, isLazy = true, title } = Astro.props;
 			width={size === "large" ? 64 : size === "medium" ? 40 : 32}
 			height={size === "large" ? 64 : size === "medium" ? 40 : 32}
 			loading={isLazy ? "lazy" : "eager"}
-			class="transition-transform duration-300 group-hover:rotate-6"
+			class="transition-transform duration-200 hover:rotate-3"
 		/>
 	</div>
 	<p
-		class={`text-center font-medium ${size === "small" ? "text-xs" : ""} ${size === "medium" ? "text-sm" : ""} ${size === "large" ? "text-base" : ""}`}>
+		class={`text-center font-black uppercase tracking-normal ${size === "small" ? "text-[0.65rem]" : ""} ${size === "medium" ? "text-xs" : ""} ${size === "large" ? "text-sm" : ""}`}>
 		{tech}
 	</p>
 </div>

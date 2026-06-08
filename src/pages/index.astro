@@ -2,20 +2,24 @@
 import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
 import Navbar from "@/components/ui/nav/Navbar.astro";
-import TypingAnimation from "@/components/ui/TypingAnimation";
 import SocialButton from "@/components/ui/SocialButton.astro";
 import cat from "@/../public/assets/hero-section-animation.gif";
 import me from "@/../public/assets/me.jpg";
 import ProjectCard from "@/components/ui/ProjectCard";
 import ExperienceCard from "@/components/ui/ExperienceCard";
-import TechStack from "@/components/ui/TechStack.astro";
 import { getCollection } from "astro:content";
 import type { Project } from "@/models/project";
 import type { Experience } from "@/models/experience";
-import SplashScreen from "@/components/SplashScreen.astro";
-import HoverMe from "@/components/HoverMe.astro";
-import { SOCIAL_LINKS, LANGUAGES } from "@/data/site";
+import { SOCIAL_LINKS } from "@/data/site";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
+import BlogTags from "@/components/ui/BlogTags.astro";
+import {
+	estimateReadingTime,
+	formatBlogDate,
+	shouldShowBlogEntry,
+	sortBlogEntries,
+} from "@/utils/blog";
+import { ArrowDown } from "lucide-react";
 
 const personalProjects = await getCollection("projects");
 const sortedPersonalProjects = personalProjects.sort(
@@ -23,28 +27,73 @@ const sortedPersonalProjects = personalProjects.sort(
 );
 const latestPersonalProjects = sortedPersonalProjects.slice(0, 3);
 
+const blogEntries = sortBlogEntries(
+	(await getCollection("blog")).filter(shouldShowBlogEntry)
+);
+const homepageBlogEntries = blogEntries.slice(0, 5);
+const homepageBlogPlaceholders = Array.from({
+	length: Math.max(0, 5 - homepageBlogEntries.length),
+});
+const stickyNoteClasses = [
+	"sticky-note-left",
+	"sticky-note-center",
+	"sticky-note-right",
+	"sticky-note-blue-left",
+	"sticky-note-pink-center",
+	"sticky-note-yellow-right",
+];
+
 const experiences = await getCollection("experiences");
 const sortedExperiences = experiences.sort((a: Experience, b: Experience) =>
 	a.data.date > b.data.date ? -1 : 1
 );
 
-const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
+const currentYear = new Date().getFullYear();
 ---
 
 <Layout title="Fahridana Ahmad Rayyansyah">
-	<article id="hero" class="max-w-5xl w-full mx-auto">
-		<section class="min-h-dvh flex flex-col justify-center items-center">
-			<div
-				class="w-full flex flex-col-reverse items-center sm:flex-row justify-between sm:items-stretch">
-				<div class="max-w-2xl flex flex-col justify-evenly mb-4">
-					<div class="text-md sm:text-2xl lg:text-4xl">
-						<h1>
-							Hi,<span class="wave">👋</span> I'm Fahridana Ahmad Rayyansyah,
+	<div
+		class="notebook-sheet mx-auto min-h-dvh w-full max-w-6xl overflow-hidden px-5 sm:px-8 lg:px-12">
+		<!-- <span
+			class="pixel-sticker pixel-sticker-bug right-12 top-24 scale-[1.6] rotate-6"
+			aria-hidden="true">
+		</span> -->
+		<!-- <span
+			class="pixel-sticker pixel-sticker-star left-10 top-[34rem] scale-125 -rotate-6"
+			aria-hidden="true">
+		</span> -->
+
+		<article
+			id="hero"
+			class="notebook-section flex min-h-[100dvh] items-center">
+			<section
+				class="grid w-full items-center gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(300px,0.95fr)]">
+				<div class="min-w-0 space-y-8">
+					<div class="space-y-5">
+						<h1
+							class="max-w-[11ch] text-4xl text-pretty font-black leading-[0.98] text-brand-ink sm:max-w-[13ch] sm:text-6xl lg:text-7xl">
+							Hi, I'm <span class="text-nowrap"><span class="ink-underline font-black text-brand-green">Fahri</span>dana</span> Ahmad Rayyansyah
 						</h1>
-						<TypingAnimation client:visible />
-						<p class="text-brand-tan">Proud Bug Maker & Solver</p>
+						<div
+							class="text-2xl font-semibold leading-snug text-brand-graphite sm:text-3xl">
+							<p>
+								A <span class="font-black line-through inline-block">
+									Software Developer
+								</span>
+								<span class="ink-underline font-black text-brand-green">
+								  Bug Maker & Solver
+								</span>
+							</p>
+							<!-- <p class="mt-2 text-brand-ink">Proud Bug Maker & Solver</p> -->
+						</div>
 					</div>
-					<div class="flex gap-2">
+					<!-- <p
+						class="max-w-[58ch] break-words text-lg leading-relaxed text-brand-graphite sm:text-xl">
+						I make things on the internet, break them a little, then make
+						them behave. This notebook is where the finished bits, rough
+						edges, and favorite experiments live.
+					</p> -->
+					<div class="flex flex-wrap gap-3" aria-label="Social links">
 						{
 							SOCIAL_LINKS.map((item) => (
 								<SocialButton
@@ -57,257 +106,321 @@ const favoredLanguages = ["PHP", "Typescript", "Python", "Go"];
 						}
 					</div>
 				</div>
-				<Image
-					width={300}
-					height={219}
-					src={cat}
-					alt="A pixel animation featuring a black cat with a waving tail sitting on grass. The black cat has yellow eyes and is wearing a red collar with a gold bell."
-					class={`hover:-translate-y-2 transition-transform`}
-					loading={"eager"}
-				/>
-			</div>
-			<div class="absolute bottom-6 left-1/2 -translate-x-1/2">
-				<a
-					href="#about-me"
-					class="arrow-down"
-					aria-label="arrow-down"
-					title="arrow-down">
-				</a>
-			</div>
-		</section>
-	</article>
-	<article id="about-me" class="max-w-5xl w-full mx-auto">
-		<section class="grid md:grid-cols-2 items-center px-4 my-4 md:px-0">
-			<div></div>
-			<div class="flex gap-2 items-center">
-				<h2 class="text-brand-tan text-2xl font-semibold">About Me</h2>
-				<div class="bg-brand-tan h-[2px] rounded-md my-4 flex-1"></div>
-			</div>
-		</section>
-		<section class="grid md:grid-cols-2 items-center px-4 md:px-0">
-			<div class="flex flex-col items-center">
-				<div
-					data-avatar-reveal
-					class="avatar-reveal hidden md:block relative md:h-80 md:w-80 rounded-full overflow-hidden border-4 border-brand-tan">
-					<Image
-						src={me}
-						alt={`Me`}
-						loading={`eager`}
-						width={2048}
-						height={2048}
-						class="w-full h-full object-cover"
-					/>
+
+				<div class="relative min-h-[26rem]">
+					<div class="absolute right-0 top-4 w-full max-w-md">
+						<div class="camera-print">
+							<span class="camera-pin" aria-hidden="true"></span>
+							<Image
+								width={600}
+								height={438}
+								src={cat}
+								alt="A pixel animation featuring a black cat with a waving tail sitting on grass."
+								class="pixelated h-auto w-full"
+								loading="eager"
+							/>
+							<p class="camera-caption">cat</p>
+						</div>
+						<!-- <div
+							class="flex items-center justify-between gap-3 px-1 pt-3 font-mono text-xs font-bold uppercase tracking-normal text-brand-graphite">
+							<span>debugging assistant</span>
+							<span>printed note</span>
+						</div> -->
+					</div>
+					<div
+						class="sticky-note absolute bottom-2 left-0 max-w-64 p-5 text-sm font-semibold leading-relaxed text-brand-ink">
+						<p>
+							Ship the thing, learn from the mess, keep the notes readable.
+						</p>
+					</div>
 				</div>
-			</div>
-			<div class="flex flex-col items-center">
-				<p class="text-base md:text-lg leading-loose mb-3 text-justify">
-					I build things on the internet and enjoy solving problems.
-					Watching something grow from nothing feels meaningful to me.
-					I don't chase fancy solutions—just things that make sense
-					and actually work. My work moves between frontend, backend,
-					and everything in between, and I like understanding things
-					at their core rather than forcing complicated fixes.
-				</p>
-				<p class="text-base md:text-lg leading-loose mb-6 text-justify">
-					When I'm not coding, I usually play games like Roblox or Factorio, explore new interests, or just take time to think.
-					It keeps me balanced and helps me stay curious.
-				</p>
-			</div>
-		</section>
-		<section class="grid md:grid-cols-2 items-center mt-4 px-4 md:px-0">
+			</section>
+
 			<a
-				href="#contact"
-				class="border-2 border-brand-tan col-start-2 text-center font-semibold text-brand-tan rounded-md p-4 hover:bg-brand-tan-dark hover:text-white hover:tracking-wider transition-all duration-300"
-				>Say Hi!</a
-			>
-		</section>
-	</article>
-	<article id="fav-lang" class="max-w-5xl w-full mx-auto">
-		<SectionHeader title="Favorite Language" />
-		<section class="my-6">
-			<div class="flex justify-between items-center max-w-4xl mx-auto">
-				{
-					favoredLanguages.map((tech: string) => (
-						<TechStack tech={tech} size="large" />
-					))
-				}
-			</div>
-		</section>
-	</article>
-	<article id="experience" class="max-w-5xl w-full mx-auto px-4 md:px-0">
-		<SectionHeader title="Experience" spacer />
-		<section class="my-8 relative">
-			{
-				sortedExperiences.map(
-					(experience: Experience, index: number) => (
-						<ExperienceCard
-							experience={experience.data}
-							index={index}
-							client:visible
-						/>
-					)
-				)
-			}
-		</section>
-	</article>
-	<article
-		id="projects"
-		class="relative max-w-5xl w-full mx-auto overflow-hidden">
-		<!-- <SectionHeader spacer>
-			Latest <a
-				href="#"
-				class="text-brand-green cursor-pointer hover:tracking-wider transition-all duration-300"
-				title="All Projects">Projects</a
-			>
-		</SectionHeader> -->
-		<SectionHeader spacer>
-			Latest <a
-				href="#"
-				class="text-brand-green cursor-pointer hover:tracking-wider transition-all duration-300"
-				title="All Projects">Projects</a
-			>
-		</SectionHeader>
-		<section class="my-6">
-			<div class="hidden lg:flex justify-end w-full mr-12">
-				<HoverMe />
-			</div>
-			<div class="flex flex-col justify-center items-center">
-				{
-					latestPersonalProjects.map(
-						(project: Project, index: number) => (
-							<>
+				href="#about-me"
+				class="notebook-arrow hidden absolute bottom-8 left-1/2 sm:flex h-12 w-12 -translate-x-1/2 items-center justify-center text-brand-ink"
+				aria-label="Go to about section">
+				<ArrowDown size={24} strokeWidth={3} aria-hidden="true" />
+			</a>
+		</article>
+
+		<article id="about-me" class="notebook-section">
+			<section
+				class="mx-auto grid max-w-5xl items-center gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+				<div class="relative mx-auto w-full max-w-sm">
+					<div>
+						<div class="camera-print">
+							<span class="camera-pin" aria-hidden="true"></span>
+							<Image
+								src={me}
+								alt="Portrait of Fahridana Ahmad Rayyansyah"
+								loading="eager"
+								width={2048}
+								height={2048}
+								class="aspect-square w-full rounded-sm object-cover"
+							/>
+							<p class="camera-caption">me</p>
+						</div>
+						<!-- <div
+							class="mt-3 flex items-center justify-between gap-3 text-xs font-black uppercase tracking-normal text-brand-graphite">
+							<span>still learning</span>
+							<span>portrait print</span>
+						</div> -->
+						<div
+							class="sticky-note absolute -bottom-8 -left-4 rotate-12 max-w-64 p-5 text-sm font-semibold leading-relaxed text-brand-ink">
+							<p>
+							  This is me :)
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="min-w-0 space-y-6 h-full relative flex flex-col">
+					<SectionHeader title="About Me" />
+					<div
+						class="space-y-5 text-lg leading-relaxed text-brand-graphite sm:text-xl flex-1">
+						<p>
+						  I don't know what should i write.
+						</p>
+						<p>
+						  I will keep it like this for now.
+						</p>
+						<p>A Human.</p>
+						<span class="text-sm">wow, what a surprise. I thought you were a fish</span>
+						<!-- <p>
+							I build things on the internet and enjoy solving problems.
+							Watching something grow from nothing still feels meaningful to
+							me.
+						</p> -->
+						<!-- <p>
+							I do not chase fancy solutions just to look clever. I like
+							things that make sense, actually work, and are easy enough to
+							explain on paper.
+						</p> -->
+					</div>
+					<!-- <a
+						href="#contact"
+						class="ink-button inline-flex min-h-11 items-center justify-center rounded-sm bg-brand-highlighter px-5 py-3 font-black uppercase tracking-normal text-brand-ink transition-[transform,box-shadow,background-color] duration-150">
+						Say Hi
+					</a> -->
+				</div>
+			</section>
+		</article>
+
+		<article id="blog" class="notebook-section compact-section">
+			<section class="mx-auto max-w-5xl">
+				<div class="mb-6">
+					<div>
+						<SectionHeader title="Latest Note" />
+						<p class="mt-4 max-w-[58ch] text-base leading-relaxed text-brand-graphite">
+							One casual note from the public notebook. The full stack of notes
+							lives on its own page.
+						</p>
+					</div>
+				</div>
+				<div class="mt-8 grid gap-5 md:grid-cols-3">
+					{
+						homepageBlogEntries.map((entry, index) => {
+							const readingTime = estimateReadingTime(entry.body);
+							const tiltClass = stickyNoteClasses[index];
+
+							return (
+								<article class={`sticky-note ${tiltClass} flex min-h-64 flex-col p-5`}>
+									<div class="relative z-[1] flex flex-1 flex-col gap-4">
+										<div class="flex flex-wrap items-center gap-2 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
+											<time datetime={entry.data.date.toISOString()}>
+												{formatBlogDate(entry.data.date)}
+											</time>
+											<span aria-hidden="true">/</span>
+											<span>{readingTime} min read</span>
+										</div>
+										<div class="space-y-3">
+											<h3 class="text-pretty text-2xl font-black leading-tight text-brand-ink">
+												<a href={`/blog/${entry.slug}`} class="hover:underline">
+													{entry.data.title}
+												</a>
+											</h3>
+											<p class="compact-copy break-words text-sm leading-relaxed text-brand-graphite">
+												{entry.data.description}
+											</p>
+										</div>
+										<div class="mt-auto space-y-4">
+											<BlogTags tags={entry.data.tags} size="small" />
+											<a
+												href={`/blog/${entry.slug}`}
+												class="font-mono text-xs font-black uppercase tracking-normal text-brand-green underline decoration-2 underline-offset-4 hover:text-brand-ink"
+											>
+												Read Note
+											</a>
+										</div>
+									</div>
+								</article>
+							);
+						})
+					}
+					{
+						homepageBlogPlaceholders.map((_, index) => {
+							const slotIndex = homepageBlogEntries.length + index;
+							const tiltClass = stickyNoteClasses[slotIndex];
+
+							return (
+								<article class={`sticky-note ${tiltClass} flex min-h-64 flex-col p-5`}>
+									<div class="relative z-[1] flex flex-1 flex-col justify-between gap-4">
+										<p class="font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
+											empty sticky
+										</p>
+										<div class="space-y-3">
+											<h3 class="text-pretty text-3xl font-black leading-tight text-brand-ink">
+												Soon
+											</h3>
+											<p class="break-words text-sm leading-relaxed text-brand-graphite">
+												A note is still being scribbled. It can stay messy until it is ready.
+											</p>
+										</div>
+										<p class="font-mono text-xs font-black uppercase tracking-normal text-brand-green">
+											draft pile
+										</p>
+									</div>
+								</article>
+							);
+						})
+					}
+					<div class="sticky-note-stack min-h-64">
+						<span class="sticky-note-stack-layer sticky-note-stack-layer-back" aria-hidden="true"></span>
+						<span class="sticky-note-stack-layer sticky-note-stack-layer-mid" aria-hidden="true"></span>
+						<a
+							href="/blog"
+							class={`sticky-note ${stickyNoteClasses[5]} sticky-note-nav sticky-note-stack-top flex min-h-52 flex-col justify-between p-5 text-brand-ink`}
+						>
+							<p class="relative z-[1] font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
+								note index
+							</p>
+							<div class="relative z-[1] space-y-3">
+								<h3 class="text-pretty text-2xl font-black leading-tight">
+									All Notes
+								</h3>
+								<p class="text-sm leading-relaxed text-brand-graphite">
+									Open the full stack of public notebook entries.
+								</p>
+							</div>
+							<p class="relative z-[1] font-mono text-xs font-black uppercase tracking-normal text-brand-green">
+								open list
+							</p>
+						</a>
+					</div>
+				</div>
+			</section>
+		</article>
+
+		<article id="experience" class="notebook-section compact-section">
+			<section class="mx-auto max-w-5xl">
+				<SectionHeader title="Experience" spacer />
+				<p class="mt-4 max-w-[58ch] text-base leading-relaxed text-brand-graphite">
+					A compact résumé sheet of places, roles, and tools that shaped how I
+					work.
+				</p>
+				<div class="experience-list mt-6">
+					{
+						sortedExperiences.map(
+							(experience: Experience, index: number) => (
+								<div class="experience-item">
+									<ExperienceCard
+										experience={experience.data}
+										index={index}
+									/>
+								</div>
+							)
+						)
+					}
+				</div>
+			</section>
+		</article>
+
+		<!-- <article id="projects" class="notebook-section compact-section">
+			<section class="mx-auto max-w-5xl">
+				<div class="mb-6 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+					<div>
+						<SectionHeader title="Latest Projects" />
+						<p
+							class="mt-4 max-w-[58ch] text-base leading-relaxed text-brand-graphite">
+							Small notes from things I have built, rebuilt, debugged, and kept
+							around.
+						</p>
+					</div>
+					<a
+						href="https://github.com/Fahridanaa"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="ink-button inline-flex min-h-11 items-center justify-center rounded-sm bg-brand-paper/90 px-5 py-3 font-black uppercase tracking-normal text-brand-ink transition-[transform,box-shadow,background-color] duration-150 hover:bg-brand-green-soft">
+						More On GitHub
+					</a>
+				</div>
+				<div>
+					{
+						latestPersonalProjects.map(
+							(project: Project, index: number) => (
 								<ProjectCard
 									project={project.data}
 									href={`/assets/projects/${project.slug}/cover.webp`}
 									isReverse={index % 2 === 0}
-									client:load
 								/>
-							</>
+							)
 						)
-					)
-				}
-				<!-- <div class="text-center text-2xl my-16">
-					<div
-						class="flex justify-center items-center w-full h-full"
-						style="opacity: 1; transform: none; will-change: auto;">
-						<p>
-							Checkout out more on my <a
-								href="https://github.com/Fahridanaa"
-								target="_blank"
-								class="text-brand-green relative inline-block transition-all duration-300 hover:no-underline">
-								<span class="relative">
-									Github
-									<span
-										class="absolute left-0 bottom-0 w-0 h-[2px] bg-brand-green transition-all duration-300 group-hover:w-full"
-									></span>
-								</span>
-							</a>
-						</p>
+					}
+				</div>
+			</section>
+		</article> -->
+
+		<article id="contact" class="notebook-section">
+			<section class="mx-auto max-w-3xl text-center">
+				<SectionHeader title="Contact" variant="centered" />
+				<div class="mt-8 space-y-5">
+					<p class="sketch-label mx-auto">open notebook</p>
+					<h2
+						class="text-pretty text-4xl font-black leading-tight text-brand-ink sm:text-6xl">
+						Got a weird idea?
+					</h2>
+					<p class="mx-auto max-w-[50ch] text-lg leading-relaxed text-brand-graphite">
+						Send it over. I am always open to small experiments, practical
+						projects, or a chat that starts with &ldquo;what if&hellip;&rdquo;.
+					</p>
+					<div class="flex justify-center gap-3" aria-label="Contact links">
+						{
+							SOCIAL_LINKS.map((item) => (
+								<SocialButton
+									href={item.href}
+									title={item.title}
+									ariaLabel={item.ariaLabel}
+									icon={item.icon}
+								/>
+							))
+						}
 					</div>
-				</div> -->
-			</div>
-		</section>
-	</article>
-	<article id="blog" class="max-w-5xl w-full mx-auto">
-		<SectionHeader title="Blog" spacer />
-		<section class="my-6">
-			<p>Some blog content will be here</p>
-		</section>
-	</article>
-	<article id="contact" class="max-w-5xl w-full mx-auto">
-		<SectionHeader title="Contact" variant="centered" />
-		<h2 class="text-lg font-semibold text-center">Want to Collaborate?</h2>
-		<h2 class="text-4xl font-bold text-center">Let's Have a Chat</h2>
-		<section class="flex flex-col justify-center items-center gap-2">
-			<p class="text-base md:text-xl leading-loose mb-6 text-center">
-				Feel free to reach out to me if you have any questions, want to
-				collaborate on a project, or just want to chat. I'm always open
-				to new opportunities and connections.
+				</div>
+			</section>
+		</article>
+
+		<footer class="mx-auto max-w-5xl py-10 text-center text-sm text-brand-graphite">
+			<p class="font-semibold">
+				&copy; {currentYear} Fahridana Ahmad Rayyansyah. Made like a notebook,
+				shipped like a website.
 			</p>
-			<div class="flex gap-2">
-				{
-					SOCIAL_LINKS.map((item) => (
-						<SocialButton
-							href={item.href}
-							title={item.title}
-							ariaLabel={item.ariaLabel}
-							icon={item.icon}
-						/>
-					))
-				}
-			</div>
-		</section>
-	</article>
-	<footer
-		class="max-w-5xl text-gray-500 w-full mx-auto mt-24 mb-6 text-center">
-		<p class="text-base md:text-lg leading-loose">
-			&copy; {new Date().getFullYear()} Fahridana Ahmad Rayyansyah. All rights
-			reserved.
-		</p>
-		<p class="text-base md:text-lg leading-loose">
-			This site showcases my personal projects. Content may not be used
-			without permission.
-		</p>
-	</footer>
+		</footer>
+	</div>
+
 	<Navbar />
-	<SplashScreen languages={LANGUAGES} />
 </Layout>
 
 <style>
-	.wave {
-		display: inline-block;
-		animation: wave 2s infinite;
-		transform-origin: 70% 70%;
+	.notebook-arrow {
+		color: rgba(36, 49, 42, 0.58);
+		transition:
+			color 180ms ease,
+			transform 180ms ease;
 	}
 
-	.arrow-down {
-		display: inline-block;
-		opacity: 0;
-		width: 24px;
-		height: 24px;
-		border: solid 2px transparent;
-		border-bottom-color: #8d7e61;
-		border-right-color: #8d7e61;
-		transform: rotate(45deg);
-		animation: arrow-bounce 2s infinite;
+	.notebook-arrow:hover {
+		color: rgba(46, 92, 55, 0.86);
+		transform: translate(-50%, -4px);
 	}
 
-	@keyframes arrow-bounce {
-		0%,
-		100% {
-			transform: translateY(0) rotate(45deg);
-			opacity: 0;
-		}
-		50% {
-			transform: translateY(10px) rotate(45deg);
-			opacity: 1;
-		}
-	}
-
-	@keyframes wave {
-		0% {
-			transform: rotate(0deg);
-		}
-		10% {
-			transform: rotate(14deg);
-		}
-		20% {
-			transform: rotate(-8deg);
-		}
-		30% {
-			transform: rotate(14deg);
-		}
-		40% {
-			transform: rotate(-4deg);
-		}
-		50% {
-			transform: rotate(10deg);
-		}
-		60% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(0deg);
-		}
-	}
 </style>

@@ -1,0 +1,52 @@
+---
+import BlogTags from "@/components/ui/BlogTags.astro";
+import {
+	estimateReadingTime,
+	formatBlogDate,
+	type BlogEntry,
+} from "@/utils/blog";
+
+interface Props {
+	entry: BlogEntry;
+	variant?: "compact" | "featured";
+}
+
+const { entry, variant = "compact" } = Astro.props;
+const readingTime = estimateReadingTime(entry.body);
+const isFeatured = variant === "featured";
+---
+
+<article
+	class={`paper-scrap paper-lift ${isFeatured ? "scrap-right p-5 sm:p-6" : "scrap-left p-4 sm:p-5"}`}>
+	<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+		<div class="min-w-0 space-y-3">
+			<div class="flex flex-wrap items-center gap-2 text-xs font-black uppercase tracking-normal text-brand-graphite">
+				<time datetime={entry.data.date.toISOString()}>
+					{formatBlogDate(entry.data.date)}
+				</time>
+				<span aria-hidden="true">/</span>
+				<span>{readingTime} min read</span>
+				{entry.data.draft && <span class="sketch-label text-[0.62rem]">draft</span>}
+			</div>
+			<div class="space-y-2">
+				<h3
+					class={`text-pretty font-black leading-tight text-brand-ink ${
+						isFeatured ? "text-2xl sm:text-3xl" : "text-xl sm:text-2xl"
+					}`}>
+					<a href={`/blog/${entry.slug}`} class="hover:underline">
+						{entry.data.title}
+					</a>
+				</h3>
+				<p class="compact-copy max-w-[68ch] break-words text-sm leading-relaxed text-brand-graphite sm:text-base">
+					{entry.data.description}
+				</p>
+			</div>
+			<BlogTags tags={entry.data.tags} size="small" />
+		</div>
+		<a
+			href={`/blog/${entry.slug}`}
+			class="ink-button inline-flex min-h-9 shrink-0 items-center justify-center rounded-sm bg-brand-highlighter px-3 py-1.5 text-xs font-black uppercase tracking-normal text-brand-ink transition-[transform,box-shadow,background-color] duration-150">
+			Read Note
+		</a>
+	</div>
+</article>

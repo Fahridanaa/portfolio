@@ -14,21 +14,24 @@ const { frontmatter, slug } = Astro.props as Props;
 ---
 
 <Layout title={frontmatter.title}>
-	<header>
-		<div class="h-0.5 bg-brand-tan rounded-full"></div>
-		<div
-			class="fixed top-0 text-brand-tan text-md font-semibold mt-8 hover:-translate-x-1 transition-transform duration-300 ease-in-out">
-			<a href="/">-- Back to home</a>
-		</div>
-	</header>
-	<article class="max-w-5xl w-full mx-auto py-12">
-		<section class="max-w-screen-lg flex flex-col items-start my-8">
-			<div class="w-full flex flex-col gap-2">
-				<div class="flex justify-between">
-					<h1 class="text-3xl font-semibold text-brand-green">
-						{frontmatter.title}
-					</h1>
-					<div class="flex gap-2">
+	<div
+		class="notebook-sheet mx-auto min-h-dvh w-full max-w-6xl overflow-hidden px-5 sm:px-8 lg:px-12">
+		<article class="notebook-section mx-auto max-w-5xl">
+			<a
+				href="/"
+				class="ink-button mb-10 inline-flex min-h-11 items-center justify-center rounded-sm bg-brand-paper/90 px-5 py-3 font-black uppercase tracking-normal text-brand-ink transition-[transform,box-shadow,background-color] duration-150 hover:bg-brand-green-soft">
+				Back To Home
+			</a>
+			<section class="flex flex-col gap-8">
+				<div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+					<div class="space-y-3">
+						<p class="sketch-label">{frontmatter.type}</p>
+						<h1
+							class="max-w-[12ch] text-pretty text-5xl font-black leading-[0.98] text-brand-ink sm:text-6xl">
+							{frontmatter.title}
+						</h1>
+					</div>
+					<div class="flex flex-wrap gap-3">
 						{
 							frontmatter.sourceClient && (
 								<ProjectButton
@@ -43,36 +46,38 @@ const { frontmatter, slug } = Astro.props as Props;
 								<ProjectButton
 									href={frontmatter.sourceServer}
 									icon={Code}
-									text="Api"
+									text="API"
 								/>
 							)
 						}
 					</div>
 				</div>
-				<div class="overflow-hidden rounded-md">
+				<div class="camera-print">
+					<span class="camera-pin" aria-hidden="true"></span>
 					<Image
 						src={`/assets/projects/${slug}/cover.webp`}
 						alt={frontmatter.title}
 						loading="eager"
 						width={1600}
 						height={800}
+						class="w-full rounded-sm"
 					/>
+					<p class="camera-caption">project cover</p>
 				</div>
-			</div>
-		</section>
-		<section
-			class="w-full pb-4 rounded-md border-b border-brand-tan border-dashed">
-			<div class="flex flex-wrap gap-2">
-				{
-					frontmatter.stack.map((tech: string) => (
-						<TechStack tech={tech} size="small" isLazy={false} />
-					))
-				}
-			</div>
-		</section>
-		<section
-			class="relative text-justify text-base leading-relaxed min-w-full mt-2 pb-4 prose-lg prose-ul:list-disc prose-headings:text-brand-green">
-			<slot />
-		</section>
-	</article>
+			</section>
+			<section class="soft-divider mt-8 py-5">
+				<div class="flex flex-wrap gap-2">
+					{
+						frontmatter.stack.map((tech: string) => (
+							<TechStack tech={tech} size="small" isLazy={false} />
+						))
+					}
+				</div>
+			</section>
+			<section
+				class="prose prose-lg relative mt-8 max-w-none break-words text-brand-graphite prose-headings:text-brand-ink prose-a:text-brand-green prose-strong:text-brand-ink prose-ul:list-disc">
+				<slot />
+			</section>
+		</article>
+	</div>
 </Layout>

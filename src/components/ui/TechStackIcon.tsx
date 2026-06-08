@@ -7,14 +7,14 @@ interface TechStackIconProps {
 
 const TechStackIcon: React.FC<TechStackIconProps> = ({ iconName }) => {
 	return (
-		<div className="shadow-md p-2 rounded-lg flex justify-center items-center bg-white/10 backdrop-blur-sm hover:scale-110 transition-transform duration-300">
+		<div className="depth-chip flex items-center justify-center rounded-md bg-white/85 p-2">
 			<img
 				src={iconPath(iconName)}
 				alt={`${iconName}`}
 				width={24}
 				height={24}
 				loading="lazy"
-				className="w-8 h-8"
+				className="h-8 w-8"
 			/>
 		</div>
 	);
