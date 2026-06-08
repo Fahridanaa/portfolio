@@ -325,7 +325,10 @@
       z-index: 1;
       width: 2px;
       border-radius: 999px;
-      background: linear-gradient(rgba(36, 49, 42, 0.36), rgba(36, 49, 42, 0.18));
+      background: linear-gradient(
+        rgba(36, 49, 42, 0.36),
+        rgba(36, 49, 42, 0.18)
+      );
       content: "";
       pointer-events: none;
     }
@@ -550,6 +553,7 @@
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
   }
 
