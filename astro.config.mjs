@@ -6,6 +6,7 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
+    site: 'https://fahridanaa.my.id',
     integrations: [react(), tailwind({
         applyBaseStyles: false,
     }), mdx()],

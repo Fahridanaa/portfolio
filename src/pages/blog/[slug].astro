@@ -27,9 +27,17 @@ const { Content, headings } = await render(entry);
 const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
 const readingTime = estimateReadingTime(entry.body);
 const hasBanner = Boolean(entry.data.banner);
+const ogImageVersion = "notebook-20260609";
 ---
 
-<Layout title={`${entry.data.title} / Blog`}>
+<Layout
+	title={`${entry.data.title} / Blog`}
+	description={entry.data.description}
+	image={`/blog/${entry.slug}/og.png?v=${ogImageVersion}`}
+	imageAlt={`Text preview for ${entry.data.title}`}
+	type="article"
+	canonical={`/blog/${entry.slug}`}
+>
 	<div
 		class="notebook-sheet mx-auto min-h-dvh w-full max-w-6xl overflow-hidden px-5 sm:px-8 lg:px-12">
 		<BlogPaperNav backHref="/blog" />
