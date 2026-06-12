@@ -1,13 +1,22 @@
 ---
-const { href, target = "_blank", title, ariaLabel, icon: Icon } = Astro.props;
+import { Image } from "astro:assets";
+
+const { href, target = "_blank", title, ariaLabel, icon: Icon, hrefLabel } = Astro.props;
 ---
 
 <a
 	href={href}
 	target={target}
 	rel={target === "_blank" ? "noopener noreferrer" : undefined}
-	class="glued-social flex h-12 w-12 items-center justify-center rounded-sm"
+	class="glued-social mr-4 rounded-sm flex flex-col items-center"
 	title={title}
 	aria-label={ariaLabel}>
-	<Icon size={25} strokeWidth={2.25} aria-hidden="true" />
+	<img
+		src={hrefLabel}
+		alt={title}
+		width={48}
+		height={48}
+		aria-hidden="true"
+	/>
+	<span>{title}</span>
 </a>

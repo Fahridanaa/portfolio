@@ -1,9 +1,4 @@
-import {
-  FileUserIcon,
-  GithubIcon,
-  LinkedinIcon,
-  MailIcon,
-} from "lucide-react";
+import { FileUserIcon, GithubIcon, LinkedinIcon, MailIcon } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export interface SocialLink {
@@ -11,6 +6,7 @@ export interface SocialLink {
   title: string;
   ariaLabel: string;
   icon: LucideIcon;
+  hrefLabel: string;
 }
 
 export const SOCIAL_LINKS: SocialLink[] = [
@@ -19,24 +15,28 @@ export const SOCIAL_LINKS: SocialLink[] = [
     title: "email",
     ariaLabel: "email",
     icon: MailIcon,
+    hrefLabel: "/assets/icons/gmail.png",
   },
   {
     href: "https://www.linkedin.com/in/fahridana-ahmad-rayyansyah/",
     title: "linkedIn",
     ariaLabel: "linkedIn",
     icon: LinkedinIcon,
+    hrefLabel: "/assets/icons/linkedin.png",
   },
   {
     href: "https://github.com/Fahridanaa",
     title: "github",
     ariaLabel: "github",
     icon: GithubIcon,
+    hrefLabel: "/assets/icons/github.png",
   },
   {
     href: "/assets/cv.pdf",
     title: "cv",
     ariaLabel: "cv",
     icon: FileUserIcon,
+    hrefLabel: "/assets/icons/profile.png",
   },
 ];
 
