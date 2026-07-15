@@ -113,6 +113,30 @@ const currentYear = new Date().getFullYear();
 			</section>
 		</article>
 
+		<section id="experience" class="notebook-section compact-section">
+			<!-- <section class="mx-auto max-w-5xl"> -->
+				<SectionHeader title="Experience" spacer />
+				<!-- <p class="mt-4 max-w-[58ch] text-base leading-relaxed text-brand-graphite">
+					A compact résumé sheet of places, roles, and tools that shaped how I
+					work.
+				</p> -->
+				<div class="experience-list mt-6">
+					{
+						sortedExperiences.map(
+							(experience: Experience, index: number) => (
+								<div class="experience-item">
+									<ExperienceCard
+										experience={experience.data}
+										client:load
+									/>
+								</div>
+							)
+						)
+					}
+				</div>
+			<!-- </section> -->
+		</section>
+
 		<section id="blog" class="notebook-section compact-section">
 			<!-- <section class="mx-auto max-w-5xl"> -->
 				<div class="mb-6">
@@ -184,29 +208,7 @@ const currentYear = new Date().getFullYear();
 			<!-- </section> -->
 		</section>
 
-		<section id="experience" class="notebook-section compact-section">
-			<!-- <section class="mx-auto max-w-5xl"> -->
-				<SectionHeader title="Experience" spacer />
-				<!-- <p class="mt-4 max-w-[58ch] text-base leading-relaxed text-brand-graphite">
-					A compact résumé sheet of places, roles, and tools that shaped how I
-					work.
-				</p> -->
-				<div class="experience-list mt-6">
-					{
-						sortedExperiences.map(
-							(experience: Experience, index: number) => (
-								<div class="experience-item">
-									<ExperienceCard
-										experience={experience.data}
-										client:load
-									/>
-								</div>
-							)
-						)
-					}
-				</div>
-			<!-- </section> -->
-		</section>
+
 
 		<!-- <article id="projects" class="notebook-section compact-section">
 			<section class="mx-auto max-w-5xl">
