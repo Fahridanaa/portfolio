@@ -6,15 +6,13 @@ import SocialButton from "@/components/ui/SocialButton.astro";
 import cat from "@/../public/assets/hero-section-animation.gif";
 import me from "@/../public/assets/me.jpg";
 import ExperienceCard from "@/components/ui/ExperienceCard";
+import BlogEntryCard from "@/components/ui/BlogEntryCard.astro";
 import { getCollection } from "astro:content";
 import type { Project } from "@/models/project";
 import type { Experience } from "@/models/experience";
 import { SOCIAL_LINKS } from "@/data/site";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
-import BlogTags from "@/components/ui/BlogTags.astro";
 import {
-	estimateReadingTime,
-	formatBlogDate,
 	shouldShowBlogEntry,
 	sortBlogEntries,
 } from "@/utils/blog";
@@ -210,43 +208,9 @@ const currentYear = new Date().getFullYear();
 				</div>
 				<div class="mt-8 grid gap-5 md:grid-cols-3">
 					{
-						homepageBlogEntries.map((entry, index) => {
-							const readingTime = estimateReadingTime(entry.body);
-							const tiltClass = stickyNoteClasses[index];
-
-							return (
-								<article class={`sticky-note ${tiltClass} flex min-h-64 flex-col p-5`}>
-									<div class="relative z-[1] flex flex-1 flex-col gap-4">
-										<div class="flex flex-wrap items-center gap-2 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
-											<time datetime={entry.data.date.toISOString()}>
-												{formatBlogDate(entry.data.date)}
-											</time>
-											<span aria-hidden="true">/</span>
-											<span>{readingTime} min read</span>
-										</div>
-										<div class="space-y-3">
-											<h3 class="text-pretty text-2xl font-black leading-tight text-brand-ink">
-												<a href={`/blog/${entry.slug}`} class="hover:underline">
-													{entry.data.title}
-												</a>
-											</h3>
-											<p class="compact-copy break-words text-sm leading-relaxed text-brand-graphite">
-												{entry.data.description}
-											</p>
-										</div>
-										<div class="mt-auto space-y-4">
-											<BlogTags tags={entry.data.tags} size="small" />
-											<a
-												href={`/blog/${entry.slug}`}
-												class="font-mono text-xs font-black uppercase tracking-normal text-brand-green underline decoration-2 underline-offset-4 hover:text-brand-ink"
-											>
-												Read Note
-											</a>
-										</div>
-									</div>
-								</article>
-							);
-						})
+						homepageBlogEntries.map((entry, index) => (
+							<BlogEntryCard entry={entry} index={index} />
+						))
 					}
 					{
 						homepageBlogPlaceholders.map((_, index) => {

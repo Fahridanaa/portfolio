@@ -26,8 +26,8 @@ const stickyNoteClasses = [
 const tiltClass = stickyNoteClasses[index % stickyNoteClasses.length];
 ---
 
-<article
-	class={`sticky-note sticky-note-lift ${tiltClass} flex min-h-72 flex-col p-5 ${isFeatured ? "sm:min-h-80 sm:p-6" : ""}`}>
+<a href={`/blog/${entry.slug}`}
+	class={`sticky-note sticky-note-lift no-underline ${tiltClass} flex min-h-72 flex-col p-5 ${isFeatured ? "sm:min-h-80 sm:p-6" : ""}`}>
 	<div class="relative z-[1] flex flex-1 flex-col gap-4">
 		<div class="flex flex-1 flex-col gap-4">
 			<div class="flex flex-wrap items-center gap-2 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
@@ -43,22 +43,13 @@ const tiltClass = stickyNoteClasses[index % stickyNoteClasses.length];
 					class={`text-pretty font-black leading-tight text-brand-ink ${
 						isFeatured ? "text-3xl sm:text-4xl" : "text-2xl"
 					}`}>
-					<a href={`/blog/${entry.slug}`} class="hover:underline">
-						{entry.data.title}
-					</a>
+					{entry.data.title}
 				</h3>
+				<BlogTags tags={entry.data.tags} size="small" />
 				<p class="compact-copy break-words text-sm leading-relaxed text-brand-graphite">
 					{entry.data.description}
 				</p>
 			</div>
 		</div>
-		<div class="mt-auto space-y-4">
-			<BlogTags tags={entry.data.tags} size="small" />
-			<a
-				href={`/blog/${entry.slug}`}
-				class="font-mono text-xs font-black uppercase tracking-normal text-brand-green underline decoration-2 underline-offset-4 hover:text-brand-ink">
-				Read Note
-			</a>
-		</div>
 	</div>
-</article>
+</a>

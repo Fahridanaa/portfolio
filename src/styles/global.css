@@ -357,7 +357,7 @@
   }
 
   .sticky-note-lift:hover,
-  .sticky-note-lift:focus-within {
+  .sticky-note-lift:focus-visible {
     transform: translateY(-3px) rotate(var(--scrap-tilt));
     box-shadow: 0 12px 18px rgba(36, 49, 42, 0.1),
       0 3px 0 rgba(36, 49, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.38);
@@ -553,8 +553,8 @@
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
-    line-clamp: 2;
-    -webkit-line-clamp: 2;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
   }
 
   .experience-list {
