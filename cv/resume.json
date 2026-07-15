@@ -52,7 +52,7 @@
     {
       "role": "Full-stack Developer",
       "name": "Cache Strategy Benchmarking — Moodle-Inspired LMS",
-      "date": "2026",
+      "date": "Feb 2026 – Jul 2026",
       "points": [
         "Built a Moodle-inspired LMS benchmark in Laravel 12 comparing Cache-Aside, Read-Through, and Write-Through strategies using Redis 7.",
         "Validated architectural decisions by executing a k6 benchmarking suite simulating up to 2,000 concurrent users and analyzing P99 latency."
@@ -61,7 +61,7 @@
     {
       "role": "Full-stack Developer",
       "name": "HRIS — Human Resource Information System",
-      "date": "2025",
+      "date": "Apr 2025 – Jun 2025",
       "points": [
         "Engineered a multi-tenant HRIS with Clean Architecture in Go and Next.js, integrating Midtrans payment gateways for subscription billing.",
         "Developed a geofencing attendance system with real-time mapping via TanStack Query and Supabase Auth, containerized with Docker and deployed via CI/CD to Azure."
@@ -70,7 +70,7 @@
     {
       "role": "Mobile Developer",
       "name": "Leafolyze — Leaf Tomato Disease Analyzer",
-      "date": "2025",
+      "date": "Oct 2024 – Dec 2024",
       "points": [
         "Built a cross-platform Flutter app using the BLoC pattern with on-device TensorFlow Lite inference for offline tomato disease detection.",
         "Integrated a marketplace and RESTful data layer using the Repository pattern and Dio for seamless authentication and content sync."

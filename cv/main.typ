@@ -54,7 +54,7 @@
 ).filter(x => x != none)
 
 #align(center)[
-  #text(size: 16pt, weight: "bold")[#cv.basics.name]
+  #text(size: 18pt, weight: "bold")[#cv.basics.name]
   #v(-0.8em)
   #{ header-items.join(" | ") }
 ]
