@@ -63,14 +63,14 @@
           rgba(46, 92, 55, 0.16) 1px,
           transparent 1px
         )
-        clamp(1.5rem, 5vw, 4.5rem) 0 / 1px 100% no-repeat,
-      linear-gradient(var(--rule) 1px, transparent 1px) 0 1.45rem / 100% 1.7rem,
+        clamp(2rem, 7vw, 5.5rem) 0 / 1px 100% no-repeat,
+      linear-gradient(var(--rule) 1px, transparent 1px) 0 2rem / 100% 2.4rem,
       radial-gradient(
           circle at 24% 18%,
           rgba(36, 49, 42, 0.035) 0 1px,
           transparent 1px
         )
-        0 0 / 34px 34px,
+        0 0 / 42px 42px,
       var(--paper-warm);
     border-inline: 1px solid rgba(36, 49, 42, 0.12);
     box-shadow: 0 18px 45px var(--paper-shadow-soft),
