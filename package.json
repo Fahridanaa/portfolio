@@ -7,7 +7,10 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "cv:build": "typst compile cv/main.typ public/assets/cv.pdf",
+    "cv:watch": "typst watch cv/main.typ public/assets/cv.pdf",
+    "cv:build:no-phone": "typst compile --input show_phone=false cv/main.typ public/assets/cv.pdf"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

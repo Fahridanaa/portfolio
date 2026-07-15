@@ -1,0 +1,87 @@
+{
+  "basics": {
+    "name": "Fahridana Ahmad Rayyansyah",
+    "location": "Malang, Indonesia",
+    "phone": "+6285196991224",
+    "email": "fahridanaaa@gmail.com",
+    "url": "fahridanaa.my.id",
+    "summary": "Software engineer building scalable web and mobile applications. Focused on clean architecture, performance optimization, and production-ready systems.",
+    "profiles": {
+      "linkedin": "linkedin.com/in/fahridana-ahmad-rayyansyah",
+      "github": "github.com/Fahridanaa"
+    }
+  },
+  "experience": [
+    {
+      "role": "Management Information System Intern",
+      "company": "PT. Multi Spunindo Jaya",
+      "location": "Sidoarjo, Indonesia (Onsite)",
+      "date": "Jul 2025 – Dec 2025",
+      "status": "Intern",
+      "stack": ["Laravel 12", "PHP", "MySQL"],
+      "points": [
+        "Built a Performance Appraisal system in Laravel 12 with dynamic routing, period observers, and cascading data generation for quarterly employee evaluations.",
+        "Implemented bulk Excel import/export, reducing evaluation data entry from 3 days to 2 hours per cycle.",
+        "Gathered requirements and iterated features through weekly sprint reviews with internal stakeholders."
+      ]
+    },
+    {
+      "role": "Full-stack Developer",
+      "company": "80&Company",
+      "location": "Japan (Remote)",
+      "date": "Feb 2025 – Jul 2025",
+      "status": "Contract",
+      "stack": ["Next.js", "React", "TypeScript", "OpenAI API", "Firebase", "GCP", "Radix UI", "Storybook", "Jest"],
+      "points": [
+        "Built UI features in Next.js 14, React 18, and TypeScript with WCAG accessibility standards and cross-browser consistency.",
+        "Integrated OpenAI API for automated video summarization and keyword extraction, reducing manual processing overhead by 40%.",
+        "Contributed to a shared Radix UI component library with Storybook and Jest, ensuring visual consistency across the product."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor of Informatics Engineering",
+      "school": "Politeknik Negeri Malang",
+      "location": "Malang, Indonesia",
+      "date": "2022 – 2026",
+      "details": ["GPA: 3.81/4.00"]
+    }
+  ],
+  "projects": [
+    {
+      "role": "Full-stack Developer",
+      "name": "Cache Strategy Benchmarking — Moodle-Inspired LMS",
+      "date": "2026",
+      "points": [
+        "Built a Moodle-inspired LMS benchmark in Laravel 12 comparing Cache-Aside, Read-Through, and Write-Through strategies using Redis 7.",
+        "Validated architectural decisions by executing a k6 benchmarking suite simulating up to 2,000 concurrent users and analyzing P99 latency."
+      ]
+    },
+    {
+      "role": "Full-stack Developer",
+      "name": "HRIS — Human Resource Information System",
+      "date": "2025",
+      "points": [
+        "Engineered a multi-tenant HRIS with Clean Architecture in Go and Next.js, integrating Midtrans payment gateways for subscription billing.",
+        "Developed a geofencing attendance system with real-time mapping via TanStack Query and Supabase Auth, containerized with Docker and deployed via CI/CD to Azure."
+      ]
+    },
+    {
+      "role": "Mobile Developer",
+      "name": "Leafolyze — Leaf Tomato Disease Analyzer",
+      "date": "2025",
+      "points": [
+        "Built a cross-platform Flutter app using the BLoC pattern with on-device TensorFlow Lite inference for offline tomato disease detection.",
+        "Integrated a marketplace and RESTful data layer using the Repository pattern and Dio for seamless authentication and content sync."
+      ]
+    }
+  ],
+  "skills": [
+    { "category": "Languages", "items": ["TypeScript", "PHP", "Dart", "Go", "JavaScript"] },
+    { "category": "Frameworks", "items": ["Next.js", "React", "Laravel", "Flutter", "Hono", "HTMX + Alpine.js"] },
+    { "category": "Infrastructure", "items": ["Docker", "Redis", "Git", "GitHub Actions", "Azure", "PostgreSQL"] },
+    { "category": "Testing & Quality", "items": ["Jest", "Storybook", "k6"] },
+    { "category": "Other", "items": ["Power BI", "Figma", "REST API Design", "Agile/Scrum"] }
+  ]
+}
