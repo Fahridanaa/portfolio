@@ -187,10 +187,10 @@ const currentYear = new Date().getFullYear();
 		<section id="experience" class="notebook-section compact-section">
 			<!-- <section class="mx-auto max-w-5xl"> -->
 				<SectionHeader title="Experience" spacer />
-				<p class="mt-4 max-w-[58ch] text-base leading-relaxed text-brand-graphite">
+				<!-- <p class="mt-4 max-w-[58ch] text-base leading-relaxed text-brand-graphite">
 					A compact résumé sheet of places, roles, and tools that shaped how I
 					work.
-				</p>
+				</p> -->
 				<div class="experience-list mt-6">
 					{
 						sortedExperiences.map(
@@ -198,7 +198,7 @@ const currentYear = new Date().getFullYear();
 								<div class="experience-item">
 									<ExperienceCard
 										experience={experience.data}
-										index={index}
+										client:load
 									/>
 								</div>
 							)

@@ -24,7 +24,7 @@ const experienceCollection = defineCollection({
         date: z.coerce.date(),
         location: z.string(),
         isRemote: z.boolean(),
-        summary: z.string(),
+        bullets: z.array(z.string()),
         techStack: z.array(z.string()),
         logo: z.string(),
     }),
