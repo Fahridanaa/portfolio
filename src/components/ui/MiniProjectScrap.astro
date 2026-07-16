@@ -1,0 +1,57 @@
+---
+import type { ProjectMeta } from "@/models/project";
+
+interface Props {
+	project: ProjectMeta;
+	slug: string;
+}
+
+const { project, slug } = Astro.props;
+const { title, type, stack, description, date } = project;
+const visibleTech = stack.slice(0, 4);
+const hiddenTechCount = stack.length - visibleTech.length;
+const projectDateStr = date instanceof Date ? date.toLocaleDateString("en-US", { month: "short", year: "numeric" }) : "";
+---
+
+<a
+	href={`/projects/${slug}`}
+	class="paper-scrap paper-lift group flex flex-col gap-2 p-4"
+>
+	<h3
+		class="text-pretty text-base font-black leading-tight text-brand-ink sm:text-lg"
+	>
+		{title}
+	</h3>
+
+	<div class="flex flex-wrap items-center gap-2">
+		<p class="sketch-label text-[0.6rem]">{type}</p>
+		<span
+			class="font-mono text-[0.6rem] font-bold uppercase tracking-normal text-brand-graphite"
+		>
+			{projectDateStr}
+		</span>
+	</div>
+
+	<p
+		class="line-clamp-2 text-sm leading-relaxed text-brand-graphite"
+	>
+		{description}
+	</p>
+
+	<div class="mt-auto flex flex-wrap gap-1.5">
+		{visibleTech.map((tech) => (
+			<span
+				class="depth-chip rounded-sm bg-brand-paper/80 px-1.5 py-0.5 font-mono text-[0.6rem] font-bold uppercase tracking-normal text-brand-ink"
+			>
+				{tech}
+			</span>
+		))}
+		{hiddenTechCount > 0 && (
+			<span
+				class="depth-chip rounded-sm bg-brand-green-soft px-1.5 py-0.5 font-mono text-[0.6rem] font-bold uppercase tracking-normal text-brand-green"
+			>
+				+{hiddenTechCount}
+			</span>
+		)}
+	</div>
+</a>

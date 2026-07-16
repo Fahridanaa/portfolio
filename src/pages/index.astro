@@ -11,6 +11,8 @@ import type { Project } from "@/models/project";
 import type { Experience } from "@/models/experience";
 import { SOCIAL_LINKS } from "@/data/site";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
+import MiniProjectScrap from "@/components/ui/MiniProjectScrap.astro";
+import ProjectGridPlaceholder from "@/components/ui/ProjectGridPlaceholder.astro";
 import {
 	shouldShowBlogEntry,
 	sortBlogEntries,
@@ -19,7 +21,9 @@ const personalProjects = await getCollection("projects");
 const sortedPersonalProjects = personalProjects.sort(
 	(a: Project, b: Project) => (a.data.date > b.data.date ? -1 : 1)
 );
-const latestPersonalProjects = sortedPersonalProjects.slice(0, 3);
+const projectGridCols = 3;
+const projectTotalSlots = Math.ceil((sortedPersonalProjects.length + 1) / projectGridCols) * projectGridCols;
+const projectPlaceholderCount = Math.max(0, projectTotalSlots - sortedPersonalProjects.length - 1);
 
 const blogEntries = sortBlogEntries(
 	(await getCollection("blog")).filter(shouldShowBlogEntry)
@@ -139,6 +143,49 @@ const currentYear = new Date().getFullYear();
 			<!-- </section> -->
 		</section>
 
+		<section id="projects" class="notebook-section compact-section">
+			<SectionHeader title="Projects" spacer />
+			<div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+				{
+					sortedPersonalProjects.map((project) => (
+						<MiniProjectScrap project={project.data} slug={project.slug} />
+					))
+				}
+				{
+					Array.from({ length: projectPlaceholderCount }).map((_) => (
+						<ProjectGridPlaceholder />
+					))
+				}
+				<a
+					href="/projects"
+					class="paper-scrap scrap-no-tape paper-lift group flex min-h-40 flex-col items-center justify-center gap-3 p-5 text-center text-brand-ink"
+				>
+					<p
+						class="font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite"
+					>
+						project index
+					</p>
+					<div class="space-y-3">
+						<h3
+							class="text-pretty text-2xl font-black leading-tight"
+						>
+							All Projects
+						</h3>
+						<p
+							class="text-sm leading-relaxed text-brand-graphite"
+						>
+							Open the full stack of built things.
+						</p>
+					</div>
+					<p
+						class="font-mono text-xs font-black uppercase tracking-normal text-brand-green"
+					>
+						open list →
+					</p>
+				</a>
+			</div>
+		</section>
+
 		<section id="blog" class="notebook-section compact-section">
 			<!-- <section class="mx-auto max-w-5xl"> -->
 				<div class="mb-6">
@@ -212,40 +259,6 @@ const currentYear = new Date().getFullYear();
 
 
 
-		<!-- <article id="projects" class="notebook-section compact-section">
-			<section class="mx-auto max-w-5xl">
-				<div class="mb-6 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-					<div>
-						<SectionHeader title="Latest Projects" />
-						<p
-							class="mt-4 max-w-[58ch] text-base leading-relaxed text-brand-graphite">
-							Small notes from things I have built, rebuilt, debugged, and kept
-							around.
-						</p>
-					</div>
-					<a
-						href="https://github.com/Fahridanaa"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="ink-button inline-flex min-h-11 items-center justify-center rounded-sm bg-brand-paper/90 px-5 py-3 font-black uppercase tracking-normal text-brand-ink transition-[transform,box-shadow,background-color] duration-150 hover:bg-brand-green-soft">
-						More On GitHub
-					</a>
-				</div>
-				<div>
-					{
-						latestPersonalProjects.map(
-							(project: Project, index: number) => (
-								<ProjectCard
-									project={project.data}
-									href={`/assets/projects/${project.slug}/cover.webp`}
-									isReverse={index % 2 === 0}
-								/>
-							)
-						)
-					}
-				</div>
-			</section>
-		</article> -->
 
 		<article id="contact" class="notebook-section">
 			<section class="mx-auto max-w-3xl text-center">
