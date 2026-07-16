@@ -351,7 +351,6 @@
   }
 
   .sticky-note-nav {
-    min-height: 11rem;
     transform: translateX(0.18rem) rotate(var(--scrap-tilt)) scale(0.96);
     transform-origin: center;
     transition: transform 160ms ease, box-shadow 160ms ease;

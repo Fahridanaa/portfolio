@@ -27,9 +27,9 @@ const tiltClass = stickyNoteClasses[index % stickyNoteClasses.length];
 ---
 
 <a href={`/blog/${entry.slug}`}
-	class={`sticky-note sticky-note-lift no-underline ${tiltClass} flex min-h-72 flex-col p-5 ${isFeatured ? "sm:min-h-80 sm:p-6" : ""}`}>
-	<div class="relative z-[1] flex flex-1 flex-col gap-4">
-		<div class="flex flex-1 flex-col gap-4">
+	class={`sticky-note sticky-note-lift no-underline ${tiltClass} flex min-h-56 flex-col p-4 ${isFeatured ? "sm:min-h-72 sm:p-5" : ""}`}>
+	<div class="relative z-[1] flex flex-1 flex-col gap-2">
+		<div class="flex flex-1 flex-col gap-2">
 			<div class="flex flex-wrap items-center gap-2 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
 				<time datetime={entry.data.date.toISOString()}>
 					{formatBlogDate(entry.data.date)}
@@ -38,7 +38,7 @@ const tiltClass = stickyNoteClasses[index % stickyNoteClasses.length];
 				<span>{readingTime} min read</span>
 				{entry.data.draft && <span class="sketch-label text-[0.62rem]">draft</span>}
 			</div>
-			<div class="space-y-3">
+			<div class="space-y-2">
 				<h3
 					class={`text-pretty font-black leading-tight text-brand-ink ${
 						isFeatured ? "text-3xl sm:text-4xl" : "text-2xl"
@@ -46,7 +46,7 @@ const tiltClass = stickyNoteClasses[index % stickyNoteClasses.length];
 					{entry.data.title}
 				</h3>
 				<BlogTags tags={entry.data.tags} size="small" />
-				<p class="compact-copy break-words text-sm leading-relaxed text-brand-graphite">
+				<p class="compact-copy line-clamp-3 break-words text-sm leading-relaxed text-brand-graphite">
 					{entry.data.description}
 				</p>
 			</div>
