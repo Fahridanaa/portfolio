@@ -30,26 +30,28 @@ export default function ExperienceCard({ experience }: ExperienceProps) {
           className="depth-media h-11 w-11 shrink-0 rounded-md bg-white p-1.5 object-contain"
         />
 
-        <div className="flex items-center justify-between gap-4 min-w-0">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4 min-w-0">
           <div className="min-w-0">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2">
               <h3 className="truncate text-base font-black leading-tight text-brand-ink sm:text-lg">
                 {experience.company}
               </h3>
-              <span className="shrink-0 rounded-sm bg-brand-green-soft/80 px-2 py-0.5 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-green">
-                {experience.type}
-              </span>
-              <span className="shrink-0 rounded-sm bg-white/60 px-2 py-0.5 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite ring-1 ring-brand-green/10">
-                {experience.isRemote ? "Remote" : "OnSite"}
-              </span>
+              <div className="flex flex-row flex-wrap gap-1.5">
+                <span className="shrink-0 rounded-sm bg-brand-green-soft/80 px-2 py-0.5 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-green">
+                  {experience.type}
+                </span>
+                <span className="shrink-0 rounded-sm bg-white/60 px-2 py-0.5 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite ring-1 ring-brand-green/10">
+                  {experience.isRemote ? "Remote" : "OnSite"}
+                </span>
+              </div>
             </div>
-            <p className="mt-1 truncate text-sm font-semibold text-brand-graphite">
+            <p className="mt-1 flex flex-col sm:flex-row sm:items-center sm:truncate text-sm font-semibold text-brand-graphite">
               <span className="text-brand-green">{experience.role}</span>
-              <span className="mx-1.5">•</span>
+              <span className="mx-1.5 hidden sm:inline">•</span>
               {experience.location}
             </p>
           </div>
-          <span className="shrink-0 text-center text-sm font-semibold text-brand-graphite">
+          <span className="shrink-0 text-left sm:text-center text-sm font-semibold text-brand-graphite">
             {experience.startDate} - {experience.endDate}
           </span>
         </div>
