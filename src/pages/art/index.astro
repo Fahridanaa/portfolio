@@ -1,0 +1,25 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ArtGrid from "@/components/ui/ArtGrid.astro";
+---
+
+<Layout title="Art / Fahridana Ahmad Rayyansyah">
+	<div
+		class="notebook-sheet mx-auto min-h-dvh w-full max-w-6xl overflow-hidden px-5 sm:px-8 lg:px-12">
+		<article class="notebook-section mx-auto max-w-5xl pt-16">
+			<header class="mb-10 space-y-5">
+				<p class="sketch-label">doodle pile</p>
+				<h1
+					class="max-w-[11ch] text-pretty text-5xl font-black leading-[0.98] text-brand-ink sm:text-6xl">
+					Art
+				</h1>
+				<p class="max-w-[62ch] text-lg leading-relaxed text-brand-graphite">
+					Sketches and drawings from outside work hours. Messy on
+					purpose.
+				</p>
+			</header>
+
+			<ArtGrid />
+		</article>
+	</div>
+</Layout>

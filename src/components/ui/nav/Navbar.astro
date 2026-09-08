@@ -1,19 +1,43 @@
 ---
-import NavbarItem from "./NavbarItem.tsx";
+import ModeSwitch from "@/components/ui/ModeSwitch.astro";
 ---
 
-<nav
-	class="fixed right-3 top-1/2 z-20 hidden -translate-y-1/2 flex-col gap-8 lg:right-5 lg:flex"
-	aria-label="Page sections">
-	<div class="flex justify-center">
-		<div
-			class="paper-scrap flex flex-col gap-1 bg-brand-paper/95 p-2 shadow-paper-sm">
-			<NavbarItem href="#hero" label="Home" client:load />
-			<!-- <NavbarItem href="#about-me" label="About" client:load /> -->
-			<NavbarItem href="#experience" label="Experience" client:load />
-			<NavbarItem href="#projects" label="Projects" client:load />
-			<NavbarItem href="#blog" label="Blog" client:load />
-			<NavbarItem href="#contact" label="Contact" client:load />
+<header
+	class="sticky top-0 z-50 border-b border-brand-ink/10 bg-brand-paper/95 backdrop-blur">
+	<div
+		class="mx-auto flex max-w-7xl flex-wrap items-center gap-x-5 gap-y-2 px-5 py-2.5 sm:px-8 lg:px-12">
+		<a
+			href="/"
+			class="text-sm font-black uppercase tracking-wide text-brand-ink">
+			Fahridana<span class="text-brand-green">.</span>
+		</a>
+		<nav
+			aria-label="Sections"
+			class="flex items-center gap-1 font-mono text-xs font-black uppercase">
+			<span data-mode-block="work" class="contents">
+				<a class="topnav-link" href="/projects">Projects</a>
+			</span>
+			<span data-mode-block="personal" class="contents">
+				<a class="topnav-link" href="/art">Art</a>
+			</span>
+			<a class="topnav-link" href="/blog">Notes</a>
+		</nav>
+		<div class="ml-auto">
+			<ModeSwitch compact />
 		</div>
 	</div>
-</nav>
+</header>
+
+<style>
+	.topnav-link {
+		border-radius: 3px;
+		color: var(--graphite);
+		padding: 0.45rem 0.7rem;
+	}
+
+	.topnav-link:hover,
+	.topnav-link:focus-visible {
+		background: rgba(255, 255, 255, 0.7);
+		color: var(--ink);
+	}
+</style>

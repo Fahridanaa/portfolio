@@ -1,0 +1,155 @@
+---
+interface Props {
+	compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<button
+	type="button"
+	role="switch"
+	aria-checked="false"
+	aria-label="Site mode, work"
+	data-mode-switch
+	class={`mode-switch ${compact ? "mode-compact" : ""}`}>
+	<span class="mode-label" data-mode-label="work" aria-hidden="true">Work</span>
+	<span class="mode-label" data-mode-label="personal" aria-hidden="true">Personal</span>
+	<span class="mode-thumb" aria-hidden="true"></span>
+</button>
+
+<style>
+	.mode-switch {
+		position: relative;
+		display: inline-grid;
+		grid-template-columns: 1fr 1fr;
+		align-items: stretch;
+		border: 1px solid rgba(36, 49, 42, 0.18);
+		border-radius: 3px;
+		background:
+			linear-gradient(rgba(36, 49, 42, 0.045) 1px, transparent 1px) 0 0 / 22px
+				22px,
+			var(--paper-warm);
+		box-shadow:
+			0 8px 16px rgba(36, 49, 42, 0.075),
+			inset 0 1px 0 rgba(255, 255, 255, 0.72);
+		color: var(--ink);
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+			"Liberation Mono", monospace;
+		font-size: 0.76rem;
+		font-weight: 900;
+		line-height: 1;
+		text-transform: uppercase;
+		cursor: pointer;
+		padding: 0;
+		min-height: 2.4rem;
+	}
+
+	.mode-switch.mode-compact {
+		font-size: 0.7rem;
+		min-height: 2.1rem;
+	}
+
+	.mode-switch:hover {
+		background-color: var(--paper-deep);
+	}
+
+	.mode-switch:focus-visible {
+		outline: 2px solid var(--green);
+		outline-offset: 2px;
+	}
+
+	.mode-label {
+		position: relative;
+		z-index: 1;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.55rem 1rem 0.45rem;
+		color: var(--graphite);
+	}
+
+	.mode-compact .mode-label {
+		padding: 0.45rem 0.8rem 0.35rem;
+	}
+
+	.mode-switch[aria-checked="false"] [data-mode-label="work"],
+	.mode-switch[aria-checked="true"] [data-mode-label="personal"] {
+		color: var(--ink);
+	}
+
+	.mode-thumb {
+		position: absolute;
+		top: 2px;
+		bottom: 2px;
+		left: 2px;
+		width: calc(50% - 2px);
+		border-radius: 2px;
+		background:
+			linear-gradient(rgba(36, 49, 42, 0.045) 1px, transparent 1px) 0 0 / 22px
+				22px,
+			#f6f2a0;
+		box-shadow: inset 0 2px 4px rgba(36, 49, 42, 0.08);
+		transition: transform 150ms ease;
+	}
+
+	.mode-switch[aria-checked="true"] .mode-thumb {
+		transform: translateX(100%);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.mode-thumb {
+			transition: none;
+		}
+	}
+</style>
+
+<script>
+	import {
+		DEFAULT_MODE,
+		MODE_STORAGE_KEY,
+		normalizeMode,
+	} from "@/utils/mode";
+	(function () {
+		function currentMode() {
+			return normalizeMode(document.documentElement.dataset.mode);
+		}
+
+		function paint() {
+			var mode = currentMode();
+			var isPersonal = mode === "personal";
+			document.querySelectorAll("[data-mode-switch]").forEach(function (el) {
+				el.setAttribute("aria-checked", isPersonal ? "true" : "false");
+				el.setAttribute(
+					"aria-label",
+					"Site mode, " + (isPersonal ? "personal" : "work")
+				);
+			});
+		}
+
+		function setMode(mode: string) {
+			mode = normalizeMode(mode);
+			document.documentElement.dataset.mode = mode;
+			try {
+				localStorage.setItem(MODE_STORAGE_KEY, mode);
+			} catch (e) {}
+			paint();
+		}
+
+		function init() {
+			document.querySelectorAll("[data-mode-switch]").forEach(function (el) {
+				if ((el as HTMLElement).dataset.bound) return;
+				(el as HTMLElement).dataset.bound = "1";
+				el.addEventListener("click", function () {
+					var next =
+						currentMode() === "personal" ? "work" : "personal";
+					setMode(next || DEFAULT_MODE);
+				});
+			});
+			paint();
+		}
+
+		init();
+		document.addEventListener("astro:after-swap", init);
+	})();
+</script>

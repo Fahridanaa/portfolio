@@ -1,4 +1,5 @@
 import { defineCollection, z } from "astro:content";
+import { MODES } from "../utils/mode";
 
 const projectCollection = defineCollection({
     schema: z.object({
@@ -38,6 +39,7 @@ const blogCollection = defineCollection({
         tags: z.array(z.string()).default([]),
         banner: z.string().nullable().default(null),
         draft: z.boolean().default(false),
+        mode: z.enum(MODES).default("personal"),
     }),
 });
 

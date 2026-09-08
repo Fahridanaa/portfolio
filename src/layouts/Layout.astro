@@ -1,6 +1,7 @@
 ---
 import "@/styles/global.css";
 import { ClientRouter } from "astro:transitions";
+import Navbar from "@/components/ui/nav/Navbar.astro";
 interface Props {
 	title: string;
 	description?: string;
@@ -9,6 +10,7 @@ interface Props {
 	imageType?: string;
 	type?: "website" | "article";
 	canonical?: string;
+	hideNavbar?: boolean;
 }
 
 const defaultDescription =
@@ -21,6 +23,7 @@ const {
 	imageType = "image/png",
 	type = "website",
 	canonical,
+	hideNavbar = false,
 } = Astro.props;
 const baseUrl = Astro.site ?? Astro.url;
 const pageUrl = canonical ? new URL(canonical, baseUrl).toString() : Astro.url.href;
@@ -28,7 +31,7 @@ const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-mode="work">
 	<head>
 		<meta charset="UTF-8" />
 		<meta
@@ -61,6 +64,30 @@ const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
 			)
 		}
 		<meta name="generator" content={Astro.generator} />
+		<script is:inline>
+			(function () {
+				// Literals mirror src/utils/mode.ts (inline scripts cannot import).
+				function applySiteMode() {
+					try {
+						var m = localStorage.getItem("site-mode") || "work";
+						if (m !== "personal") m = "work";
+						localStorage.setItem("site-mode", m);
+						document.documentElement.dataset.mode = m;
+					} catch (e) {
+						document.documentElement.dataset.mode = "work";
+					}
+				}
+				try {
+					if (location.search.indexOf("mode=") !== -1) {
+						var u = new URL(location.href);
+						u.searchParams.delete("mode");
+						history.replaceState(null, "", u);
+					}
+				} catch (e) {}
+				applySiteMode();
+				document.addEventListener("astro:after-swap", applySiteMode);
+			})();
+		</script>
 		<title>{title}</title>
 		<ClientRouter />
 	</head>
@@ -71,11 +98,22 @@ const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
 			Skip To Content
 		</a>
 		<main id="main-content" class="relative min-h-dvh">
+			{!hideNavbar && <Navbar />}
 			<slot />
 		</main>
 	</body>
 </html>
 <style is:global>
+	html[data-mode="work"] [data-mode-block="personal"],
+	html[data-mode="work"] [data-entry-mode="personal"] {
+		display: none;
+	}
+
+	html[data-mode="personal"] [data-mode-block="work"],
+	html[data-mode="personal"] [data-entry-mode="work"] {
+		display: none;
+	}
+
 	html {
 		scroll-behavior: smooth;
 		scrollbar-gutter: stable;

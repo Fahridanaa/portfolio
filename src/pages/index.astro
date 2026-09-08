@@ -1,7 +1,6 @@
 ---
 import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
-import Navbar from "@/components/ui/nav/Navbar.astro";
 import SocialButton from "@/components/ui/SocialButton.astro";
 import me from "@/../public/assets/me.jpg";
 import ExperienceCard from "@/components/ui/ExperienceCard";
@@ -11,12 +10,14 @@ import type { Project } from "@/models/project";
 import type { Experience } from "@/models/experience";
 import { SOCIAL_LINKS } from "@/data/site";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
+import ArtGrid from "@/components/ui/ArtGrid.astro";
 import MiniProjectScrap from "@/components/ui/MiniProjectScrap.astro";
 import ProjectGridPlaceholder from "@/components/ui/ProjectGridPlaceholder.astro";
 import {
 	shouldShowBlogEntry,
 	sortBlogEntries,
 } from "@/utils/blog";
+import { DEFAULT_MODE } from "@/utils/mode";
 const personalProjects = await getCollection("projects");
 const sortedPersonalProjects = personalProjects.sort(
 	(a: Project, b: Project) => (a.data.date > b.data.date ? -1 : 1)
@@ -28,9 +29,14 @@ const projectPlaceholderCount = Math.max(0, projectTotalSlots - sortedPersonalPr
 const blogEntries = sortBlogEntries(
 	(await getCollection("blog")).filter(shouldShowBlogEntry)
 );
-const homepageBlogEntries = blogEntries.slice(0, 5);
-const homepageBlogPlaceholders = Array.from({
-	length: Math.max(0, 5 - homepageBlogEntries.length),
+const workBlogEntries = blogEntries
+	.filter((entry) => entry.data.mode === DEFAULT_MODE)
+	.slice(0, 5);
+const personalBlogEntries = blogEntries
+	.filter((entry) => entry.data.mode !== DEFAULT_MODE)
+	.slice(0, 5);
+const personalBlogPlaceholders = Array.from({
+	length: Math.max(0, 5 - personalBlogEntries.length),
 });
 const stickyNoteClasses = [
 	"sticky-note-left",
@@ -119,7 +125,7 @@ const currentYear = new Date().getFullYear();
 			</section>
 		</article>
 
-		<section id="experience" class="notebook-section compact-section">
+		<section id="experience" data-mode-block="work" class="notebook-section compact-section">
 			<!-- <section class="mx-auto max-w-5xl"> -->
 				<SectionHeader title="Experience" spacer />
 				<!-- <p class="mt-4 max-w-[58ch] text-base leading-relaxed text-brand-graphite">
@@ -143,7 +149,7 @@ const currentYear = new Date().getFullYear();
 			<!-- </section> -->
 		</section>
 
-		<section id="projects" class="notebook-section compact-section">
+		<section id="projects" data-mode-block="work" class="notebook-section compact-section">
 			<SectionHeader title="Projects" spacer />
 			<div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				{
@@ -186,6 +192,11 @@ const currentYear = new Date().getFullYear();
 			</div>
 		</section>
 
+		<section id="art" data-mode-block="personal" class="notebook-section compact-section">
+			<SectionHeader title="Art & Drawings" spacer />
+			<ArtGrid limit={5} />
+		</section>
+
 		<section id="blog" class="notebook-section compact-section">
 			<!-- <section class="mx-auto max-w-5xl"> -->
 				<div class="mb-6">
@@ -199,17 +210,44 @@ const currentYear = new Date().getFullYear();
 				</div>
 				<div class="mt-8 grid gap-5 md:grid-cols-3">
 					{
-						homepageBlogEntries.map((entry, index) => (
+						workBlogEntries.map((entry, index) => (
 							<BlogEntryCard entry={entry} index={index} />
 						))
 					}
 					{
-						homepageBlogPlaceholders.map((_, index) => {
-							const slotIndex = homepageBlogEntries.length + index;
+						workBlogEntries.length === 0 && (
+							<article data-mode-block="work" class="sticky-note sticky-note-center flex min-h-56 flex-col p-4">
+								<div class="relative z-[1] flex flex-1 flex-col justify-between gap-2">
+									<p class="font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
+										work notes
+									</p>
+									<div class="space-y-2">
+										<h3 class="text-pretty text-3xl font-black leading-tight text-brand-ink">
+											Quiet here
+										</h3>
+										<p class="break-words text-sm leading-relaxed text-brand-graphite">
+											No work notes yet. Flip to Personal for notebook entries.
+										</p>
+									</div>
+									<p class="font-mono text-xs font-black uppercase tracking-normal text-brand-green">
+										empty desk
+									</p>
+								</div>
+							</article>
+						)
+					}
+					{
+						personalBlogEntries.map((entry, index) => (
+							<BlogEntryCard entry={entry} index={index} />
+						))
+					}
+					{
+						personalBlogPlaceholders.map((_, index) => {
+							const slotIndex = personalBlogEntries.length + index;
 							const tiltClass = stickyNoteClasses[slotIndex];
 
 							return (
-								<article class={`sticky-note ${tiltClass} flex min-h-56 flex-col p-4`}>
+								<article data-mode-block="personal" class={`sticky-note ${tiltClass} flex min-h-56 flex-col p-4`}>
 									<div class="relative z-[1] flex flex-1 flex-col justify-between gap-2">
 										<p class="font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
 											empty sticky
@@ -297,6 +335,4 @@ const currentYear = new Date().getFullYear();
 			</p>
 		</footer>
 	</div>
-
-	<!-- <Navbar /> -->
 </Layout>

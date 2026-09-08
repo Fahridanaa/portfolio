@@ -1,0 +1,41 @@
+---
+import ArtFigure from "./ArtFigure.astro";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+	limit?: number;
+}
+
+const { limit } = Astro.props;
+
+const files = import.meta.glob<{ default: ImageMetadata }>(
+	"../../assets/art/*.{png,jpg,jpeg,webp,gif}",
+	{ eager: true }
+);
+
+const pieces = Object.entries(files)
+	.map(([path, mod]) => {
+		const file = path.split("/").pop() ?? path;
+		const name = file.replace(/\.[^.]+$/, "");
+		return {
+			image: mod.default,
+			animated: /\.gif$/i.test(file),
+			caption: name.replace(/[-_]+/g, " "),
+		};
+	})
+	.sort((a, b) => (a.caption > b.caption ? 1 : -1));
+
+const visible = typeof limit === "number" ? pieces.slice(0, limit) : pieces;
+---
+
+<div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+	{
+		visible.map((piece) => (
+			<ArtFigure
+				image={piece.image}
+				animated={piece.animated}
+				caption={piece.caption}
+			/>
+		))
+	}
+</div>

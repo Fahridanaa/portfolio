@@ -27,6 +27,7 @@ const tiltClass = stickyNoteClasses[index % stickyNoteClasses.length];
 ---
 
 <a href={`/blog/${entry.slug}`}
+	data-entry-mode={entry.data.mode}
 	class={`sticky-note sticky-note-lift no-underline ${tiltClass} flex min-h-56 flex-col p-4 ${isFeatured ? "sm:min-h-72 sm:p-5" : ""}`}>
 	<div class="relative z-[1] flex flex-1 flex-col gap-2">
 		<div class="flex flex-1 flex-col gap-2">
