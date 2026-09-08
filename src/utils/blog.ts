@@ -20,6 +20,27 @@ export function sortBlogEntries(entries: BlogEntry[]) {
 	);
 }
 
+export type YearGroup = {
+	year: number;
+	entries: BlogEntry[];
+};
+
+export function groupBlogEntriesByYear(entries: BlogEntry[]): YearGroup[] {
+	const grouped = new Map<number, BlogEntry[]>();
+	for (const entry of sortBlogEntries(entries)) {
+		const year = entry.data.date.getFullYear();
+		const group = grouped.get(year);
+		if (group) {
+			group.push(entry);
+		} else {
+			grouped.set(year, [entry]);
+		}
+	}
+	return [...grouped.entries()]
+		.map(([year, groupEntries]) => ({ year, entries: groupEntries }))
+		.sort((a, b) => b.year - a.year);
+}
+
 export function shouldShowBlogEntry(entry: BlogEntry) {
 	return !import.meta.env.PROD || !entry.data.draft;
 }

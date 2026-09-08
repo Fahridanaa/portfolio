@@ -1,11 +1,10 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
-import BlogPaperNav from "@/components/ui/BlogPaperNav.astro";
 import BlogEntryCard from "@/components/ui/BlogEntryCard.astro";
-import { shouldShowBlogEntry, sortBlogEntries } from "@/utils/blog";
+import { groupBlogEntriesByYear, shouldShowBlogEntry } from "@/utils/blog";
 
-const blogEntries = sortBlogEntries(
+const yearGroups = groupBlogEntriesByYear(
 	(await getCollection("blog")).filter(shouldShowBlogEntry)
 );
 ---
@@ -13,11 +12,9 @@ const blogEntries = sortBlogEntries(
 <Layout title="Blog / Fahridana Ahmad Rayyansyah">
 	<div
 		class="notebook-sheet mx-auto min-h-dvh w-full max-w-6xl overflow-hidden px-5 sm:px-8 lg:px-12">
-		<BlogPaperNav backHref="/" />
 
-		<article class="notebook-section mx-auto max-w-5xl pt-16">
-			<header class="mb-10 space-y-5">
-				<p class="sketch-label">public notebook</p>
+		<article class="notebook-section mx-auto max-w-5xl pt-8">
+			<header class="mb-10 space-y-2">
 				<h1
 					class="max-w-[11ch] text-pretty text-5xl font-black leading-[0.98] text-brand-ink sm:text-6xl">
 					Blog Notes
@@ -26,15 +23,23 @@ const blogEntries = sortBlogEntries(
 					Casual notes, small thoughts, debugging stories, and things I want
 					to remember out loud.
 				</p>
+				<div class="soft-rule flex-1"></div>
 			</header>
 
 			{
-				blogEntries.length > 0 ? (
-					<div class="mt-12 grid gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-						{blogEntries.map((entry, index) => (
-							<BlogEntryCard entry={entry} index={index} />
-						))}
-					</div>
+				yearGroups.length > 0 ? (
+					yearGroups.map((group) => (
+						<section>
+							<h2 class="mb-6 mt-12 text-3xl font-black text-brand-ink first:mt-12">
+								{group.year}
+							</h2>
+							<div class="grid gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+								{group.entries.map((entry, index) => (
+									<BlogEntryCard entry={entry} index={index} />
+								))}
+							</div>
+						</section>
+					))
 				) : (
 					<div class="paper-scrap scrap-left mx-auto mt-8 max-w-2xl p-6">
 						<p class="sketch-label mb-4">empty page</p>
