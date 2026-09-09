@@ -1,43 +1,131 @@
 ---
 import ModeSwitch from "@/components/ui/ModeSwitch.astro";
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path === href || path.startsWith(href + "/");
 ---
 
-<header
-	class="sticky top-0 z-50 border-b border-brand-ink/10 bg-brand-paper/95 backdrop-blur">
+<header class="bookmark-bar sticky top-0 z-50 h-0">
 	<div
-		class="mx-auto flex max-w-7xl flex-wrap items-center gap-x-5 gap-y-2 px-5 py-2.5 sm:px-8 lg:px-12">
-		<a
-			href="/"
-			class="text-sm font-black uppercase tracking-wide text-brand-ink">
-			Fahridana<span class="text-brand-green">.</span>
+		class="pointer-events-none absolute inset-x-0 top-0 mx-auto flex max-w-7xl flex-nowrap items-start justify-between gap-2 px-5 sm:px-8 lg:px-12">
+		<a href="/" class="brand-tag pointer-events-auto">
+			<span class="hidden sm:inline">Fahridana.</span>
+			<span class="sm:hidden">F.</span>
 		</a>
 		<nav
 			aria-label="Sections"
-			class="flex items-center gap-1 font-mono text-xs font-black uppercase">
+			class="pointer-events-auto flex flex-nowrap items-start gap-1.5 font-mono text-[11px] font-black uppercase sm:text-xs">
 			<span data-mode-block="work" class="contents">
-				<a class="topnav-link" href="/projects">Projects</a>
+				<a
+					class:list={["bookmark", { "is-active": isActive("/projects") }]}
+					style="--tilt: -1.4deg; --note: #d7f0ff; --note-active: #a5d8ff"
+					href="/projects"
+					aria-current={isActive("/projects") ? "page" : undefined}>
+					Projects
+				</a>
 			</span>
 			<span data-mode-block="personal" class="contents">
-				<a class="topnav-link" href="/art">Art</a>
+				<a
+					class:list={["bookmark", { "is-active": isActive("/art") }]}
+					style="--tilt: 1.1deg; --note: #ffd9e6; --note-active: #ffafc9"
+					href="/art"
+					aria-current={isActive("/art") ? "page" : undefined}>
+					Art
+				</a>
 			</span>
-			<a class="topnav-link" href="/blog">Notes</a>
+			<a
+				class:list={["bookmark", { "is-active": isActive("/blog") }]}
+				style="--tilt: -0.8deg; --note: #f6f2a0; --note-active: #e7e15a"
+				href="/blog"
+				aria-current={isActive("/blog") ? "page" : undefined}>
+				Notes
+			</a>
 		</nav>
-		<div class="ml-auto">
+		<div class="mode-pill pointer-events-auto">
 			<ModeSwitch compact />
 		</div>
 	</div>
 </header>
 
 <style>
-	.topnav-link {
-		border-radius: 3px;
-		color: var(--graphite);
-		padding: 0.45rem 0.7rem;
+	.bookmark-bar {
+		background: transparent;
+		border: none;
+		overflow: visible;
 	}
 
-	.topnav-link:hover,
-	.topnav-link:focus-visible {
-		background: rgba(255, 255, 255, 0.7);
+	.brand-tag {
+		margin-top: 0.55rem;
+		padding: 0.3rem 0.7rem;
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+			"Liberation Mono", monospace;
+		font-size: 0.72rem;
+		font-weight: 900;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--green);
+		border: 2px solid var(--green);
+		border-radius: 3px;
+		outline: 1px solid var(--green);
+		outline-offset: 2px;
+		transform: rotate(-1.5deg);
+		opacity: 0.9;
+		white-space: nowrap;
+	}
+
+	.mode-pill {
+		margin-top: 0.45rem;
+		flex-shrink: 0;
+	}
+
+	.mode-pill .mode-switch {
+		border: 2px solid var(--ink);
+		border-radius: 3px;
+		background: var(--paper-warm);
+		box-shadow: 2px 2px 0 var(--ink);
+		transform: rotate(1deg);
+	}
+
+	.mode-pill .mode-thumb {
+		background: var(--ink);
+	}
+
+	.mode-pill .mode-switch[aria-checked="false"] [data-mode-label="work"],
+	.mode-pill .mode-switch[aria-checked="true"] [data-mode-label="personal"] {
+		color: var(--paper-warm);
+	}
+
+	.bookmark {
+		position: relative;
+		padding: 0.7rem 0.75rem 1.45rem;
 		color: var(--ink);
+		background: var(--note);
+		border: 1px solid rgba(36, 49, 42, 0.35);
+		border-top: none;
+		clip-path: polygon(
+			0 0,
+			100% 0,
+			100% calc(100% - 9px),
+			50% 100%,
+			0 calc(100% - 9px)
+		);
+		transform: rotate(var(--tilt, 0deg));
+		transform-origin: top center;
+		filter: drop-shadow(0 1px 0 rgba(36, 49, 42, 0.35))
+			drop-shadow(0 6px 6px rgba(36, 49, 42, 0.25));
+		transition: padding 160ms ease, background 160ms ease, filter 160ms ease;
+		white-space: nowrap;
+	}
+
+	.bookmark:hover,
+	.bookmark:focus-visible {
+		filter: drop-shadow(0 1px 0 rgba(36, 49, 42, 0.35))
+			drop-shadow(0 10px 8px rgba(36, 49, 42, 0.28));
+	}
+
+	.bookmark.is-active {
+		background: var(--note-active);
+		padding-top: 1.15rem;
 	}
 </style>
