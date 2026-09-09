@@ -1,6 +1,5 @@
 ---
-import { Image } from "astro:assets";
-import { iconPath } from "@/utils/icons";
+import { techIcon } from "@/utils/icons";
 
 interface Props {
 	tech: string;
@@ -9,24 +8,40 @@ interface Props {
 	title?: string;
 }
 
-const { tech, size, isLazy = true, title } = Astro.props;
+const { tech, size, title } = Astro.props;
+const icon = techIcon(tech);
+const dims =
+	size === "large"
+		? "width:64px;height:64px;"
+		: size === "medium"
+			? "width:40px;height:40px;"
+			: "width:32px;height:32px;";
 ---
 
 <div
 	class={`paper-lift depth-control flex flex-col items-center justify-center gap-2 rounded-md bg-white/70 text-brand-ink ${size === "small" ? "px-2 py-1" : ""} ${size === "medium" ? "px-3 py-2" : ""} ${size === "large" ? "px-4 py-3 sm:px-6" : ""}`}
 	title={title ? title : tech}>
-	<div class="relative">
-		<Image
-			src={iconPath(tech)}
-			alt={`${tech} icon`}
-			width={size === "large" ? 64 : size === "medium" ? 40 : 32}
-			height={size === "large" ? 64 : size === "medium" ? 40 : 32}
-			loading={isLazy ? "lazy" : "eager"}
-			class="transition-transform duration-200 hover:rotate-3"
-		/>
-	</div>
+	{
+		icon && (
+			<div class="tech-svg" style={`${dims}color:#${icon.hex};`}>
+				<Fragment set:html={icon.svg} />
+			</div>
+		)
+	}
 	<p
 		class={`text-center font-black uppercase tracking-normal ${size === "small" ? "text-[0.65rem]" : ""} ${size === "medium" ? "text-xs" : ""} ${size === "large" ? "text-sm" : ""}`}>
 		{tech}
 	</p>
 </div>
+
+<style>
+	.tech-svg svg {
+		width: 100%;
+		height: 100%;
+		fill: currentColor;
+		transition: transform 200ms ease;
+	}
+	.tech-svg:hover svg {
+		transform: rotate(3deg);
+	}
+</style>
