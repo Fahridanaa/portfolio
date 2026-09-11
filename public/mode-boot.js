@@ -23,5 +23,4 @@
 	} catch (e) {}
 
 	applySiteMode();
-	document.addEventListener("astro:after-swap", applySiteMode);
 })();

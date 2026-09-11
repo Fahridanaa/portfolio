@@ -18,6 +18,19 @@
   --color-brand-cream: #fbfaf2;
 }
 
+/* Native cross-document page transitions (replaces <ClientRouter />). */
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation: none !important;
+  }
+}
+
 @layer base {
   :root {
     --paper: #fbfaf2;
