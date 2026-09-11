@@ -31,23 +31,3 @@ export const SOCIAL_LINKS: SocialLink[] = [
     iconSrc: "/assets/icons/profile.png",
   },
 ];
-
-export const LANGUAGES = [
-  { language: "English", greeting: "Hi" },
-  { language: "Spanish", greeting: "Hola" },
-  { language: "French", greeting: "Bonjour" },
-  { language: "German", greeting: "Hallo" },
-  { language: "Japanese", greeting: "こんにちは" },
-  { language: "Mandarin", greeting: "你好" },
-  { language: "Arabic", greeting: "مرحبا" },
-  { language: "Hindi", greeting: "नमस्ते" },
-  { language: "Indonesia", greeting: "Halo" },
-  { language: "Work In Progress", greeting: "WIP" },
-];
-
-export const TYPING_STRINGS = [
-  "Software Engineer",
-  "Mobile Developer",
-  "Full-stack Software Developer",
-  "Problem Solver",
-];

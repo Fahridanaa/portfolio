@@ -1,11 +1,19 @@
 import {
 	siAstro,
 	siBootstrap,
+	siCss,
+	siFirebase,
+	siGooglecloud,
+	siHtml5,
+	siJavascript,
 	siJquery,
 	siLaravel,
 	siMysql,
+	siNextdotjs,
+	siNodedotjs,
 	siPhp,
 	siPostgresql,
+	siPrisma,
 	siPython,
 	siReact,
 	siSvelte,
@@ -14,17 +22,10 @@ import {
 	type SimpleIcon,
 } from "simple-icons";
 
+// Aliases for names that do not normalize to their icon key.
 const ICON_MAP: Record<string, string> = {
-	"next.js": "nextjs",
-	nextjs: "nextjs",
-	"node.js": "nodejs",
-	nodejs: "nodejs",
 	"prisma orm": "prisma",
-	"tailwind css": "tailwindcss",
-	"google cloud platform (gcp)": "docker",
-	firebase: "docker",
-	html: "javascript",
-	css: "javascript",
+	"google cloud platform (gcp)": "googlecloud",
 };
 
 const TECH_ICONS: Record<string, SimpleIcon> = {
@@ -40,6 +41,14 @@ const TECH_ICONS: Record<string, SimpleIcon> = {
 	svelte: siSvelte,
 	python: siPython,
 	postgresql: siPostgresql,
+	nextjs: siNextdotjs,
+	nodejs: siNodedotjs,
+	prisma: siPrisma,
+	html: siHtml5,
+	css: siCss,
+	javascript: siJavascript,
+	googlecloud: siGooglecloud,
+	firebase: siFirebase,
 };
 
 export function resolveIconName(tech: string): string {
