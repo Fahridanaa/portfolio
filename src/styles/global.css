@@ -1,6 +1,22 @@
 @import "@fontsource-variable/outfit";
 @import "tailwindcss";
-@config "../../tailwind.config.js";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-brand-paper: #fbfaf2;
+  --color-brand-paper-deep: #f1f4e9;
+  --color-brand-ink: #24312a;
+  --color-brand-graphite: #4b564f;
+  --color-brand-grid: #a8bfd6;
+  --color-brand-line: #cad8c8;
+  --color-brand-green: #2e5c37;
+  --color-brand-green-soft: #dcead7;
+  --color-brand-highlighter: #c9ef6a;
+  --color-brand-tan: #4b564f;
+  --color-brand-tan-dark: #24312a;
+  --color-brand-tan-light: #cad8c8;
+  --color-brand-cream: #fbfaf2;
+}
 
 @layer base {
   :root {
