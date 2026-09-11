@@ -3,16 +3,16 @@ import path from "node:path";
 import { createElement, type CSSProperties } from "react";
 import satori from "satori";
 import sharp from "sharp";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { type CollectionEntry } from "astro:content";
 import type { APIRoute, GetStaticPaths } from "astro";
-import { shouldShowBlogEntry } from "@/utils/blog";
+import { getBlogEntries } from "@/lib/content";
 
 export const prerender = true;
 
 type BlogEntry = CollectionEntry<"blog">;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const entries = (await getCollection("blog")).filter(shouldShowBlogEntry);
+	const entries = await getBlogEntries();
 
 	return entries.map((entry) => ({
 		params: { slug: entry.slug },

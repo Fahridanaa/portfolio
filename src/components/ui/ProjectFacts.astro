@@ -1,0 +1,35 @@
+---
+import type { ProjectMeta } from "@/models/project";
+import ProjectButton from "@/components/ui/ProjectButton";
+import TechStack from "@/components/ui/TechStack.astro";
+import { Code, ExternalLink } from "lucide-react";
+
+interface Props {
+	frontmatter: ProjectMeta;
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<div>
+	<p class="sketch-label mb-2 text-[0.62rem]">links</p>
+	<div class="flex flex-wrap gap-2">
+		{frontmatter.demo && (
+			<ProjectButton href={frontmatter.demo} icon={ExternalLink} text="Demo" />
+		)}
+		{frontmatter.sourceClient && (
+			<ProjectButton href={frontmatter.sourceClient} icon={Code} text="Client" />
+		)}
+		{frontmatter.sourceServer && (
+			<ProjectButton href={frontmatter.sourceServer} icon={Code} text="API" />
+		)}
+	</div>
+</div>
+<div>
+	<p class="sketch-label mb-2 text-[0.62rem]">stack</p>
+	<div class="flex flex-wrap gap-2">
+		{frontmatter.stack.map((tech: string) => (
+			<TechStack tech={tech} size="small" isLazy={false} />
+		))}
+	</div>
+</div>

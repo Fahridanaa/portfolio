@@ -64,30 +64,7 @@ const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
 			)
 		}
 		<meta name="generator" content={Astro.generator} />
-		<script is:inline>
-			(function () {
-				// Literals mirror src/utils/mode.ts (inline scripts cannot import).
-				function applySiteMode() {
-					try {
-						var m = localStorage.getItem("site-mode") || "work";
-						if (m !== "personal") m = "work";
-						localStorage.setItem("site-mode", m);
-						document.documentElement.dataset.mode = m;
-					} catch (e) {
-						document.documentElement.dataset.mode = "work";
-					}
-				}
-				try {
-					if (location.search.indexOf("mode=") !== -1) {
-						var u = new URL(location.href);
-						u.searchParams.delete("mode");
-						history.replaceState(null, "", u);
-					}
-				} catch (e) {}
-				applySiteMode();
-				document.addEventListener("astro:after-swap", applySiteMode);
-			})();
-		</script>
+		<script is:inline src="/mode-boot.js"></script>
 		<title>{title}</title>
 		<ClientRouter />
 	</head>

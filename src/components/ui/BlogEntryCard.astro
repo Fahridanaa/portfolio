@@ -3,6 +3,7 @@ import BlogTags from "@/components/ui/BlogTags.astro";
 import {
 	estimateReadingTime,
 	formatBlogDate,
+	STICKY_NOTE_CLASSES,
 	type BlogEntry,
 } from "@/utils/blog";
 
@@ -15,15 +16,8 @@ interface Props {
 const { entry, variant = "compact", index = 0 } = Astro.props;
 const readingTime = estimateReadingTime(entry.body);
 const isFeatured = variant === "featured";
-const stickyNoteClasses = [
-	"sticky-note-left",
-	"sticky-note-center",
-	"sticky-note-right",
-	"sticky-note-blue-left",
-	"sticky-note-pink-center",
-	"sticky-note-yellow-right",
-];
-const tiltClass = stickyNoteClasses[index % stickyNoteClasses.length];
+const tiltClass =
+	STICKY_NOTE_CLASSES[index % STICKY_NOTE_CLASSES.length];
 ---
 
 <a href={`/blog/${entry.slug}`}

@@ -5,30 +5,26 @@ import SocialButton from "@/components/ui/SocialButton.astro";
 import me from "@/../public/assets/me.jpg";
 import ExperienceCard from "@/components/ui/ExperienceCard";
 import BlogEntryCard from "@/components/ui/BlogEntryCard.astro";
-import { getCollection } from "astro:content";
-import type { Project } from "@/models/project";
-import type { Experience } from "@/models/experience";
 import { SOCIAL_LINKS } from "@/data/site";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import ArtGrid from "@/components/ui/ArtGrid.astro";
 import MiniProjectScrap from "@/components/ui/MiniProjectScrap.astro";
 import ProjectGridPlaceholder from "@/components/ui/ProjectGridPlaceholder.astro";
-import {
-	shouldShowBlogEntry,
-	sortBlogEntries,
-} from "@/utils/blog";
+import { getBlogEntries, getExperiences, getProjects } from "@/lib/content";
 import { DEFAULT_MODE } from "@/utils/mode";
-const personalProjects = await getCollection("projects");
-const sortedPersonalProjects = personalProjects.sort(
-	(a: Project, b: Project) => (a.data.date > b.data.date ? -1 : 1)
-);
-const projectGridCols = 3;
-const projectTotalSlots = Math.ceil((sortedPersonalProjects.length + 1) / projectGridCols) * projectGridCols;
-const projectPlaceholderCount = Math.max(0, projectTotalSlots - sortedPersonalProjects.length - 1);
+import { STICKY_NOTE_CLASSES } from "@/utils/blog";
 
-const blogEntries = sortBlogEntries(
-	(await getCollection("blog")).filter(shouldShowBlogEntry)
+const sortedPersonalProjects = await getProjects();
+const projectGridCols = 3;
+const projectTotalSlots =
+	Math.ceil((sortedPersonalProjects.length + 1) / projectGridCols) *
+	projectGridCols;
+const projectPlaceholderCount = Math.max(
+	0,
+	projectTotalSlots - sortedPersonalProjects.length - 1
 );
+
+const blogEntries = await getBlogEntries();
 const workBlogEntries = blogEntries
 	.filter((entry) => entry.data.mode === DEFAULT_MODE)
 	.slice(0, 5);
@@ -38,19 +34,8 @@ const personalBlogEntries = blogEntries
 const personalBlogPlaceholders = Array.from({
 	length: Math.max(0, 5 - personalBlogEntries.length),
 });
-const stickyNoteClasses = [
-	"sticky-note-left",
-	"sticky-note-center",
-	"sticky-note-right",
-	"sticky-note-blue-left",
-	"sticky-note-pink-center",
-	"sticky-note-yellow-right",
-];
 
-const experiences = await getCollection("experiences");
-const sortedExperiences = experiences.sort((a: Experience, b: Experience) =>
-	a.data.date > b.data.date ? -1 : 1
-);
+const sortedExperiences = await getExperiences();
 
 const currentYear = new Date().getFullYear();
 ---
@@ -92,8 +77,7 @@ const currentYear = new Date().getFullYear();
 									href={item.href}
 									title={item.title}
 									ariaLabel={item.ariaLabel}
-									icon={item.icon}
-									hrefLabel={item.hrefLabel}
+									iconSrc={item.iconSrc}
 								/>
 							))
 						}
@@ -126,27 +110,16 @@ const currentYear = new Date().getFullYear();
 		</article>
 
 		<section id="experience" data-mode-block="work" class="notebook-section compact-section">
-			<!-- <section class="mx-auto max-w-5xl"> -->
-				<SectionHeader title="Experience" spacer />
-				<!-- <p class="mt-4 max-w-[58ch] text-base leading-relaxed text-brand-graphite">
-					A compact résumé sheet of places, roles, and tools that shaped how I
-					work.
-				</p> -->
-				<div class="experience-list mt-6">
-					{
-						sortedExperiences.map(
-							(experience: Experience, index: number) => (
-								<div class="experience-item">
-									<ExperienceCard
-										experience={experience.data}
-										client:load
-									/>
-								</div>
-							)
-						)
-					}
-				</div>
-			<!-- </section> -->
+			<SectionHeader title="Experience" spacer />
+			<div class="experience-list mt-6">
+				{
+					sortedExperiences.map((experience) => (
+						<div class="experience-item">
+							<ExperienceCard experience={experience.data} client:load />
+						</div>
+					))
+				}
+			</div>
 		</section>
 
 		<section id="projects" data-mode-block="work" class="notebook-section compact-section">
@@ -158,7 +131,7 @@ const currentYear = new Date().getFullYear();
 					))
 				}
 				{
-					Array.from({ length: projectPlaceholderCount }).map((_) => (
+					Array.from({ length: projectPlaceholderCount }).map(() => (
 						<ProjectGridPlaceholder />
 					))
 				}
@@ -198,135 +171,96 @@ const currentYear = new Date().getFullYear();
 		</section>
 
 		<section id="blog" class="notebook-section compact-section">
-			<!-- <section class="mx-auto max-w-5xl"> -->
-				<div class="mb-6">
-					<div>
-						<SectionHeader title="Latest Note" />
-						<!-- <p class="mt-4 max-w-[58ch] text-base leading-relaxed text-brand-graphite">
-							One casual note from the public notebook. The full stack of notes
-							lives on its own page.
-						</p> -->
-					</div>
+			<div class="mb-6">
+				<div>
+					<SectionHeader title="Latest Note" />
 				</div>
-				<div class="mt-8 grid gap-5 md:grid-cols-3">
-					{
-						workBlogEntries.map((entry, index) => (
-							<BlogEntryCard entry={entry} index={index} />
-						))
-					}
-					{
-						workBlogEntries.length === 0 && (
-							<article data-mode-block="work" class="sticky-note sticky-note-center flex min-h-56 flex-col p-4">
+			</div>
+			<div class="mt-8 grid gap-5 md:grid-cols-3">
+				{
+					workBlogEntries.map((entry, index) => (
+						<BlogEntryCard entry={entry} index={index} />
+					))
+				}
+				{
+					workBlogEntries.length === 0 && (
+						<article data-mode-block="work" class="sticky-note sticky-note-center flex min-h-56 flex-col p-4">
+							<div class="relative z-[1] flex flex-1 flex-col justify-between gap-2">
+								<p class="font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
+									work notes
+								</p>
+								<div class="space-y-2">
+									<h3 class="text-pretty text-3xl font-black leading-tight text-brand-ink">
+										Quiet here
+									</h3>
+									<p class="break-words text-sm leading-relaxed text-brand-graphite">
+										No work notes yet. Flip to Personal for notebook entries.
+									</p>
+								</div>
+								<p class="font-mono text-xs font-black uppercase tracking-normal text-brand-green">
+									empty desk
+								</p>
+							</div>
+						</article>
+					)
+				}
+				{
+					personalBlogEntries.map((entry, index) => (
+						<BlogEntryCard entry={entry} index={index} />
+					))
+				}
+				{
+					personalBlogPlaceholders.map((_, index) => {
+						const slotIndex = personalBlogEntries.length + index;
+						const tiltClass = STICKY_NOTE_CLASSES[slotIndex];
+
+						return (
+							<article data-mode-block="personal" class={`sticky-note ${tiltClass} flex min-h-56 flex-col p-4`}>
 								<div class="relative z-[1] flex flex-1 flex-col justify-between gap-2">
 									<p class="font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
-										work notes
+										empty sticky
 									</p>
 									<div class="space-y-2">
 										<h3 class="text-pretty text-3xl font-black leading-tight text-brand-ink">
-											Quiet here
+											Soon
 										</h3>
 										<p class="break-words text-sm leading-relaxed text-brand-graphite">
-											No work notes yet. Flip to Personal for notebook entries.
+											A note is still being scribbled. It can stay messy until it is ready.
 										</p>
 									</div>
 									<p class="font-mono text-xs font-black uppercase tracking-normal text-brand-green">
-										empty desk
+										draft pile
 									</p>
 								</div>
 							</article>
-						)
-					}
-					{
-						personalBlogEntries.map((entry, index) => (
-							<BlogEntryCard entry={entry} index={index} />
-						))
-					}
-					{
-						personalBlogPlaceholders.map((_, index) => {
-							const slotIndex = personalBlogEntries.length + index;
-							const tiltClass = stickyNoteClasses[slotIndex];
-
-							return (
-								<article data-mode-block="personal" class={`sticky-note ${tiltClass} flex min-h-56 flex-col p-4`}>
-									<div class="relative z-[1] flex flex-1 flex-col justify-between gap-2">
-										<p class="font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
-											empty sticky
-										</p>
-										<div class="space-y-2">
-											<h3 class="text-pretty text-3xl font-black leading-tight text-brand-ink">
-												Soon
-											</h3>
-											<p class="break-words text-sm leading-relaxed text-brand-graphite">
-												A note is still being scribbled. It can stay messy until it is ready.
-											</p>
-										</div>
-										<p class="font-mono text-xs font-black uppercase tracking-normal text-brand-green">
-											draft pile
-										</p>
-									</div>
-								</article>
-							);
-						})
-					}
-					<div class="sticky-note-stack min-h-56 self-start">
-						<span class="sticky-note-stack-layer sticky-note-stack-layer-back" aria-hidden="true"></span>
-						<span class="sticky-note-stack-layer sticky-note-stack-layer-mid" aria-hidden="true"></span>
-						<a
-							href="/blog"
-							class={`sticky-note ${stickyNoteClasses[5]} sticky-note-nav sticky-note-stack-top flex min-h-44 flex-col justify-between p-4 text-brand-ink`}
-						>
-							<p class="relative z-[1] font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
-								note index
+						);
+					})
+				}
+				<div class="sticky-note-stack min-h-56 self-start">
+					<span class="sticky-note-stack-layer sticky-note-stack-layer-back" aria-hidden="true"></span>
+					<span class="sticky-note-stack-layer sticky-note-stack-layer-mid" aria-hidden="true"></span>
+					<a
+						href="/blog"
+						class={`sticky-note ${STICKY_NOTE_CLASSES[5]} sticky-note-nav sticky-note-stack-top flex min-h-44 flex-col justify-between p-4 text-brand-ink`}
+					>
+						<p class="relative z-[1] font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
+							note index
+						</p>
+						<div class="relative z-[1] space-y-2">
+							<h3 class="text-pretty text-2xl font-black leading-tight">
+								All Notes
+							</h3>
+							<p class="text-sm leading-relaxed text-brand-graphite">
+								Open the full stack of public notebook entries.
 							</p>
-							<div class="relative z-[1] space-y-2">
-								<h3 class="text-pretty text-2xl font-black leading-tight">
-									All Notes
-								</h3>
-								<p class="text-sm leading-relaxed text-brand-graphite">
-									Open the full stack of public notebook entries.
-								</p>
-							</div>
-							<p class="relative z-[1] font-mono text-xs font-black uppercase tracking-normal text-brand-green">
-								open list
-							</p>
-						</a>
-					</div>
+						</div>
+						<p class="relative z-[1] font-mono text-xs font-black uppercase tracking-normal text-brand-green">
+							open list
+						</p>
+					</a>
 				</div>
-			<!-- </section> -->
+			</div>
 		</section>
-
-
-
-
-		<!-- <article id="contact" class="notebook-section">
-			<section class="mx-auto max-w-3xl text-center">
-				<SectionHeader title="Contact" variant="centered" />
-				<div class="mt-8 space-y-5">
-					<p class="sketch-label mx-auto">open notebook</p>
-					<h2
-						class="text-pretty text-4xl font-black leading-tight text-brand-ink sm:text-6xl">
-						Got a weird idea?
-					</h2>
-					<p class="mx-auto max-w-[50ch] text-lg leading-relaxed text-brand-graphite">
-						Send it over. I am always open to small experiments, practical
-						projects, or a chat that starts with &ldquo;what if&hellip;&rdquo;.
-					</p>
-					<div class="flex justify-center gap-3" aria-label="Contact links">
-						{
-							SOCIAL_LINKS.map((item) => (
-								<SocialButton
-									href={item.href}
-									title={item.title}
-									ariaLabel={item.ariaLabel}
-									icon={item.icon}
-									hrefLabel={item.hrefLabel}
-								/>
-							))
-						}
-					</div>
-				</div>
-			</section>
-		</article> -->
 
 		<footer class="mx-auto max-w-5xl py-10 text-center text-sm text-brand-graphite">
 			<p class="font-semibold">

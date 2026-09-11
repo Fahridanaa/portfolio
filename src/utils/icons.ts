@@ -47,10 +47,13 @@ export function resolveIconName(tech: string): string {
 	return ICON_MAP[key] ?? key.replace(/\s+/g, "").replace(/[^a-z0-9]/g, "");
 }
 
-export function iconPath(tech: string): string {
-	return `/assets/icons/${resolveIconName(tech)}.svg`;
-}
-
 export function techIcon(tech: string): SimpleIcon | null {
 	return TECH_ICONS[resolveIconName(tech)] ?? null;
+}
+
+// Inline the brand color as an SVG fill attribute: a `style` attribute would be
+// blocked by the CSP `style-src` directive, an SVG presentation attribute is not.
+export function techIconSvg(tech: string): string | null {
+	const icon = techIcon(tech);
+	return icon ? icon.svg.replace("<svg ", `<svg fill="#${icon.hex}" `) : null;
 }

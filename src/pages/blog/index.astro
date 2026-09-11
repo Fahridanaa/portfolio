@@ -1,12 +1,10 @@
 ---
-import { getCollection } from "astro:content";
+import { getBlogEntries } from "@/lib/content";
 import Layout from "@/layouts/Layout.astro";
 import BlogEntryCard from "@/components/ui/BlogEntryCard.astro";
-import { groupBlogEntriesByYear, shouldShowBlogEntry } from "@/utils/blog";
+import { groupBlogEntriesByYear } from "@/utils/blog";
 
-const yearGroups = groupBlogEntriesByYear(
-	(await getCollection("blog")).filter(shouldShowBlogEntry)
-);
+const yearGroups = groupBlogEntriesByYear(await getBlogEntries());
 ---
 
 <Layout title="Blog / Fahridana Ahmad Rayyansyah">

@@ -1,7 +1,5 @@
 ---
-import { Image } from "astro:assets";
-
-const { href, target = "_blank", title, ariaLabel, icon: Icon, hrefLabel } = Astro.props;
+const { href, target = "_blank", title, ariaLabel, iconSrc } = Astro.props;
 ---
 
 <a
@@ -12,8 +10,8 @@ const { href, target = "_blank", title, ariaLabel, icon: Icon, hrefLabel } = Ast
 	title={title}
 	aria-label={ariaLabel}>
 	<img
-		src={hrefLabel}
-		alt={title}
+		src={iconSrc}
+		alt=""
 		width={48}
 		height={48}
 		aria-hidden="true"

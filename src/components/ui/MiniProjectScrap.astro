@@ -10,7 +10,10 @@ const { project, slug } = Astro.props;
 const { title, type, stack, description, date } = project;
 const visibleTech = stack.slice(0, 4);
 const hiddenTechCount = stack.length - visibleTech.length;
-const projectDateStr = date instanceof Date ? date.toLocaleDateString("en-US", { month: "short", year: "numeric" }) : "";
+const projectDateStr = date.toLocaleDateString("en-US", {
+	month: "short",
+	year: "numeric",
+});
 ---
 
 <a

@@ -1,20 +1,14 @@
 ---
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
+import { getBlogEntries } from "@/lib/content";
 import Layout from "@/layouts/Layout.astro";
 import BlogBanner from "@/components/ui/BlogBanner.astro";
 import PaperNav from "@/components/ui/PaperNav.astro";
 import BlogTags from "@/components/ui/BlogTags.astro";
-import {
-	estimateReadingTime,
-	formatBlogDate,
-	shouldShowBlogEntry,
-	sortBlogEntries,
-} from "@/utils/blog";
+import { estimateReadingTime, formatBlogDate } from "@/utils/blog";
 
 export async function getStaticPaths() {
-	const entries = sortBlogEntries(
-		(await getCollection("blog")).filter(shouldShowBlogEntry)
-	);
+	const entries = await getBlogEntries();
 
 	return entries.map((entry) => ({
 		params: { slug: entry.slug },

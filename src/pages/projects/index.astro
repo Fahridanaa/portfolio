@@ -1,12 +1,9 @@
 ---
-import { getCollection } from "astro:content";
+import { getProjects } from "@/lib/content";
 import Layout from "@/layouts/Layout.astro";
 import MiniProjectScrap from "@/components/ui/MiniProjectScrap.astro";
-import type { Project } from "@/models/project";
 
-const projects = (await getCollection("projects")).sort(
-	(a: Project, b: Project) => (a.data.date > b.data.date ? -1 : 1)
-);
+const projects = await getProjects();
 ---
 
 <Layout title="Projects / Fahridana Ahmad Rayyansyah">

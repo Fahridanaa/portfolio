@@ -18,8 +18,7 @@ const isActive = (href: string) =>
 			class="pointer-events-auto flex flex-nowrap items-start gap-1.5 font-mono text-[11px] font-black uppercase sm:text-xs">
 			<span data-mode-block="work" class="contents">
 				<a
-					class:list={["bookmark", { "is-active": isActive("/projects") }]}
-					style="--tilt: -1.4deg; --note: #d7f0ff; --note-active: #a5d8ff"
+					class:list={["bookmark", "bookmark-projects", { "is-active": isActive("/projects") }]}
 					href="/projects"
 					aria-current={isActive("/projects") ? "page" : undefined}>
 					Projects
@@ -27,16 +26,14 @@ const isActive = (href: string) =>
 			</span>
 			<span data-mode-block="personal" class="contents">
 				<a
-					class:list={["bookmark", { "is-active": isActive("/art") }]}
-					style="--tilt: 1.1deg; --note: #ffd9e6; --note-active: #ffafc9"
+					class:list={["bookmark", "bookmark-art", { "is-active": isActive("/art") }]}
 					href="/art"
 					aria-current={isActive("/art") ? "page" : undefined}>
 					Art
 				</a>
 			</span>
 			<a
-				class:list={["bookmark", { "is-active": isActive("/blog") }]}
-				style="--tilt: -0.8deg; --note: #f6f2a0; --note-active: #e7e15a"
+				class:list={["bookmark", "bookmark-notes", { "is-active": isActive("/blog") }]}
 				href="/blog"
 				aria-current={isActive("/blog") ? "page" : undefined}>
 				Notes
@@ -138,6 +135,24 @@ const isActive = (href: string) =>
 	.bookmark.is-active {
 		background: var(--note-active);
 		padding-top: 1.15rem;
+	}
+
+	.bookmark-projects {
+		--tilt: -1.4deg;
+		--note: #d7f0ff;
+		--note-active: #a5d8ff;
+	}
+
+	.bookmark-art {
+		--tilt: 1.1deg;
+		--note: #ffd9e6;
+		--note-active: #ffafc9;
+	}
+
+	.bookmark-notes {
+		--tilt: -0.8deg;
+		--note: #f6f2a0;
+		--note-active: #e7e15a;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

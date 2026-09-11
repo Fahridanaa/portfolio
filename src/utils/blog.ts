@@ -1,6 +1,16 @@
 import type { CollectionEntry } from "astro:content";
+import { byNewestDate } from "@/utils/sort";
 
 export type BlogEntry = CollectionEntry<"blog">;
+
+export const STICKY_NOTE_CLASSES = [
+	"sticky-note-left",
+	"sticky-note-center",
+	"sticky-note-right",
+	"sticky-note-blue-left",
+	"sticky-note-pink-center",
+	"sticky-note-yellow-right",
+];
 
 export function normalizeTag(tag: string) {
 	return `#${tag.trim().toLowerCase().replace(/^#/, "").replace(/\s+/g, "-")}`;
@@ -15,9 +25,7 @@ export function formatBlogDate(date: Date) {
 }
 
 export function sortBlogEntries(entries: BlogEntry[]) {
-	return [...entries].sort((a, b) =>
-		a.data.date > b.data.date ? -1 : 1
-	);
+	return [...entries].sort(byNewestDate);
 }
 
 export type YearGroup = {

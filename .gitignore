@@ -1,6 +1,9 @@
 # build output
 dist/
 
+# typst default output
+cv/output.pdf
+
 # generated types
 .astro/
 
