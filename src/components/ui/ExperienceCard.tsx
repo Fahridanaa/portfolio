@@ -2,6 +2,12 @@ import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import type { ExperienceMeta } from "@/models/experience";
 
+const monthYear = new Intl.DateTimeFormat("en", {
+  month: "short",
+  year: "numeric",
+});
+const formatMonthYear = (date: Date) => monthYear.format(date);
+
 interface ExperienceProps {
   experience: ExperienceMeta;
 }
@@ -17,8 +23,8 @@ export default function ExperienceCard({ experience }: ExperienceProps) {
         aria-expanded={isOpen}
       >
         <div className="experience-year-cell">
-          <time className="experience-year" dateTime={experience.date.toISOString()}>
-            {experience.startDate}
+          <time className="experience-year" dateTime={experience.startDate.toISOString()}>
+            {formatMonthYear(experience.startDate)}
           </time>
         </div>
 
@@ -52,7 +58,7 @@ export default function ExperienceCard({ experience }: ExperienceProps) {
             </p>
           </div>
           <span className="shrink-0 text-left sm:text-center text-sm font-semibold text-brand-graphite">
-            {experience.startDate} - {experience.endDate}
+            {formatMonthYear(experience.startDate)} - {formatMonthYear(experience.endDate)}
           </span>
         </div>
 

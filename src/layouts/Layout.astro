@@ -11,6 +11,7 @@ interface Props {
 	type?: "website" | "article";
 	canonical?: string;
 	hideNavbar?: boolean;
+	lang?: string;
 }
 
 const defaultDescription =
@@ -24,6 +25,7 @@ const {
 	type = "website",
 	canonical,
 	hideNavbar = false,
+	lang = "en",
 } = Astro.props;
 const baseUrl = Astro.site ?? Astro.url;
 const pageUrl = canonical ? new URL(canonical, baseUrl).toString() : Astro.url.href;
@@ -31,7 +33,7 @@ const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
 ---
 
 <!doctype html>
-<html lang="en" data-mode="work">
+<html lang={lang} data-mode="work">
 	<head>
 		<meta charset="UTF-8" />
 		<meta

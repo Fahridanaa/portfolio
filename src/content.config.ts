@@ -26,9 +26,8 @@ const experienceCollection = defineCollection({
         company: z.string(),
         role: z.string(),
         type: z.string(),
-        startDate: z.string(),
-        endDate: z.string(),
-        date: z.coerce.date(),
+        startDate: z.coerce.date(),
+        endDate: z.coerce.date(),
         location: z.string(),
         isRemote: z.boolean(),
         bullets: z.array(z.string()),
@@ -47,6 +46,7 @@ const blogCollection = defineCollection({
         banner: assetPath.nullable().default(null),
         draft: z.boolean().default(false),
         mode: z.enum(MODES).default("personal"),
+        lang: z.string().default("en"),
     }),
 });
 

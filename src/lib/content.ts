@@ -11,7 +11,9 @@ export async function getProjects() {
 }
 
 export async function getExperiences() {
-	return (await getCollection("experiences")).sort(byNewestDate);
+	return (await getCollection("experiences")).sort(
+		(a, b) => b.data.startDate.getTime() - a.data.startDate.getTime()
+	);
 }
 
 export async function getBlogEntries(): Promise<BlogEntry[]> {
