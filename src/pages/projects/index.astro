@@ -25,7 +25,7 @@ const projects = await getProjects();
 			<div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				{
 					projects.map((project) => (
-						<MiniProjectScrap project={project.data} slug={project.slug} />
+						<MiniProjectScrap project={project.data} slug={project.id} />
 					))
 				}
 			</div>

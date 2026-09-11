@@ -11,7 +11,7 @@ export async function getStaticPaths() {
 	const entries = await getBlogEntries();
 
 	return entries.map((entry) => ({
-		params: { slug: entry.slug },
+		params: { slug: entry.id },
 		props: { entry },
 	}));
 }
@@ -27,10 +27,10 @@ const ogImageVersion = "notebook-20260609";
 <Layout
 	title={`${entry.data.title} / Blog`}
 	description={entry.data.description}
-	image={`/blog/${entry.slug}/og.png?v=${ogImageVersion}`}
+	image={`/blog/${entry.id}/og.png?v=${ogImageVersion}`}
 	imageAlt={`Text preview for ${entry.data.title}`}
 	type="article"
-	canonical={`/blog/${entry.slug}`}
+	canonical={`/blog/${entry.id}`}
 	hideNavbar>
 	<div
 		class="notebook-sheet mx-auto min-h-dvh w-full max-w-6xl overflow-hidden px-5 sm:px-8 lg:px-12">

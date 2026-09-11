@@ -15,7 +15,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 	const entries = await getBlogEntries();
 
 	return entries.map((entry) => ({
-		params: { slug: entry.slug },
+		params: { slug: entry.id },
 		props: { entry },
 	}));
 };

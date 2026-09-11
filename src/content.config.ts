@@ -1,25 +1,27 @@
-import { defineCollection, z } from "astro:content";
-import { MODES } from "../utils/mode";
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
+import { MODES } from "./utils/mode";
 
-const assetPath = z
-    .string()
-    .regex(/^\/assets\//, "must be a path under /assets/");
+const assetPath = z.string().regex(/^\/assets\//, "must be a path under /assets/");
 
 const projectCollection = defineCollection({
+    loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/projects" }),
     schema: z.object({
         title: z.string(),
         type: z.string(),
         hasImage: z.boolean().default(true),
         date: z.coerce.date(),
         description: z.string(),
-        demo: z.string().url().nullable().default(null),
-        sourceClient: z.string().url().nullable().default(null),
-        sourceServer: z.string().url().nullable().default(null),
+        demo: z.url().nullable().default(null),
+        sourceClient: z.url().nullable().default(null),
+        sourceServer: z.url().nullable().default(null),
         stack: z.array(z.string()),
     }),
 });
 
 const experienceCollection = defineCollection({
+    loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/experiences" }),
     schema: z.object({
         company: z.string(),
         role: z.string(),
@@ -36,6 +38,7 @@ const experienceCollection = defineCollection({
 });
 
 const blogCollection = defineCollection({
+    loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/blog" }),
     schema: z.object({
         title: z.string(),
         date: z.coerce.date(),

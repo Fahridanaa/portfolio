@@ -127,7 +127,7 @@ const currentYear = new Date().getFullYear();
 			<div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				{
 					sortedPersonalProjects.map((project) => (
-						<MiniProjectScrap project={project.data} slug={project.slug} />
+						<MiniProjectScrap project={project.data} slug={project.id} />
 					))
 				}
 				{
