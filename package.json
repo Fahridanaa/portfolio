@@ -8,6 +8,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "test": "node --test --experimental-strip-types tests/*.test.ts",
     "cv:build": "typst compile cv/main.typ public/assets/cv.pdf",
     "cv:watch": "typst watch cv/main.typ public/assets/cv.pdf",
     "cv:build:no-phone": "typst compile --input show_phone=false cv/main.typ public/assets/cv.pdf"

@@ -6,6 +6,7 @@ import sharp from "sharp";
 import { type CollectionEntry } from "astro:content";
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getBlogEntries } from "@/lib/content";
+import { splitText } from "@/utils/og";
 
 export const prerender = true;
 
@@ -32,37 +33,6 @@ const el = (
 	style: CSSProperties,
 	children?: Parameters<typeof createElement>[2]
 ) => createElement(type, { style }, children);
-
-const splitText = (value: string, maxLength: number, maxLines: number) => {
-	const words = value.split(/\s+/).filter(Boolean);
-	const lines: string[] = [];
-	let line = "";
-
-	for (const word of words) {
-		const nextLine = line ? `${line} ${word}` : word;
-
-		if (nextLine.length > maxLength && line) {
-			lines.push(line);
-			line = word;
-		} else {
-			line = nextLine;
-		}
-
-		if (lines.length === maxLines) {
-			break;
-		}
-	}
-
-	if (line && lines.length < maxLines) {
-		lines.push(line);
-	}
-
-	if (lines.length === maxLines && words.join(" ").length > lines.join(" ").length) {
-		lines[maxLines - 1] = `${lines[maxLines - 1].replace(/[.,;:!?-]+$/, "")}...`;
-	}
-
-	return lines;
-};
 
 const withHashTag = (tag: string) => `#${tag.replace(/^#/, "").toLowerCase()}`;
 

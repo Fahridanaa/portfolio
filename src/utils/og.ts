@@ -22,3 +22,43 @@ export function ogImageVersion(entry: {
 		.digest("hex")
 		.slice(0, 10);
 }
+
+// Wraps text into at most `maxLines` lines of `maxLength` characters,
+// appending an ellipsis when content is dropped.
+export function splitText(
+	value: string,
+	maxLength: number,
+	maxLines: number
+): string[] {
+	const words = value.split(/\s+/).filter(Boolean);
+	const lines: string[] = [];
+	let line = "";
+
+	for (const word of words) {
+		const nextLine = line ? `${line} ${word}` : word;
+
+		if (nextLine.length > maxLength && line) {
+			lines.push(line);
+			line = word;
+		} else {
+			line = nextLine;
+		}
+
+		if (lines.length === maxLines) {
+			break;
+		}
+	}
+
+	if (line && lines.length < maxLines) {
+		lines.push(line);
+	}
+
+	if (
+		lines.length === maxLines &&
+		words.join(" ").length > lines.join(" ").length
+	) {
+		lines[maxLines - 1] = `${lines[maxLines - 1].replace(/[.,;:!?-]+$/, "")}...`;
+	}
+
+	return lines;
+}
