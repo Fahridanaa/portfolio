@@ -72,6 +72,14 @@ const isActive = (href: string) =>
 		transform: rotate(-1.5deg);
 		opacity: 0.9;
 		white-space: nowrap;
+		transition: transform 160ms ease, opacity 160ms ease, box-shadow 160ms ease;
+	}
+
+	.brand-tag:hover,
+	.brand-tag:focus-visible {
+		transform: rotate(0deg) translateY(1px);
+		opacity: 1;
+		box-shadow: 2px 2px 0 var(--green);
 	}
 
 	.mode-pill {
@@ -120,6 +128,9 @@ const isActive = (href: string) =>
 
 	.bookmark:hover,
 	.bookmark:focus-visible {
+		background: color-mix(in srgb, var(--note), var(--note-active) 60%);
+		padding-top: 0.9rem;
+		padding-bottom: 1.8rem;
 		filter: drop-shadow(0 1px 0 rgba(36, 49, 42, 0.35))
 			drop-shadow(0 10px 8px rgba(36, 49, 42, 0.28));
 	}
@@ -127,5 +138,15 @@ const isActive = (href: string) =>
 	.bookmark.is-active {
 		background: var(--note-active);
 		padding-top: 1.15rem;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.bookmark {
+			transition: background 160ms ease, filter 160ms ease;
+		}
+
+		.brand-tag {
+			transition: box-shadow 160ms ease;
+		}
 	}
 </style>
