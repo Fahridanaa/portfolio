@@ -1,6 +1,10 @@
 import { defineCollection, z } from "astro:content";
 import { MODES } from "../utils/mode";
 
+const assetPath = z
+    .string()
+    .regex(/^\/assets\//, "must be a path under /assets/");
+
 const projectCollection = defineCollection({
     schema: z.object({
         title: z.string(),
@@ -27,7 +31,7 @@ const experienceCollection = defineCollection({
         isRemote: z.boolean(),
         bullets: z.array(z.string()),
         techStack: z.array(z.string()),
-        logo: z.string(),
+        logo: assetPath,
     }),
 });
 
@@ -37,7 +41,7 @@ const blogCollection = defineCollection({
         date: z.coerce.date(),
         description: z.string(),
         tags: z.array(z.string()).default([]),
-        banner: z.string().nullable().default(null),
+        banner: assetPath.nullable().default(null),
         draft: z.boolean().default(false),
         mode: z.enum(MODES).default("personal"),
     }),
