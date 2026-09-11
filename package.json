@@ -19,7 +19,7 @@
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.2",
-    "lucide-react": "^0.460.0",
+    "lucide-react": "^1.44.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "satori": "^0.26.0",
