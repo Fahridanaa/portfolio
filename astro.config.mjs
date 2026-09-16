@@ -19,6 +19,9 @@ export default defineConfig({
                 "base-uri 'self'",
                 "object-src 'none'",
                 "form-action 'self'",
+                // Decoration is painted with inline SVG data URIs, which no
+                // other directive covers, so img-src must name data:.
+                "img-src 'self' data:",
             ],
             // Shiki emits inline style attributes; allow them only on
             // style-src-attr, keeping style-src at 'self' + hashes.
