@@ -150,6 +150,7 @@
     transform: scaleY(1);
     transform-origin: top;
     animation: margin-rule linear;
+    animation-duration: 1s;
     animation-timeline: scroll(root block);
     pointer-events: none;
   }
