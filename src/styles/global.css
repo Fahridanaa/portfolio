@@ -110,10 +110,9 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
-  /* Decorations. One block per surface, keyed by mode (html[data-mode]) and
-     trigger ([data-decor-scroll]). */
+  /* Decorations. One block per surface, keyed by mode (html[data-mode]). */
 
-  /* surface: paper. mode: all. trigger: static. */
+  /* surface: paper. mode: all. */
   .notebook-sheet::before {
     position: absolute;
     top: 0;
@@ -131,9 +130,10 @@
     pointer-events: none;
   }
 
-  /* The margin rule is the pencil mark. Base state is a full-height rule, so
-     Firefox, which has no animation-timeline, and reduced-motion users get a
-     static margin. */
+  /* The margin rule is the pencil mark. The base state is a full-height rule,
+     so Firefox, which has no animation-timeline, and reduced motion get a
+     static margin. The timeline comes after the shorthand because the
+     shorthand resets it. */
   .notebook-sheet::after {
     position: absolute;
     top: 0;
@@ -149,6 +149,8 @@
     );
     transform: scaleY(1);
     transform-origin: top;
+    animation: margin-rule linear;
+    animation-timeline: scroll(root block);
     pointer-events: none;
   }
 
@@ -176,13 +178,6 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 168 36' fill='none' stroke='%232e5c37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='44' y='5' width='46' height='26' rx='2'/%3E%3Cpath d='M49 27l10-10 7 7 7-7 12 10'/%3E%3Ccircle cx='80' cy='13' r='3.2'/%3E%3C/svg%3E");
   }
 
-  /* surface: paper. mode: all. trigger: scroll. */
-  .notebook-sheet[data-decor-scroll]::after {
-    /* the animation shorthand resets animation-timeline, so it comes second */
-    animation: margin-rule linear;
-    animation-timeline: scroll(root block);
-  }
-
   @keyframes margin-rule {
     from {
       transform: scaleY(0);
@@ -192,7 +187,7 @@
     }
   }
 
-  /* surface: desk. mode: personal. trigger: static. */
+  /* surface: desk. mode: personal. */
   html[data-mode="personal"] {
     --desk: #c2d5c3;
     --desk-grid: rgba(46, 92, 55, 0.2);
@@ -923,7 +918,7 @@
     scroll-behavior: auto;
   }
 
-  .notebook-sheet[data-decor-scroll]::after {
+  .notebook-sheet::after {
     animation: none;
     transform: scaleY(1);
   }
