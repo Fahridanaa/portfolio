@@ -183,28 +183,6 @@ const currentYear = new Date().getFullYear();
 					))
 				}
 				{
-					workBlogEntries.length === 0 && (
-						<article data-mode-block="work" class="sticky-note sticky-note-center flex min-h-56 flex-col p-4">
-							<div class="relative z-[1] flex flex-1 flex-col justify-between gap-2">
-								<p class="font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
-									work notes
-								</p>
-								<div class="space-y-2">
-									<h3 class="text-pretty text-3xl font-black leading-tight text-brand-ink">
-										Quiet here
-									</h3>
-									<p class="break-words text-sm leading-relaxed text-brand-graphite">
-										No work notes yet. Flip to Personal for notebook entries.
-									</p>
-								</div>
-								<p class="font-mono text-xs font-black uppercase tracking-normal text-brand-green">
-									empty desk
-								</p>
-							</div>
-						</article>
-					)
-				}
-				{
 					personalBlogEntries.map((entry, index) => (
 						<BlogEntryCard entry={entry} index={index} />
 					))
