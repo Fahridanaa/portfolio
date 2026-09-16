@@ -9,6 +9,15 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
     site: 'https://fahridanaa.my.id',
     integrations: [react(), mdx(), sitemap()],
+    prefetch: {
+        prefetchAll: true,
+        defaultStrategy: 'viewport',
+    },
+    experimental: {
+        // Chrome renders a visible link's document in a hidden tab, so the
+        // click lands on a page that is already built.
+        clientPrerender: true,
+    },
     vite: {
         plugins: [tailwindcss()],
     },

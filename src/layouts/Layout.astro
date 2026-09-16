@@ -69,6 +69,10 @@ const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
 		<title>{title}</title>
 	</head>
 	<body>
+		<div class="nav-progress" data-nav-progress aria-hidden="true">
+			<span></span>
+			<span></span>
+		</div>
 		<a
 			href="#main-content"
 			class="depth-control fixed left-4 top-4 z-[60] -translate-y-20 rounded-md bg-brand-paper px-4 py-2 font-semibold text-brand-ink transition-transform duration-200 focus-visible:translate-y-0">
@@ -79,6 +83,58 @@ const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
 			<slot />
 		</main>
 	</body>
+	<script>
+		import { shouldTrackNavigation } from "@/utils/nav-progress";
+
+		const SHOW_DELAY = 120;
+		const STUCK_TIMEOUT = 10000;
+		const bar = document.querySelector("[data-nav-progress]");
+
+		let showTimer: number | undefined;
+
+		function clear() {
+			window.clearTimeout(showTimer);
+			bar?.removeAttribute("data-active");
+		}
+
+		document.addEventListener("click", (event) => {
+			const anchor =
+				event.target instanceof Element
+					? event.target.closest("a")
+					: null;
+			if (!(anchor instanceof HTMLAnchorElement)) return;
+			const track = shouldTrackNavigation(
+				{
+					href: anchor.getAttribute("href"),
+					target: anchor.getAttribute("target"),
+					download: anchor.getAttribute("download"),
+					button: event.button,
+					metaKey: event.metaKey,
+					ctrlKey: event.ctrlKey,
+					shiftKey: event.shiftKey,
+					altKey: event.altKey,
+				},
+				location.href
+			);
+			if (!track) return;
+			clear();
+			showTimer = window.setTimeout(
+				() => bar?.setAttribute("data-active", ""),
+				SHOW_DELAY
+			);
+			window.setTimeout(clear, STUCK_TIMEOUT);
+		});
+
+		addEventListener("pageshow", clear);
+
+		// A bar that is already showing owns the wait. The cross-document snapshot
+		// would freeze it mid-stroke, so this navigation skips the transition
+		// instead. Fast navigations never reach this point and keep the fade.
+		addEventListener("pageswap", (event) => {
+			if (!bar?.hasAttribute("data-active")) return;
+			event.viewTransition?.skipTransition();
+		});
+	</script>
 </html>
 <style is:global>
 	html[data-mode="work"] [data-mode-block="personal"],
