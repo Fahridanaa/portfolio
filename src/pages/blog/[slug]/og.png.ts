@@ -34,13 +34,9 @@ const el = (
 	children?: Parameters<typeof createElement>[2]
 ) => createElement(type, { style }, children);
 
-const withHashTag = (tag: string) => `#${tag.replace(/^#/, "").toLowerCase()}`;
-
 export const GET: APIRoute = async ({ props }) => {
 	const { entry } = props as { entry: BlogEntry };
-	const tags = entry.data.tags.slice(0, 3).map(withHashTag);
-	const titleLines = splitText(entry.data.title, 20, 3);
-	const descriptionLines = splitText(entry.data.description, 56, 2);
+	const titleLines = splitText(entry.data.title, 18, 4);
 
 	const svg = await satori(
 		el(
@@ -113,7 +109,9 @@ export const GET: APIRoute = async ({ props }) => {
 						height: "100%",
 						display: "flex",
 						flexDirection: "column",
-						justifyContent: "space-between",
+						alignItems: "center",
+						justifyContent: "center",
+						textAlign: "center",
 						position: "relative",
 						backgroundColor: "rgba(255,254,248,0.84)",
 						backgroundImage:
@@ -122,7 +120,7 @@ export const GET: APIRoute = async ({ props }) => {
 						border: "2px solid rgba(36,49,42,0.2)",
 						borderRadius: 6,
 						boxShadow: "0 18px 36px rgba(36,49,42,0.1)",
-						padding: "52px 56px 40px 86px",
+						padding: "52px 56px",
 					},
 					[
 						el("div", {
@@ -148,120 +146,11 @@ export const GET: APIRoute = async ({ props }) => {
 							{
 								display: "flex",
 								flexDirection: "column",
-							},
-							[
-								el(
-									"div",
-									{
-										display: "flex",
-										alignItems: "center",
-										marginBottom: 28,
-									},
-									[
-										el(
-											"div",
-											{
-												color: "#2e5c37",
-												fontSize: 26,
-												fontWeight: 700,
-												textTransform: "uppercase",
-												border: "2px solid rgba(46,92,55,0.32)",
-												borderRadius: 999,
-												padding: "8px 18px",
-												backgroundColor: "rgba(201,239,106,0.2)",
-											},
-											"public notebook"
-										),
-										el("div", {
-											height: 2,
-											flex: 1,
-											marginLeft: 22,
-											borderTop: "3px dashed rgba(36,49,42,0.3)",
-										}),
-									]
-								),
-								el(
-									"div",
-									{
-										maxWidth: 850,
-										fontSize: 78,
-										fontWeight: 700,
-										lineHeight: 0.94,
-										marginBottom: 24,
-										display: "flex",
-										flexDirection: "column",
-									},
-									titleLines.map((line) => el("div", {}, line))
-								),
-								el("div", {
-									width: 250,
-									height: 18,
-									marginTop: -18,
-									marginBottom: 24,
-									backgroundColor: "rgba(201,239,106,0.62)",
-								}),
-								el(
-									"div",
-									{
-										maxWidth: 880,
-										color: "#4b564f",
-										fontSize: 29,
-										fontWeight: 400,
-										lineHeight: 1.28,
-										display: "flex",
-										flexDirection: "column",
-									},
-									descriptionLines.map((line) => el("div", {}, line))
-								),
-							]
-						),
-						el(
-							"div",
-							{
-								display: "flex",
-								justifyContent: "space-between",
-								alignItems: "flex-end",
-								fontSize: 24,
+								fontSize: 66,
 								fontWeight: 700,
+								lineHeight: 1.05,
 							},
-							[
-								el(
-									"div",
-									{
-										display: "flex",
-										flexDirection: "column",
-										gap: 6,
-									},
-									[
-										el("div", { color: "#24312a" }, "Fahridana Ahmad Rayyansyah"),
-										el("div", { color: "#4b564f", fontSize: 18 }, "blog note"),
-									]
-								),
-								el(
-									"div",
-									{
-										display: "flex",
-										gap: 10,
-										flexWrap: "wrap",
-										justifyContent: "flex-end",
-										maxWidth: 420,
-									},
-									(tags.length ? tags : ["#portfolio"]).map((tag) =>
-										el(
-											"div",
-											{
-												color: "#2e5c37",
-												border: "2px solid rgba(46,92,55,0.24)",
-												borderRadius: 999,
-												backgroundColor: "rgba(255,254,248,0.72)",
-												padding: "7px 13px",
-												fontSize: 20,
-											},
-											tag
-										)
-									)
-								),
-							]
+							titleLines.map((line) => el("div", {}, line))
 						),
 					]
 				),

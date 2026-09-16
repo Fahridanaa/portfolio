@@ -11,9 +11,9 @@ test("splitText wraps and ellipsizes overflow", () => {
 });
 
 test("ogImageVersion is deterministic and content-sensitive", () => {
-	const a = ogImageVersion({ title: "T", description: "D", tags: ["x"] });
-	const b = ogImageVersion({ title: "T", description: "D", tags: ["x"] });
-	const c = ogImageVersion({ title: "T2", description: "D", tags: ["x"] });
+	const a = ogImageVersion({ title: "T" });
+	const b = ogImageVersion({ title: "T" });
+	const c = ogImageVersion({ title: "T2" });
 	assert.equal(a, b);
 	assert.notEqual(a, c);
 	assert.match(a, /^[a-f0-9]{10}$/);
