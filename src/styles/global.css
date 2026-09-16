@@ -131,6 +131,73 @@
     pointer-events: none;
   }
 
+  /* The margin rule is the pencil mark. Base state is a full-height rule, so
+     Firefox, which has no animation-timeline, and reduced-motion users get a
+     static margin. */
+  .notebook-sheet::after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: clamp(0.75rem, 1.5vw, 1.05rem);
+    z-index: -1;
+    width: 2px;
+    content: "";
+    background: linear-gradient(
+      180deg,
+      rgba(46, 92, 55, 0.5) 0 88%,
+      rgba(46, 92, 55, 0.22)
+    );
+    transform: scaleY(1);
+    transform-origin: top;
+    pointer-events: none;
+  }
+
+  .doodle {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 10.5rem;
+    height: 2.25rem;
+    background-repeat: no-repeat;
+    background-size: contain;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .doodle-experience {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 168 36' fill='none' stroke='%232e5c37' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M10 31h148' stroke-opacity='.28'/%3E%3Cpath d='M26 31V20'/%3E%3Cpath d='M50 31V13'/%3E%3Cpath d='M74 31V24'/%3E%3Cpath d='M98 31V9'/%3E%3Cpath d='M122 31V17'/%3E%3Cpath d='M146 31V22'/%3E%3C/svg%3E");
+  }
+
+  .doodle-projects {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 168 36' fill='none' stroke='%232e5c37' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='32' y='7' width='21' height='21' rx='2'/%3E%3Crect x='60' y='7' width='21' height='21' rx='2' stroke-opacity='.5'/%3E%3Crect x='88' y='7' width='21' height='21' rx='2' stroke-opacity='.26'/%3E%3Cpath d='M116 31h44' stroke-opacity='.28'/%3E%3C/svg%3E");
+  }
+
+  .doodle-art {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 168 36' fill='none' stroke='%232e5c37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='44' y='5' width='46' height='26' rx='2'/%3E%3Cpath d='M49 27l10-10 7 7 7-7 12 10'/%3E%3Ccircle cx='80' cy='13' r='3.2'/%3E%3C/svg%3E");
+  }
+
+  /* surface: paper. mode: all. trigger: scroll. */
+  .notebook-sheet[data-decor-scroll]::after {
+    /* the animation shorthand resets animation-timeline, so it comes second */
+    animation: margin-rule linear;
+    animation-timeline: scroll(root block);
+  }
+
+  @keyframes margin-rule {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  /* surface: desk. mode: personal. trigger: static. */
+  html[data-mode="personal"] {
+    --desk: #c2d5c3;
+    --desk-grid: rgba(46, 92, 55, 0.2);
+  }
+
   .notebook-section {
     position: relative;
     padding-block: clamp(1rem, 1.5vw, 2rem);
@@ -854,6 +921,11 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .notebook-sheet[data-decor-scroll]::after {
+    animation: none;
+    transform: scaleY(1);
   }
 
   *,

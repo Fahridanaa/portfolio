@@ -42,7 +42,8 @@ const currentYear = new Date().getFullYear();
 
 <Layout title="Fahridana Ahmad Rayyansyah">
 	<div
-		class="notebook-sheet mx-auto max-w-7xl overflow-hidden px-5 sm:px-8 lg:px-12">
+		class="notebook-sheet mx-auto max-w-7xl overflow-hidden px-5 sm:px-8 lg:px-12"
+		data-decor-scroll>
 
 		<article id="hero" class="notebook-section py-10 md:py-16">
 			<section
@@ -110,7 +111,7 @@ const currentYear = new Date().getFullYear();
 		</article>
 
 		<section id="experience" data-mode-block="work" class="notebook-section compact-section">
-			<SectionHeader title="Experience" spacer />
+			<SectionHeader title="Experience" doodle="experience" />
 			<div class="experience-list mt-6">
 				{
 					sortedExperiences.map((experience) => (
@@ -123,7 +124,7 @@ const currentYear = new Date().getFullYear();
 		</section>
 
 		<section id="projects" data-mode-block="work" class="notebook-section compact-section">
-			<SectionHeader title="Projects" spacer />
+			<SectionHeader title="Projects" doodle="projects" />
 			<div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				{
 					sortedPersonalProjects.map((project) => (
@@ -166,7 +167,7 @@ const currentYear = new Date().getFullYear();
 		</section>
 
 		<section id="art" data-mode-block="personal" class="notebook-section compact-section">
-			<SectionHeader title="Art & Drawings" spacer />
+			<SectionHeader title="Art & Drawings" doodle="art" />
 			<ArtGrid limit={5} />
 		</section>
 

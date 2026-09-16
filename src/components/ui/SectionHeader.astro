@@ -2,14 +2,14 @@
 interface Props {
 	title?: string;
 	variant?: "default" | "centered";
-	spacer?: boolean;
+	doodle?: string;
 }
 
-const { title, variant = "default", spacer = false } = Astro.props;
+const { title, variant = "default", doodle } = Astro.props;
 ---
 
 <section
-	class={`section-heading flex items-center gap-3 ${variant === "centered" ? "justify-center" : ""} ${spacer ? "md:pr-56" : ""}`}>
+	class={`section-heading relative flex items-center gap-3 ${variant === "centered" ? "justify-center" : ""} ${doodle ? "md:pr-56" : ""}`}>
 	{variant === "centered" && (
 		<div class="soft-rule hidden flex-1 md:block"></div>
 	)}
@@ -24,4 +24,5 @@ const { title, variant = "default", spacer = false } = Astro.props;
 		</h2>
 	</div>
 	<div class="soft-rule flex-1"></div>
+	{doodle && <span class={`doodle doodle-${doodle} hidden md:block`} aria-hidden="true" />}
 </section>
