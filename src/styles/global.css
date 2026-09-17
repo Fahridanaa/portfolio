@@ -591,13 +591,15 @@
   }
 
   .paper-tab-nav {
-    position: absolute;
-    top: -1px;
-    left: clamp(0.75rem, 3vw, 1.4rem);
+    position: sticky;
+    top: 0;
     z-index: 50;
     display: flex;
     align-items: flex-start;
     gap: 0.28rem;
+    width: fit-content;
+    /* Keeps the tab out of the flow, so it does not push the article down. */
+    margin-bottom: -2.55rem;
   }
 
   .paper-tab {
