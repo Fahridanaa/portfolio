@@ -4,11 +4,33 @@ import react from '@astrojs/react';
 import mdx from "@astrojs/mdx";
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import { satteri } from '@astrojs/markdown-satteri';
+
+/** Opens markdown links in a new tab, leaving in-page anchors alone. */
+const newTabLinks = {
+    name: 'new-tab-links',
+    element: {
+        filter: ['a'],
+        /**
+         * @param {import('hast').Element} node
+         * @param {import('satteri').HastVisitorContext} ctx
+         */
+        visit(node, ctx) {
+            const href = node.properties?.href;
+            if (typeof href !== 'string' || !href || href.startsWith('#')) return;
+            ctx.setProperty(node, 'target', '_blank');
+            ctx.setProperty(node, 'rel', 'noopener');
+        },
+    },
+};
 
 // https://astro.build/config
 export default defineConfig({
     site: 'https://fahridanaa.my.id',
     integrations: [react(), mdx(), sitemap()],
+    markdown: {
+        processor: satteri({ hastPlugins: [newTabLinks] }),
+    },
     prefetch: {
         prefetchAll: true,
         defaultStrategy: 'viewport',

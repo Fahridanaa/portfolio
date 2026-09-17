@@ -17,6 +17,7 @@
     "cv:build:no-phone": "typst compile --input show_phone=false cv/main.typ public/assets/cv.pdf"
   },
   "dependencies": {
+    "@astrojs/markdown-satteri": "^0.4.1",
     "@astrojs/mdx": "^8.0.1",
     "@astrojs/react": "^6.0.5",
     "@astrojs/sitemap": "^3.7.4",
