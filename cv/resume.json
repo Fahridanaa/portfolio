@@ -1,11 +1,11 @@
 {
   "basics": {
     "name": "Fahridana Ahmad Rayyansyah",
-    "location": "Malang, Indonesia",
+    "location": "Indonesia",
     "phone": "+6285196991224",
     "email": "fahridanaaa@gmail.com",
     "url": "fahridanaa.my.id",
-    "summary": "Software engineer with 1+ year of experience building scalable web and mobile applications. Focused on clean architecture, performance optimization, and production-ready systems.",
+    "summary": "Software engineer with 1 year of experience building web and mobile applications in TypeScript, PHP, Go, and Dart.",
     "profiles": {
       "linkedin": "linkedin.com/in/fahridana-ahmad-rayyansyah",
       "github": "github.com/Fahridanaa"
@@ -20,9 +20,10 @@
       "status": "Intern",
       "stack": ["Laravel 12", "PHP", "MySQL"],
       "points": [
-        "Built a Performance Appraisal system in Laravel 12 with dynamic routing, period observers, and cascading data generation for quarterly employee evaluations.",
-        "Implemented bulk Excel import/export, reducing evaluation data entry from 3 days to 2 hours per cycle.",
-        "Gathered requirements and iterated features through weekly sprint reviews with internal stakeholders."
+        "Migrated the Performance Appraisal system from native PHP to Laravel 12 for 200+ employees; it runs on the company's internal network.",
+        "Replaced manual entry that took an estimated 2–3 days per evaluation period with HRIS database-view sync and bulk Excel import of scoring standards.",
+        "Built evaluation periods with deadlines and locking, admin and evaluator dashboards, and Excel/PDF report export.",
+        "Gathered requirements from HR and supervisors, and trained admin users on the new system."
       ]
     },
     {
@@ -31,11 +32,11 @@
       "location": "Japan (Remote)",
       "date": "Feb 2025 – Jul 2025",
       "status": "Contract",
-      "stack": ["Next.js", "React", "TypeScript", "OpenAI API", "Firebase", "GCP", "Radix UI", "Storybook", "Jest"],
+      "stack": ["Next.js", "React", "TypeScript"],
       "points": [
-        "Built UI features in Next.js 14, React 18, and TypeScript with WCAG accessibility standards and cross-browser consistency.",
-        "Integrated OpenAI API for automated video summarization and keyword extraction, reducing manual processing overhead by 40%.",
-        "Contributed to a shared Radix UI component library with Storybook and Jest, ensuring visual consistency across the product."
+        "Built UI features in Next.js, React, and TypeScript.",
+        "Built a video summarization feature: the app follows a YouTube channel by ID, reads new videos' auto-captions, and uses the OpenAI API to generate a summary and keywords.",
+        "Built components for the shared Radix UI library, with Storybook documentation and Jest tests."
       ]
     }
   ],
@@ -54,8 +55,8 @@
       "name": "Cache Strategy Benchmarking — Moodle-Inspired LMS",
       "date": "Feb 2026 – Jul 2026",
       "points": [
-        "Built a Moodle-inspired LMS benchmark in Laravel 12 comparing Cache-Aside, Read-Through, and Write-Through strategies using Redis 7.",
-        "Validated architectural decisions by executing a k6 benchmarking suite simulating up to 2,000 concurrent users and analyzing P99 latency."
+        "Thesis project: a Moodle-inspired LMS in Laravel 12 that compares Cache-Aside, Read-Through, and Write-Through caching with Redis 7.",
+        "Ran k6 load tests with up to 2,000 concurrent users and compared P99 latency for each strategy."
       ]
     },
     {
@@ -63,8 +64,8 @@
       "name": "HRIS — Human Resource Information System",
       "date": "Apr 2025 – Jun 2025",
       "points": [
-        "Engineered a multi-tenant HRIS with Clean Architecture in Go and Next.js, integrating Midtrans payment gateways for subscription billing.",
-        "Developed a geofencing attendance system with real-time mapping via TanStack Query and Supabase Auth, containerized with Docker and deployed via CI/CD to Azure."
+        "Built a multi-tenant HRIS with a Go backend and a Next.js frontend, including Midtrans subscription billing.",
+        "Built a geofencing attendance system with live maps (TanStack Query, Supabase Auth), packaged with Docker and deployed to Azure."
       ]
     },
     {
@@ -72,16 +73,25 @@
       "name": "Leafolyze — Leaf Tomato Disease Analyzer",
       "date": "Oct 2024 – Dec 2024",
       "points": [
-        "Built a cross-platform Flutter app using the BLoC pattern with on-device TensorFlow Lite inference for offline tomato disease detection.",
-        "Integrated a marketplace and RESTful data layer using the Repository pattern and Dio for seamless authentication and content sync."
+        "Built a Flutter app with the BLoC pattern that detects tomato leaf disease on-device with TensorFlow Lite.",
+        "Added a marketplace and a REST API layer with Dio and the repository pattern."
       ]
     }
   ],
   "skills": [
-    { "category": "Languages", "items": ["TypeScript", "PHP", "Dart", "Go", "JavaScript"] },
-    { "category": "Frameworks", "items": ["Next.js", "React", "Laravel", "Flutter", "Hono", "HTMX + Alpine.js"] },
-    { "category": "Infrastructure", "items": ["Docker", "Redis", "Git", "GitHub Actions", "Azure", "PostgreSQL"] },
+    {
+      "category": "Languages",
+      "items": ["TypeScript", "PHP", "Dart", "Go", "JavaScript"]
+    },
+    {
+      "category": "Frameworks",
+      "items": ["Next.js", "React", "Laravel", "Flutter"]
+    },
+    {
+      "category": "Infrastructure",
+      "items": ["Docker", "Redis", "Git", "GitHub Actions", "Azure", "PostgreSQL"]
+    },
     { "category": "Testing & Quality", "items": ["Jest", "Storybook", "k6"] },
-    { "category": "Other", "items": ["Power BI", "Figma", "REST API Design", "Agile/Scrum"] }
+    { "category": "Other", "items": ["Figma", "REST API Design"] }
   ]
 }
