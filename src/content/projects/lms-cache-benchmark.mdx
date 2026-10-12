@@ -1,0 +1,97 @@
+---
+title: LMS Cache Benchmark
+type: Research Project
+hasImage: false
+date: 2025-11-21
+description: A Moodle-inspired Laravel LMS built as a testbed, then hammered with K6 to compare Cache-Aside, Read-Through, Write-Through, and No-Cache on identical workloads. Four strategies behind one interface, three iterations per level, ANOVA and Tukey HSD on the results.
+demo: null
+sourceClient: https://github.com/Fahridanaa/lms
+stack: ["laravel", "php", "mysql", "redis", "nginx", "docker", "k6"]
+---
+
+This one is a measurement project wearing an LMS costume. The question was simple. On a real Laravel application, which caching strategy actually wins, and does the answer hold as concurrency climbs?
+
+The answer was none of them, and the reason is the interesting part.
+
+The LMS exists to give that question something honest to run on. Caching only behaves interestingly when reads are actor-specific and writes cascade, so the testbed has to have both.
+
+### Four strategies, one interface
+
+Every request path talks to `CacheStrategyInterface`. `CacheStrategyServiceProvider` binds the implementation from a single `CACHE_STRATEGY` environment value.
+
+| Strategy | On read | On write | Coupling |
+| --- | --- | --- | --- |
+| Cache-Aside | Check cache, run callback, store | Update cache | High |
+| Read-Through | Check cache, call a registered `Loader.load()` | Delete from cache | Low |
+| Write-Through | Check cache, call a registered `Store.load()` | Write through the store, update cache | Low |
+| No-Cache | Always run the callback | Persist only | High |
+
+That table is the whole design pressure. Cache-Aside puts the cache decision inside application code, so every service has to remember the right key and the right invalidation. Read-Through and Write-Through move that into registered loaders and stores, which is a lower coupling the moment more than a handful of entities need caching. No-Cache is the control.
+
+Switching strategies is one env value and a config clear. Nothing else in the code changes, which is what makes the comparison fair.
+
+### Making the domain hard enough to matter
+
+A flat table of records would have let any cache look good. So the schema follows Moodle.
+
+- **Contexts and roles.** Access resolves through system, course, and module contexts, with roles inherited by walking ancestors. Authorization sits on the hot path of every cached read.
+- **Conditional availability.** A module can be hidden by a date window, a prior completion, a minimum grade, or group membership. Instructors bypass the rules.
+- **Completion.** Module completion fires from a material view, an assignment submission, a finished quiz attempt, or a passing grade. Course completion aggregates those against thresholds and dates.
+- **Assignment lifecycle.** Draft, submitted, returned, resubmitted, graded, with extensions, allocated markers, and separate marker and grader scores.
+- **Quiz attempt policy.** Overrides at user and group level, overdue handling, grace periods, review visibility, and delay between attempts.
+
+The seed data is sized to be believable, 5,000 users across 50 courses, with roughly 25,000 quiz attempts, 12,500 submissions, and 37,500 grades behind them.
+
+The cache key convention is `{prefix}:{entity}:{id}:{subkey}`, as in `lms:course:1:user:2:grades`. That last part is not decoration. Because availability and completion are per user, the cached course structure is per user too, which caps the hit ratio far below what a naive shared cache would report.
+
+### How the benchmark runs
+
+Two workload scenarios, both against a 2 vCPU and 2 GB server running PHP-FPM behind Nginx, MySQL 8, and Redis 7.
+
+- **Read-heavy** at 80 percent reads and 20 percent writes.
+- **Write-heavy** at 40 percent reads and 60 percent writes.
+- Each level runs 100, 250, 500, 750, 1000, 1500, and 2000 concurrent users for 6.5 minutes, after a one minute ramp and before a thirty second drain.
+- Three iterations per strategy and level, so run-to-run noise does not get read as a result.
+
+Two details I would defend in a review. Traffic uses real actor relationships, so students read their own courses and instructors read gradebooks, rather than firing random IDs. And a slice of every scenario is a controlled failure, a hidden module, a suspended student, a locked grade, tagged `ef` in the results so latency from expected denials never contaminates the error rate.
+
+Redis runs standalone at 256 MB with allkeys-lru, and there is a second profile with a six node cluster, three masters and three replicas, to see whether the conclusion survives sharding.
+
+K6 collects per-endpoint trends for P90, P95, and P99 plus throughput, while `redis-cli INFO stats` gives the hit ratio and Telescope gives query time. The analysis scripts run ANOVA with Tukey HSD, because three iterations across seven levels is enough data that eyeballing a chart would be malpractice.
+
+### The result
+
+Caching did not help. Across 112 measured runs, throughput never left a 53 to 72 requests per second band. Every strategy, every concurrency level, both Redis modes.
+
+| Strategy | 100 VU | 1500 VU | Throughput at 1500 VU | Cache hit ratio, read-heavy |
+| --- | --- | --- | --- | --- |
+| No-Cache | 295 ms | 19.8 s | 63.5 req/s | not applicable |
+| Cache-Aside | 281 ms | 19.8 s | 63.2 req/s | 41.9 to 42.7% |
+| Read-Through | 302 ms | 19.8 s | 62.9 req/s | 45.6 to 46.3% |
+| Write-Through | 293 ms | 21.0 s | 59.9 req/s | 42.0 to 42.2% |
+
+That is the read-heavy scenario on single-node Redis, three iterations averaged. At 100 concurrent users the cache is worth about five percent. By 1500 users the four strategies are indistinguishable, and Tukey HSD on the 1500 VU results found no significant pairwise difference between any of them.
+
+Two more things moved the same way:
+
+- **Latency tracks concurrency almost linearly, and throughput does not move at all.** 100 users see 281 to 302 ms. 1500 users see roughly 20 seconds. Going from 100 to 1500 users bought no additional throughput, only a longer queue.
+- **Redis Cluster changed nothing.** Six nodes, three masters and three replicas, produced the same ceiling as one. At 2000 VU every strategy saturated and the error rate ran from 19 to 78 percent.
+
+Cache hit ratio explains part of it. Because the cached course structure and gradebook are per actor, 500 students on one course produce 500 cache entries, so the ceiling on hits is set by the authorization model rather than by the cache. Read-heavy runs landed at 42 to 47 percent, write-heavy runs at 28 to 42 percent.
+
+But the hit ratio was not the real story. CPU never dropped below 86 percent in any valid run, and it was already at 86 percent with only 100 concurrent users. The platform was CPU bound the whole time, so the cache backend was never the constraint. Profiling on the same 2 vCPU box traced the load to work that caching does not remove:
+
+- Gradebook reads hydrate every grade row for every student into Eloquent objects, then aggregate in PHP with `groupBy` and a recursive category tree walk, instead of aggregating in SQL.
+- Course structure issues eleven queries per request plus a batch authorization pass, and `ContextService` re-resolves the same context row four times in one request.
+- Building a cache entry serialises a large array and writes it through tagged Redis operations, which costs more CPU than the read it saves.
+- Grade updates cascade into completion reconciliation and full course-level cache flushes, so the write-heavy path pays invalidation overhead for a cache that was not buying throughput.
+
+### What I took from it
+
+The study's premise was the thing worth falsifying. I set out to rank four strategies and ended up proving that on a CPU-bound application the strategy choice is not the lever, because the cost sits in ORM hydration, PHP collection operations, and repeated authorization resolution rather than in the data source. A cache in front of an expensive request still runs an expensive request on every miss.
+
+Host memory also rose with caching, to 1.58 GB against 1.27 GB without it at 100 users, because the tag indices cost more than the cached payloads returned.
+
+The written recommendations in the repo follow from that, and the first one is not about caching at all. Push the gradebook aggregation into SQL, resolve context once per request, and forward the remaining CPU to the parts that need it.
+
+Full result files, per iteration, are in the repo next to the scripts that produced them, including the ANOVA and Tukey HSD outputs and the resource samples behind the CPU figures.

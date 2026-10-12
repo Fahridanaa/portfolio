@@ -1,14 +1,26 @@
 import {
+	siAlpinedotjs,
 	siAstro,
 	siBootstrap,
 	siCss,
+	siDart,
+	siDocker,
+	siDrizzle,
 	siFirebase,
+	siFlutter,
+	siGin,
+	siGo,
+	siGooglechrome,
 	siGooglecloud,
+	siHono,
 	siHtml5,
+	siHtmx,
 	siJavascript,
 	siJquery,
+	siK6,
 	siLaravel,
 	siMysql,
+	siNginx,
 	siNextdotjs,
 	siNodedotjs,
 	siPhp,
@@ -16,6 +28,8 @@ import {
 	siPrisma,
 	siPython,
 	siReact,
+	siRedis,
+	siSupabase,
 	siSvelte,
 	siTailwindcss,
 	siTypescript,
@@ -25,7 +39,11 @@ import {
 // Aliases for names that do not normalize to their icon key.
 const ICON_MAP: Record<string, string> = {
 	"prisma orm": "prisma",
+	"drizzle orm": "drizzle",
 	"google cloud platform (gcp)": "googlecloud",
+	"alpine.js": "alpinejs",
+	golang: "go",
+	"google chrome": "googlechrome",
 };
 
 const TECH_ICONS: Record<string, SimpleIcon> = {
@@ -49,6 +67,20 @@ const TECH_ICONS: Record<string, SimpleIcon> = {
 	javascript: siJavascript,
 	googlecloud: siGooglecloud,
 	firebase: siFirebase,
+	flutter: siFlutter,
+	dart: siDart,
+	go: siGo,
+	gin: siGin,
+	supabase: siSupabase,
+	hono: siHono,
+	htmx: siHtmx,
+	alpinejs: siAlpinedotjs,
+	redis: siRedis,
+	docker: siDocker,
+	nginx: siNginx,
+	drizzle: siDrizzle,
+	k6: siK6,
+	googlechrome: siGooglechrome,
 };
 
 export function resolveIconName(tech: string): string {

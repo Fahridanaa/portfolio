@@ -1,0 +1,40 @@
+---
+title: HRIS
+type: Web Application
+hasImage: false
+date: 2025-04-18
+description: A human resource information system for employee records, attendance, overtime, leave, and documents, with a seat-based subscription billed through Xendit. Next.js on the front, Go and PostgreSQL behind it, deployed to Azure from GitHub Actions.
+demo: null
+sourceClient: https://github.com/SukaMajuu/hris2
+stack: ["nextjs", "typescript", "go", "gin", "postgresql", "supabase", "tailwindcss", "docker"]
+---
+
+HRIS is a team project on the SukaMajuu org. The brief was an HR tool that a real HR team could run its day on. That meant employee records, legal documents, attendance and clock-in, overtime and leave approval, and a paid tier for teams past a seat count.
+
+Five of us built it. I was the largest contributor by commit count and I carried most of the frontend plus the subscription path on the backend.
+
+### What the product does
+
+Employees clock in and out, file leave requests, and keep their profile current. HR sees the same data from the other side. They manage employee records, review and approve leave, track overtime, and export what finance or legal asks for.
+
+Document handling sits alongside the records, so a contract or a permit lives next to the person it belongs to instead of in someone's drive.
+
+### Billing with seats
+
+The subscription is the part I owned end to end.
+
+- A seat tier sets how many employees an account may hold.
+- Checkout runs through Xendit. The backend owns the charge and the webhook, so a seat count only moves after the payment provider confirms it.
+- The Go side keeps this in a usecase layer with its own test file, because billing logic that drifts is expensive.
+
+### Architecture
+
+The frontend is Next.js with Radix primitives, TanStack Query for server state, and TanStack Table for the record grids. Charts come from Chart.js and the map views from Leaflet.
+
+The backend is Go with Gin and GORM over PostgreSQL. Supabase holds auth and file storage. Handlers stay thin, repositories talk to the database, and usecases hold the business rules.
+
+Every push runs lint and the Go test suite with coverage in GitHub Actions. Two separate workflows build the frontend and backend images, push them to Azure Container Registry, and deploy to Azure Web Apps.
+
+### What I would do differently
+
+The frontend grew a service layer and a hook layer that sometimes disagreed about where a network call belonged. On a rewrite I would pick one boundary and hold it, rather than letting both halves of the app decide.

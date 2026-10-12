@@ -1,0 +1,31 @@
+---
+title: Discord Quest Auto Complete
+type: Browser Extension
+hasImage: false
+date: 2026-04-08
+description: A Manifest V3 extension that finishes Discord Quests for you. It patches the user agent at document start, then drives the quest progress from a popup button.
+demo: null
+sourceClient: https://github.com/Fahridanaa/discord-quest-auto-complete
+stack: ["javascript", "googlechrome"]
+---
+
+Discord Quests ask you to play a game or stream a window for a set number of minutes before they pay out a reward. This extension does the waiting for you.
+
+I wrote it after finding a userscript that did the same thing by hand. The work here was turning that into a proper extension with a button, and getting the timing right.
+
+### How it works
+
+Manifest V3, so there is no persistent background page. The pieces are a service worker, a popup, and a content script.
+
+- The content script runs at `document_start` in the `MAIN` world so it can patch the user agent before Discord's own bundles read it. This is what makes the client report itself as the desktop app rather than a browser tab.
+- The popup carries one button. Pressing it sends a message to the service worker and the quest loop starts there.
+- `declarativeNetRequest` rewrites the headers that would otherwise give the patch away.
+- Quest progress is polled until the counter is satisfied, then the reward is claimed.
+
+You accept the quests yourself first. The extension finishes them, it does not discover them. Some quests still need a real voice channel with a real stream running, and no amount of scripting replaces that.
+
+### The part that actually took the time
+
+The user agent patch has to land before Discord reads it, and the declarative rules have to agree with the patched string. When those two disagree the client falls back to the browser build and nothing progresses, which looked like a broken loop rather than a broken spoof for a while.
+
+Manifest V3 also kills the worker between events, so quest state cannot live in a module variable. It goes through `chrome.storage`, which survives the restart.

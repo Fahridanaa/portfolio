@@ -1,0 +1,38 @@
+---
+title: Pendekinlink
+type: Web Application
+hasImage: false
+date: 2026-01-08
+description: A URL shortener with a Hono API on PostgreSQL and Redis, and a server-rendered front end using HTMX and Alpine.js. Split into a pnpm monorepo and deployed to a VPS by SSH from GitHub Actions. Currently offline.
+demo: null
+sourceClient: https://github.com/Fahridanaa/pendek-inlink
+stack: ["hono", "typescript", "htmx", "alpinejs", "postgresql", "redis", "drizzle", "docker"]
+---
+
+Pendekinlink is a URL shortener. I built it to test how small a web app can be when the front end holds almost no state and the API holds all of it.
+
+The repo is a pnpm monorepo. `apps/api` is the service, `apps/web` is the interface, and `packages/db` owns the Drizzle schema both sides share.
+
+### The API
+
+Hono on Node, with each request going through a small stack.
+
+- Code generation produces the short key and checks it against the database before it commits.
+- Rate limiting sits in middleware and keeps its counters in Redis, so a restart does not reset anyone's budget.
+- Drizzle ORM over PostgreSQL via postgres.js.
+- Errors are modelled with Effect, which forces the failure path into the signature instead of hiding it in a thrown value.
+- pino writes structured logs with a request context attached.
+
+The data model is deliberately thin. A shortlink is a code, a target URL, a click count, and a creation time. The click count is the only thing that changes after creation, and that turned out to be the interesting part. A naive increment takes a row lock on every redirect, so a hot link serialises. Redis absorbs that counter and the database catches up.
+
+### The front end
+
+Vite, Tailwind 4, HTMX, and Alpine.js. HTMX handles the form posts and swaps the result into the page. Alpine covers the few things that genuinely need local state, like copying a link and showing the confirmation.
+
+There is no client-side router and no client-side data layer. The page arrives rendered, and the browser gets one small script. For a CRUD tool this size, that is the whole architecture.
+
+### Deployment
+
+GitHub Actions builds both apps, copies a compose file to a VPS over SSH, and brings the containers up there. Nginx terminates TLS in front.
+
+The service is currently switched off. I keep the repo public because the rate limiter, the code generator, and the Redis counter are the parts worth reading.

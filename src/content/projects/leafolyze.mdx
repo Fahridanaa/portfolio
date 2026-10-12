@@ -1,0 +1,39 @@
+---
+title: Leafolyze
+type: Mobile Application
+hasImage: false
+date: 2024-10-29
+description: A Flutter app that reads a photo of a tomato leaf and names the disease it finds. The classifier runs on the phone with a TFLite model, and a Laravel API stores users, detections, and the shop catalogue. Built as a 5th semester Problem Based Learning project.
+demo: null
+sourceClient: https://github.com/Fahridanaa/leafolyze
+sourceServer: https://github.com/MuhammadRidloFebrioPutra/leafolyze-backend
+stack: ["flutter", "dart", "laravel", "php", "mysql"]
+---
+
+Leafolyze came out of a 5th semester Problem Based Learning assignment. Group 4, three of us, had to build something useful for tomato farmers, and we landed on leaf disease. A farmer points a phone at a leaf and gets an answer on the spot.
+
+I owned mobile engineering. A teammate owned the Laravel API. The two of us kept the contract tight enough that the app and the server moved on separate schedules.
+
+### Detection runs on the device
+
+The interpreter loads from the app bundle, so there is no round trip to a server and it still works in a field with weak signal.
+
+- The model is `assets/models/best.tflite`, loaded through `tflite_flutter` with four interpreter threads.
+- Input is 640 by 640. The model has 7 classes.
+- Boxes below a 0.5 confidence threshold are dropped, then non-max suppression runs at an IoU of 0.5.
+- Labels are Bacterial Spot, Early Blight, Healthy, Late Blight, Leaf Mold, Target Spot, and Black Spot.
+- A camera screen captures the frame, the interpreter returns boxes and scores, and the result screen ranks them.
+
+One honest detail from this project. "Healthy" is a class in the same head as the diseases, so the model has to learn absence as a label. It mostly held up, but a badly lit leaf could pull a low-confidence disease score out of it.
+
+### App structure
+
+BLoC carries state, one bloc per concern. `detection`, `history`, `article`, `product`, `shop`, `auth`, and `profile` each own their own events and states, and GoRouter handles navigation and the auth redirect.
+
+Around the classifier the app has a disease library, per-user detection history, and a marketplace where shops list products mapped to a specific disease.
+
+### The API
+
+The Laravel service stores users, detections, diseases, articles, and shop products, with token auth behind the authenticated routes. Filament gives the team an admin panel for articles and products without anyone writing an admin view by hand.
+
+The lesson I kept from this one is that a clean API contract beats any amount of glue code written to paper over a vague one.
