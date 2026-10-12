@@ -9,20 +9,11 @@ import { SOCIAL_LINKS } from "@/data/site";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import ArtGrid from "@/components/ui/ArtGrid.astro";
 import MiniProjectScrap from "@/components/ui/MiniProjectScrap.astro";
-import ProjectGridPlaceholder from "@/components/ui/ProjectGridPlaceholder.astro";
 import { getBlogEntries, getExperiences, getProjects } from "@/lib/content";
 import { DEFAULT_MODE } from "@/utils/mode";
 import { STICKY_NOTE_CLASSES } from "@/utils/blog";
 
-const sortedPersonalProjects = await getProjects();
-const projectGridCols = 3;
-const projectTotalSlots =
-	Math.ceil((sortedPersonalProjects.length + 1) / projectGridCols) *
-	projectGridCols;
-const projectPlaceholderCount = Math.max(
-	0,
-	projectTotalSlots - sortedPersonalProjects.length - 1
-);
+const latestProjects = (await getProjects()).slice(0, 5);
 
 const blogEntries = await getBlogEntries();
 const workBlogEntries = blogEntries
@@ -126,13 +117,8 @@ const currentYear = new Date().getFullYear();
 			<SectionHeader title="Projects" doodle="projects" />
 			<div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				{
-					sortedPersonalProjects.map((project) => (
+					latestProjects.map((project) => (
 						<MiniProjectScrap project={project.data} slug={project.id} />
-					))
-				}
-				{
-					Array.from({ length: projectPlaceholderCount }).map(() => (
-						<ProjectGridPlaceholder />
 					))
 				}
 				<a
