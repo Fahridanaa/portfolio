@@ -28,3 +28,6 @@ pnpm-debug.log*
 .idea/
 bun.lock
 bun.lockb
+
+# verification scratch
+.verify/
