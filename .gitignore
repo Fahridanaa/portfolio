@@ -3,6 +3,7 @@ dist/
 
 # typst default output
 cv/output.pdf
+cv/*-cv.pdf
 
 # generated types
 .astro/
