@@ -5,7 +5,7 @@
     "phone": "+6285196991224",
     "email": "fahridanaaa@gmail.com",
     "url": "fahridanaa.my.id",
-    "summary": "Software engineer with 1 year of experience building web and mobile applications in TypeScript, PHP, Go, and Dart.",
+    "summary": "Backend engineer who measures before optimising. Builds Go and Laravel services on PostgreSQL and Redis, then load-tests them with k6 to find where the time actually goes. A 336-run benchmark of four cache strategies showed the cache was not the bottleneck.",
     "profiles": {
       "linkedin": "linkedin.com/in/fahridana-ahmad-rayyansyah",
       "github": "github.com/Fahridanaa"
@@ -15,15 +15,18 @@
     {
       "role": "Management Information System Intern",
       "company": "PT. Multi Spunindo Jaya",
-      "location": "Sidoarjo, Indonesia (Onsite)",
+      "location": "Sidoarjo, Indonesia",
       "date": "Jul 2025 – Dec 2025",
-      "status": "Intern",
-      "stack": ["Laravel 12", "PHP", "MySQL"],
+      "status": "Internship",
+      "stack": [
+        "Laravel 12",
+        "PHP",
+        "MySQL"
+      ],
       "points": [
-        "Migrated the Performance Appraisal system from native PHP to Laravel 12 for 200+ employees; it runs on the company's internal network.",
-        "Replaced manual entry that took an estimated 2–3 days per evaluation period with HRIS database-view sync and bulk Excel import of scoring standards.",
-        "Built evaluation periods with deadlines and locking, admin and evaluator dashboards, and Excel/PDF report export.",
-        "Gathered requirements from HR and supervisors, and trained admin users on the new system."
+        "Rewrote the Performance Appraisal system from native PHP to Laravel 12 on MySQL for 200+ employees.",
+        "Replaced a manual 2 to 3 day quarterly entry step with an HRIS sync and bulk Excel import, saving 8 to 12 working days a year.",
+        "Added periods with deadlines and locking, dashboards and Excel/PDF export, then trained the admins who run it."
       ]
     },
     {
@@ -32,11 +35,14 @@
       "location": "Japan (Remote)",
       "date": "Feb 2025 – Jul 2025",
       "status": "Contract",
-      "stack": ["Next.js", "React", "TypeScript"],
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "OpenAI API"
+      ],
       "points": [
-        "Built UI features in Next.js, React, and TypeScript.",
-        "Built a video summarization feature: the app follows a YouTube channel by ID, reads new videos' auto-captions, and uses the OpenAI API to generate a summary and keywords.",
-        "Built components for the shared Radix UI library, with Storybook documentation and Jest tests."
+        "Built a video summarisation pipeline: the service follows a YouTube channel by ID, reads each new video's auto-captions, and calls the OpenAI API for a summary and keywords.",
+        "Shipped the interface in Next.js and TypeScript, and documented shared Radix components in Storybook with Jest tests."
       ]
     }
   ],
@@ -46,52 +52,92 @@
       "school": "Politeknik Negeri Malang",
       "location": "Malang, Indonesia",
       "date": "2022 – 2026",
-      "details": ["GPA: 3.81/4.00"]
+      "details": [
+        "GPA 3.81 / 4.00"
+      ]
     }
   ],
   "projects": [
     {
-      "role": "Full-stack Developer",
-      "name": "Cache Strategy Benchmarking — Moodle-Inspired LMS",
+      "name": "muara",
+      "role": "Independent project",
+      "date": "Oct 2026 - Present",
+      "points": [
+        "Built muara, a Python 3.14 tool that pulls JobStreet, Greenhouse and Kalibrr into one local database, records which of four facts a run ended in, and settles which jobs have closed."
+      ]
+    },
+    {
+      "name": "meiro, open source",
+      "role": "Contributor",
+      "date": "Oct 2026",
+      "points": [
+        "Merged three pull requests into meiro, a 30-star Go YouTube Music client: a Flatpak Discord socket path, every artist in rich presence, and Firefox and Zen sign-in.",
+        "Traced why rich presence retried forever on Flatpak Discord, and covered the new artist field with Go tests."
+      ]
+    },
+    {
+      "name": "LMS Cache Strategy Benchmark",
+      "role": "Bachelor thesis",
       "date": "Feb 2026 – Jul 2026",
       "points": [
-        "Thesis project: a Moodle-inspired LMS in Laravel 12 that compares Cache-Aside, Read-Through, and Write-Through caching with Redis 7.",
-        "Ran k6 load tests with up to 2,000 concurrent users and compared P99 latency for each strategy."
+        "Built a Moodle-style LMS in Laravel 12 to test four cache strategies behind one interface, switched by one env value.",
+        "Modelled role inheritance and per-user conditional availability, so cache keys follow the access model instead of a shared key.",
+        "Ran 336 k6 runs over 112 combinations of cache strategy, workload, Redis topology and concurrency up to 2,000 users, then tested the results with ANOVA and Tukey HSD instead of reading charts by eye.",
+        "No strategy beat another: throughput stayed between 53 and 72 req/s across every valid run, and CPU held at 86% or above from 100 users. The bottleneck was Eloquent hydration and repeated context resolution, not the data source."
       ]
     },
     {
+      "name": "Pendekinlink, URL Shortener",
+      "role": "Backend Developer",
+      "date": "Jan 2026",
+      "points": [
+        "Built a Hono shortener where Redis absorbs click counters, so a hot link does not serialise on a PostgreSQL row lock.",
+        "Put rate limiting in Redis-backed middleware, kept the schema in one Drizzle package, and deployed the monorepo to a VPS."
+      ]
+    },
+    {
+      "name": "HRIS, Human Resource Information System",
       "role": "Full-stack Developer",
-      "name": "HRIS — Human Resource Information System",
       "date": "Apr 2025 – Jun 2025",
       "points": [
-        "Built a multi-tenant HRIS with a Go backend and a Next.js frontend, including Midtrans subscription billing.",
-        "Built a geofencing attendance system with live maps (TanStack Query, Supabase Auth), packaged with Docker and deployed to Azure."
-      ]
-    },
-    {
-      "role": "Mobile Developer",
-      "name": "Leafolyze — Leaf Tomato Disease Analyzer",
-      "date": "Oct 2024 – Dec 2024",
-      "points": [
-        "Built a Flutter app with the BLoC pattern that detects tomato leaf disease on-device with TensorFlow Lite.",
-        "Added a marketplace and a REST API layer with Dio and the repository pattern."
+        "Built the seat-based subscription path on a Go (Gin, GORM) backend: the server owns the Midtrans charge and webhook, so a seat count moves only after the provider confirms payment.",
+        "Built geofenced attendance with live maps in Next.js, containerised the stack with Docker, and deployed to Azure."
       ]
     }
   ],
   "skills": [
     {
       "category": "Languages",
-      "items": ["TypeScript", "PHP", "Dart", "Go", "JavaScript"]
+      "items": [
+        "Go",
+        "PHP",
+        "TypeScript"
+      ]
     },
     {
-      "category": "Frameworks",
-      "items": ["Next.js", "React", "Laravel", "Flutter"]
+      "category": "Backend",
+      "items": [
+        "Laravel",
+        "Gin",
+        "PostgreSQL",
+        "MySQL",
+        "Redis"
+      ]
     },
     {
       "category": "Infrastructure",
-      "items": ["Docker", "Redis", "Git", "GitHub Actions", "Azure", "PostgreSQL"]
+      "items": [
+        "Docker",
+        "Azure"
+      ]
     },
-    { "category": "Testing & Quality", "items": ["Jest", "Storybook", "k6"] },
-    { "category": "Other", "items": ["Figma", "REST API Design"] }
+    {
+      "category": "Testing",
+      "items": [
+        "k6",
+        "Go test",
+        "Jest"
+      ]
+    }
   ]
 }
