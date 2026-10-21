@@ -3,7 +3,7 @@ title: HRIS
 type: Web Application
 hasImage: false
 date: 2025-04-18
-description: A human resource information system for employee records, attendance, overtime, leave, and documents, with a seat-based subscription billed through Xendit. Next.js on the front, Go and PostgreSQL behind it, deployed to Azure from GitHub Actions.
+description: A human resource information system for employee records, attendance, overtime, leave, and documents, with a seat-based subscription billed through Midtrans. Next.js on the front, Go and PostgreSQL behind it, deployed to Azure from GitHub Actions.
 demo: null
 sourceClient: https://github.com/SukaMajuu/hris2
 stack: ["nextjs", "typescript", "go", "gin", "postgresql", "supabase", "tailwindcss", "docker"]
@@ -24,7 +24,7 @@ Document handling sits alongside the records, so a contract or a permit lives ne
 The subscription is the part I owned end to end.
 
 - A seat tier sets how many employees an account may hold.
-- Checkout runs through Xendit. The backend owns the charge and the webhook, so a seat count only moves after the payment provider confirms it.
+- Checkout runs through Midtrans. The backend owns the charge and the webhook, so a seat count only moves after the payment provider confirms it.
 - The Go side keeps this in a usecase layer with its own test file, because billing logic that drifts is expensive.
 
 ### Architecture
