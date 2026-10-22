@@ -5,7 +5,6 @@
     "phone": "+6285196991224",
     "email": "fahridanaaa@gmail.com",
     "url": "fahridanaa.my.id",
-    "summary": "Backend engineer who measures before optimising. Builds Go and Laravel services on PostgreSQL and Redis, then load-tests them with k6 to find where the time actually goes. A 336-run benchmark of four cache strategies showed the cache was not the bottleneck.",
     "profiles": {
       "linkedin": "linkedin.com/in/fahridana-ahmad-rayyansyah",
       "github": "github.com/Fahridanaa"
@@ -13,37 +12,29 @@
   },
   "experience": [
     {
+      "id": "multispunindo",
       "role": "Management Information System Intern",
       "company": "PT. Multi Spunindo Jaya",
       "location": "Sidoarjo, Indonesia",
-      "date": "Jul 2025 – Dec 2025",
-      "status": "Internship",
-      "stack": [
-        "Laravel 12",
-        "PHP",
-        "MySQL"
-      ],
-      "points": [
-        "Rewrote the Performance Appraisal system from native PHP to Laravel 12 on MySQL for 200+ employees.",
-        "Replaced a manual 2 to 3 day quarterly entry step with an HRIS sync and bulk Excel import, saving 8 to 12 working days a year.",
-        "Added periods with deadlines and locking, dashboards and Excel/PDF export, then trained the admins who run it."
-      ]
+      "date": "Jul 2025 \u2013 Dec 2025",
+      "points": {
+        "rewrite": "Rewrote the Performance Appraisal system from native PHP to Laravel 12 on MySQL for 200+ employees.",
+        "sync": "Replaced a manual 2 to 3 day quarterly entry step with an HRIS sync and bulk Excel import, saving 8 to 12 working days a year.",
+        "dashboard": "Built the appraisal period screens, dashboards and Excel/PDF export, then trained the admins who run the cycle."
+      }
     },
     {
+      "id": "80andco",
       "role": "Full-stack Developer",
       "company": "80&Company",
       "location": "Japan (Remote)",
-      "date": "Feb 2025 – Jul 2025",
-      "status": "Contract",
-      "stack": [
-        "Next.js",
-        "TypeScript",
-        "OpenAI API"
-      ],
-      "points": [
-        "Built a video summarisation pipeline: the service follows a YouTube channel by ID, reads each new video's auto-captions, and calls the OpenAI API for a summary and keywords.",
-        "Shipped the interface in Next.js and TypeScript, and documented shared Radix components in Storybook with Jest tests."
-      ]
+      "date": "Feb 2025 \u2013 Jul 2025",
+      "points": {
+        "interface": "Shipped the interface for an AI video summarisation and content tool in Next.js and TypeScript.",
+        "library": "Put the shared Radix components under Storybook with Jest tests, so a change to a primitive was verified before it reached a page.",
+        "pipeline": "Built a video summarisation pipeline: it follows a YouTube channel by ID, reads each new video's auto-captions, and calls the OpenAI API for a summary and keywords.",
+        "schedule": "Scheduled a Vercel cron at 01:00 that pulls new videos into Postgres through Prisma and skips any video with no captions."
+      }
     }
   ],
   "education": [
@@ -51,7 +42,7 @@
       "degree": "Bachelor of Informatics Engineering",
       "school": "Politeknik Negeri Malang",
       "location": "Malang, Indonesia",
-      "date": "2022 – 2026",
+      "date": "2022 \u2013 2026",
       "details": [
         "GPA 3.81 / 4.00"
       ]
@@ -59,85 +50,392 @@
   ],
   "projects": [
     {
-      "name": "muara",
-      "role": "Independent project",
-      "date": "Oct 2026 - Present",
-      "points": [
-        "Built muara, a Python 3.14 tool that pulls JobStreet, Greenhouse and Kalibrr into one local database, records which of four facts a run ended in, and settles which jobs have closed."
-      ]
-    },
-    {
-      "name": "meiro, open source",
-      "role": "Contributor",
-      "date": "Oct 2026",
-      "points": [
-        "Merged three pull requests into meiro, a 30-star Go YouTube Music client: a Flatpak Discord socket path, every artist in rich presence, and Firefox and Zen sign-in.",
-        "Traced why rich presence retried forever on Flatpak Discord, and covered the new artist field with Go tests."
-      ]
-    },
-    {
+      "id": "lms",
       "name": "LMS Cache Strategy Benchmark",
       "role": "Bachelor thesis",
-      "date": "Feb 2026 – Jul 2026",
-      "points": [
-        "Built a Moodle-style LMS in Laravel 12 to test four cache strategies behind one interface, switched by one env value.",
-        "Modelled role inheritance and per-user conditional availability, so cache keys follow the access model instead of a shared key.",
-        "Ran 336 k6 runs over 112 combinations of cache strategy, workload, Redis topology and concurrency up to 2,000 users, then tested the results with ANOVA and Tukey HSD instead of reading charts by eye.",
-        "No strategy beat another: throughput stayed between 53 and 72 req/s across every valid run, and CPU held at 86% or above from 100 users. The bottleneck was Eloquent hydration and repeated context resolution, not the data source."
-      ]
+      "date": "Feb 2026 \u2013 Jul 2026",
+      "points": {
+        "interface": "Built a Moodle-style LMS in Laravel 12 to test four cache strategies behind one interface, switched by one env value.",
+        "domain": "Modelled role inheritance and per-user conditional availability, which makes every course read a per-user cache key.",
+        "runs": "Ran 336 k6 runs over 112 combinations of cache strategy, workload, Redis topology and concurrency up to 2,000 users, then tested the results with ANOVA and Tukey HSD.",
+        "result": "Measured 53 to 72 req/s across all four strategies at every level, with CPU at 86% or above from 100 users, so the cost sat in Eloquent hydration and repeated context resolution."
+      }
     },
     {
+      "id": "hris",
+      "name": "HRIS, Human Resource Information System",
+      "role": "Full-stack Developer",
+      "date": "Apr 2025 \u2013 Jun 2025",
+      "points": {
+        "billing": "Built the seat-based subscription path on a Go (Gin, GORM) backend: the server holds the Midtrans charge and webhook, so a seat count moves only after the provider confirms payment.",
+        "proration": "Prorated a mid-cycle upgrade by the daily price difference for the days left, and charged the full new price when a trial converted.",
+        "attendance": "Built attendance that refuses a clock-in outside the office radius, containerised the stack with Docker, and deployed to Azure.",
+        "routes": "Built the record screens for employees, leave, overtime and documents in Next.js, with TanStack Table grids and react-hook-form against a Go and PostgreSQL API.",
+        "map": "Built the Leaflet map of attendance geofences and the Chart.js dashboards.",
+        "deploy": "Built the frontend image in Docker and deployed it to Azure Container Apps from GitHub Actions."
+      }
+    },
+    {
+      "id": "pendekinlink",
       "name": "Pendekinlink, URL Shortener",
       "role": "Backend Developer",
       "date": "Jan 2026",
-      "points": [
-        "Built a Hono shortener where Redis absorbs click counters, so a hot link does not serialise on a PostgreSQL row lock.",
-        "Put rate limiting in Redis-backed middleware, kept the schema in one Drizzle package, and deployed the monorepo to a VPS."
-      ]
+      "points": {
+        "redis": "Built a Hono shortener where Redis absorbs click counters, so a hot link does not serialise on a PostgreSQL row lock.",
+        "limits": "Capped shortening at 10 requests a minute per IP and redirects at 100 per IP and code, on Redis counters that survive a restart.",
+        "monorepo": "Put rate limiting in Redis-backed middleware, kept the schema in one Drizzle package, and shipped the monorepo to a VPS.",
+        "htmx": "Built the front end with HTMX and Alpine.js and no client-side router, so the page arrives rendered and the browser gets one small script."
+      }
     },
     {
-      "name": "HRIS, Human Resource Information System",
-      "role": "Full-stack Developer",
-      "date": "Apr 2025 – Jun 2025",
-      "points": [
-        "Built the seat-based subscription path on a Go (Gin, GORM) backend: the server owns the Midtrans charge and webhook, so a seat count moves only after the provider confirms payment.",
-        "Built geofenced attendance with live maps in Next.js, containerised the stack with Docker, and deployed to Azure."
-      ]
+      "id": "portfolio",
+      "name": "Portfolio, fahridanaa.my.id",
+      "role": "Independent project",
+      "date": "2024 \u2013 Present",
+      "points": {
+        "astro": "Built the site in Astro 7 with React islands and Tailwind 4, under a strict Content Security Policy with hashed inline styles and no third-party scripts.",
+        "og": "Generated a preview image per post with satori at build time, so a shared link renders a card without a runtime service."
+      }
+    },
+    {
+      "id": "suitmedia",
+      "name": "Ideas Browser",
+      "role": "Frontend assessment",
+      "date": "Sep 2026",
+      "points": {
+        "react": "Built an ideas browser in React 19 and React Router 8 with React Compiler, TanStack Query and Tailwind 4.",
+        "url": "Kept page, size, sort and search in the URL, restored scroll on back, and loaded the detail query before navigating, so a back press lands on the same list.",
+        "a11y": "Ran Playwright with axe-core on every page, and recorded the one accepted brand contrast pair, so any other violation fails the suite."
+      }
+    },
+    {
+      "id": "muara",
+      "name": "muara",
+      "role": "Independent project",
+      "date": "Oct 2026 \u2013 Present",
+      "points": {
+        "tool": "Aggregates JobStreet, Greenhouse and Kalibrr into one database, logs how each run ended, and marks closed listings."
+      }
+    },
+    {
+      "id": "meiro",
+      "name": "meiro, open source",
+      "role": "Contributor",
+      "date": "Oct 2026",
+      "points": {
+        "prs": "Merged three pull requests into meiro, an open-source Go YouTube Music client: a Flatpak Discord socket path, every artist in rich presence, and Firefox and Zen sign-in.",
+        "trace": "Traced the cause of the rich presence retry loop on Flatpak Discord, and covered the new artist field with Go tests."
+      }
     }
   ],
-  "skills": [
-    {
-      "category": "Languages",
-      "items": [
+  "skills": {
+    "backend": [
+      {
+        "category": "Languages",
+        "items": [
+          "Go",
+          "PHP",
+          "TypeScript"
+        ]
+      },
+      {
+        "category": "Backend",
+        "items": [
+          "Laravel",
+          "Gin",
+          "PostgreSQL",
+          "MySQL",
+          "Redis"
+        ]
+      },
+      {
+        "category": "Infrastructure",
+        "items": [
+          "Docker",
+          "Azure"
+        ]
+      },
+      {
+        "category": "Testing",
+        "items": [
+          "k6",
+          "Go test",
+          "Jest"
+        ]
+      }
+    ],
+    "frontend": [
+      {
+        "category": "Frontend",
+        "items": [
+          "Next.js",
+          "React",
+          "Radix",
+          "TanStack Query",
+          "TanStack Table",
+          "Storybook",
+          "Tailwind"
+        ]
+      },
+      {
+        "category": "Languages",
+        "items": [
+          "TypeScript",
+          "PHP"
+        ]
+      },
+      {
+        "category": "Backend",
+        "items": [
+          "Laravel",
+          "PostgreSQL",
+          "MySQL"
+        ]
+      },
+      {
+        "category": "Infrastructure",
+        "items": [
+          "Docker",
+          "Azure"
+        ]
+      },
+      {
+        "category": "Testing",
+        "items": [
+          "Jest",
+          "Playwright",
+          "axe-core"
+        ]
+      }
+    ],
+    "fullstack": [
+      {
+        "category": "Languages",
+        "items": [
+          "TypeScript",
+          "Go",
+          "PHP"
+        ]
+      },
+      {
+        "category": "Frontend",
+        "items": [
+          "React",
+          "Next.js",
+          "Tailwind"
+        ]
+      },
+      {
+        "category": "Backend",
+        "items": [
+          "Laravel",
+          "Gin",
+          "PostgreSQL",
+          "Redis"
+        ]
+      },
+      {
+        "category": "Infrastructure",
+        "items": [
+          "Docker",
+          "Azure"
+        ]
+      },
+      {
+        "category": "Testing",
+        "items": [
+          "k6"
+        ]
+      }
+    ]
+  },
+  "lanes": {
+    "backend": {
+      "label": "Backend",
+      "summary": "Backend Engineer. Cut 8 to 12 days of manual entry a year for 200+ employees, and built a Go service that bills seats via Midtrans.",
+      "keywords": [
         "Go",
-        "PHP",
-        "TypeScript"
-      ]
-    },
-    {
-      "category": "Backend",
-      "items": [
         "Laravel",
-        "Gin",
         "PostgreSQL",
-        "MySQL",
-        "Redis"
-      ]
+        "Redis",
+        "k6"
+      ],
+      "experience": [
+        {
+          "id": "multispunindo",
+          "points": [
+            "rewrite",
+            "sync",
+            "dashboard"
+          ]
+        },
+        {
+          "id": "80andco",
+          "points": [
+            "pipeline",
+            "schedule"
+          ]
+        }
+      ],
+      "projects": [
+        {
+          "id": "lms",
+          "points": [
+            "interface",
+            "domain",
+            "runs",
+            "result"
+          ]
+        },
+        {
+          "id": "pendekinlink",
+          "points": [
+            "redis",
+            "limits"
+          ]
+        },
+        {
+          "id": "hris",
+          "points": [
+            "billing",
+            "proration"
+          ]
+        },
+        {
+          "id": "muara",
+          "points": [
+            "tool"
+          ]
+        },
+        {
+          "id": "meiro",
+          "points": [
+            "prs",
+            "trace"
+          ]
+        }
+      ],
+      "skills": "backend"
     },
-    {
-      "category": "Infrastructure",
-      "items": [
-        "Docker",
-        "Azure"
-      ]
+    "frontend": {
+      "label": "Frontend",
+      "summary": "Frontend-focused full-stack developer. Carried most of the frontend on a five-person Next.js build, and wrote 549 of its 965 commits, including the table, form and map components the record screens reuse.",
+      "keywords": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "TanStack Query",
+        "Radix",
+        "accessibility"
+      ],
+      "experience": [
+        {
+          "id": "multispunindo",
+          "points": [
+            "dashboard",
+            "rewrite",
+            "sync"
+          ]
+        },
+        {
+          "id": "80andco",
+          "points": [
+            "interface",
+            "library"
+          ]
+        }
+      ],
+      "projects": [
+        {
+          "id": "hris",
+          "points": [
+            "routes",
+            "map",
+            "deploy"
+          ]
+        },
+        {
+          "id": "portfolio",
+          "points": [
+            "astro",
+            "og"
+          ]
+        },
+        {
+          "id": "suitmedia",
+          "points": [
+            "react",
+            "url",
+            "a11y"
+          ]
+        }
+      ],
+      "skills": "frontend"
     },
-    {
-      "category": "Testing",
-      "items": [
-        "k6",
-        "Go test",
-        "Jest"
-      ]
+    "fullstack": {
+      "label": "Full-Stack",
+      "summary": "Full-stack engineer. Built an HRIS end to end, the Go service that bills seats through Midtrans and the screens HR uses for records, leave, overtime and attendance.",
+      "keywords": [
+        "TypeScript",
+        "Go",
+        "React",
+        "Next.js",
+        "PostgreSQL",
+        "Laravel"
+      ],
+      "experience": [
+        {
+          "id": "multispunindo",
+          "points": [
+            "rewrite",
+            "sync",
+            "dashboard"
+          ]
+        },
+        {
+          "id": "80andco",
+          "points": [
+            "pipeline",
+            "interface"
+          ]
+        }
+      ],
+      "projects": [
+        {
+          "id": "hris",
+          "points": [
+            "billing",
+            "proration",
+            "attendance",
+            "routes"
+          ]
+        },
+        {
+          "id": "lms",
+          "points": [
+            "interface",
+            "runs",
+            "result"
+          ]
+        },
+        {
+          "id": "pendekinlink",
+          "role": "Full-stack Developer",
+          "points": [
+            "redis",
+            "htmx",
+            "monorepo"
+          ]
+        },
+        {
+          "id": "portfolio",
+          "points": [
+            "astro",
+            "og"
+          ]
+        }
+      ],
+      "skills": "fullstack"
     }
-  ]
+  }
 }

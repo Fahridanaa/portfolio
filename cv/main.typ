@@ -2,7 +2,13 @@
 #set text(font: "Liberation Serif", size: 10pt, hyphenate: false)
 #set par(justify: false, leading: 0.6em, spacing: 0pt)
 
-#let cv = json("resume.json")
+#let lane = sys.inputs.at("lane", default: "backend")
+#let cv = json(".build/" + lane + ".json")
+#set document(
+  title: cv.meta.title,
+  author: cv.basics.name,
+  keywords: cv.meta.keywords,
+)
 #let show_phone = sys.inputs.at("show_phone", default: "false") == "true"
 
 // --- SCALE ---
@@ -61,8 +67,8 @@
   if show_phone { link("tel:" + cv.basics.phone)[#cv.basics.phone] },
   cv.basics.email,
   cv.basics.url,
-  link("https://" + cv.basics.profiles.linkedin)[in/fahridana-ahmad-rayyansyah],
-  link("https://" + cv.basics.profiles.github)[github/Fahridanaa],
+  link("https://" + cv.basics.profiles.linkedin)[#cv.basics.profiles.linkedin.replace("linkedin.com/", "")],
+  link("https://" + cv.basics.profiles.github)[#cv.basics.profiles.github.replace("github.com/", "github/")],
 ).filter(x => x != none)
 
 #block(width: 100%)[#align(center)[#text(size: 18pt, weight: "bold")[#cv.basics.name]]]

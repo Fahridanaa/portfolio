@@ -6,28 +6,29 @@ The rule for every lane below: the label must be carried by a title or a shipped
 
 ## Backend (the current build)
 
-- **Summary lead.** Backend engineer, then the proof: Go and Laravel services, then the 336-run benchmark.
-- **Experience order.** Multi Spunindo Jaya, then 80&Company. Laravel, MySQL, 200+ employees, and an 8 to 12 day saving is the closest thing to backend production work with a number.
+- **Summary lead.** Backend engineer, then two outcomes in one line: 8 to 12 days a year saved for 200+ employees, and a Go service that bills seats through Midtrans. The benchmark's numbers are left to the bullets that carry them.
+- **Experience order.** Multi Spunindo Jaya, then 80&Company. Laravel, MySQL, 200+ employees, and an 8 to 12 day saving is the closest thing to backend production work with a number. 80&Company keeps the pipeline bullet and the 01:00 cron over Postgres and Prisma; the Next.js and Storybook bullet is interface work, so it stays out of this lane.
 - **Projects order.** LMS Cache Strategy Benchmark first, then Pendekinlink, HRIS, muara, meiro. The benchmark is the strongest artifact in the CV, so it leads.
 - **Skills order.** Go, PHP, TypeScript. Laravel, Gin, PostgreSQL, MySQL, Redis. Docker, Azure. k6, Go test, Jest.
 - **Cost.** None. This lane is carried by two backend titles and the thesis.
 
 ## Frontend
 
-- **Summary lead.** Full-stack developer who owns the interface, then the proof: Next.js and TypeScript, Radix components in Storybook, Jest tests. Do not print "frontend engineer". No held title says that, and the CTO's complaint cuts both ways.
-- **Experience order.** 80&Company first, because its second bullet is the only shipped UI work with component ownership. Multi Spunindo second, with the dashboard and Excel/PDF export bullet promoted.
-- **Projects order.** HRIS first, for the geofenced attendance and live maps in Next.js, then meiro, then the rest. The LMS benchmark falls to the end.
-- **Skills order.** Add a `Frontend` row above `Backend`: Next.js, Radix, Storybook, Jest. Keep the four required labels. Name React only after a bullet says React, because Next.js implies it but the page must still be checkable.
-- **Cost.** The evidence is thin. Two bullets and one project carry it, and the strongest artifact, the benchmark, becomes background. Expect a shorter page and a weaker read for a backend-heavy job posting. Report that cost rather than padding the page.
-- **Gap to close.** A real frontend artifact with users would change this lane from "leaning" to "claimed". That is work, not wording.
+- **Summary lead.** Frontend-focused full-stack developer, then the proof: most of the frontend on a five-person Next.js build, 549 of its 965 commits, and the shared table, form and map components. Say "focused", never "frontend engineer". No held title says that, and the CTO's complaint cuts both ways.
+- **Experience order.** Multi Spunindo first, then 80&Company, because reverse chronological is not negotiable. The lane survives it as long as Multi Spunindo leads with the period screens and Excel/PDF export bullet, which is real interface work. 80&Company keeps the Next.js interface bullet and `library`, the Storybook and Jest ownership. Its `pipeline` and `schedule` points stay out, because a video pipeline is backend work on a frontend page.
+- **Projects order.** HRIS first, for 31 routes, the record tables and the geofence map in Next.js, then Portfolio, then the Ideas Browser, which carries the accessibility suite. The LMS benchmark stays out: it has no interface story, and its dates are covered by Portfolio running to the present.
+- **Skills order.** The `Frontend` row above `Backend`: Next.js, React, Radix, TanStack Query, TanStack Table, Storybook, Tailwind. Keep the four required labels. Storybook is here because a bullet names it, and Docker and Azure stay in `Infrastructure` because the deploy bullet backs them.
+- **Cost.** The evidence is thin at the top. The most recent paid role is an internship in Laravel, so the first bullet a reader meets is not React. The React evidence sits in the projects. Expect a weaker read for a backend-heavy posting.
+- **Gap to close.** A frontend title, or a React artifact with users, would change this lane from "focused" to "claimed". That is work, not wording.
 
 ## Fullstack
 
-- **Summary lead.** Full-stack developer, then both ends in one sentence: a Go and Laravel backend on PostgreSQL and Redis, and the Next.js interface in front of it.
-- **Experience order.** 80&Company, then Multi Spunindo, or the reverse. Both tell the same story from a different end.
-- **Projects order.** HRIS first, because its two bullets show the server owning a payment webhook and the map UI in one entry. Then the benchmark, then the rest.
-- **Skills.** The four rows as they are, with TypeScript promoted to the head of `Languages`.
-- **Cost.** This is the current page. If nothing changes, do not pretend a lane was applied.
+- **Summary lead.** The lane noun, then both halves in one sentence: the Go service that bills seats through Midtrans, and the screens HR uses for records, leave, overtime and attendance. No count of routes, tables or forms. A route count measures code volume, and the reader learns nothing about what HR can do from it.
+- **Experience order.** Multi Spunindo first, then 80&Company. The internship is the more recent of the two, and 80&Company now carries both `pipeline` and `interface`, so a Full-stack title has both ends on the page.
+- **Projects order.** HRIS first with four bullets: the seat billing and its webhook, the proration rule, the clock-in radius, and the record screens. Then the LMS with three, because `domain` gives its line to `proration`. Then Pendekinlink and Portfolio.
+- **Skills.** `Testing` carries k6 alone. Jest has no bullet on this page, and `scripts/cv-check.mjs` requires the row, not the item.
+- **Wording.** `attendance` states the clock-in rule instead of saying "geofenced attendance". The Go usecase in `SukaMajuu/hris2` still has a TODO for location validation, so only the client refuses an out-of-range clock-in.
+- **Cost.** This page is the site default at `/assets/cv.pdf`. The HRIS block is four bullets, so the LMS gives up `domain`, its most technical line.
 
 ## Campus, ODP, MDP
 
