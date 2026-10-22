@@ -16,6 +16,9 @@ const ROUTES = [
   "/blog/just-do-it",
   "/art",
   "/assets/cv.pdf",
+  "/assets/cv-backend.pdf",
+  "/assets/cv-frontend.pdf",
+  "/assets/cv-fullstack.pdf",
   "/sitemap-index.xml",
 ];
 const SOURCES = ["src", "public", "astro.config.mjs", "package.json"];
@@ -63,6 +66,9 @@ for (const route of ROUTES) {
   report(res?.status === 200, `GET ${route}`, res ? String(res.status) : "no response");
 }
 
+const cvPage = await get("/cv");
+report(cvPage?.status === 404, "GET /cv is gone", cvPage ? String(cvPage.status) : "no response");
+
 const title = home.body.toString("utf8").match(/<title>([^<]*)<\/title>/)?.[1] ?? "";
 report(title === TITLE, "home title", JSON.stringify(title));
 
@@ -72,15 +78,30 @@ const stale = SOURCES.filter((source) => newestMtime(path.join(ROOT, source)) > 
 report(built > 0 && stale.length === 0, "dist is current", stale.length ? `newer than dist: ${stale.join(", ")}` : "");
 if (stale.length) console.log("fix: node .agents/skills/verify-portfolio/scripts/serve.mjs start");
 
-const served = (await get("/assets/cv.pdf"))?.body ?? Buffer.alloc(0);
-const distCv = existsSync(path.join(ROOT, "dist", "assets", "cv.pdf"))
-  ? readFileSync(path.join(ROOT, "dist", "assets", "cv.pdf"))
-  : Buffer.alloc(0);
-const sourceCv = existsSync(path.join(ROOT, "public", "assets", "cv.pdf"))
-  ? readFileSync(path.join(ROOT, "public", "assets", "cv.pdf"))
-  : Buffer.alloc(0);
-report(served.length > 0 && digest(served) === digest(distCv), "served cv.pdf is the built one", digest(served));
-report(distCv.length > 0 && digest(distCv) === digest(sourceCv), "built cv.pdf is the source one", digest(sourceCv));
+for (const file of [
+  "cv.pdf",
+  "cv-backend.pdf",
+  "cv-frontend.pdf",
+  "cv-fullstack.pdf",
+]) {
+  const served = (await get(`/assets/${file}`))?.body ?? Buffer.alloc(0);
+  const distPdf = existsSync(path.join(ROOT, "dist", "assets", file))
+    ? readFileSync(path.join(ROOT, "dist", "assets", file))
+    : Buffer.alloc(0);
+  const sourcePdf = existsSync(path.join(ROOT, "public", "assets", file))
+    ? readFileSync(path.join(ROOT, "public", "assets", file))
+    : Buffer.alloc(0);
+  report(
+    served.length > 0 && digest(served) === digest(distPdf),
+    `served ${file} is the built one`,
+    digest(served),
+  );
+  report(
+    distPdf.length > 0 && digest(distPdf) === digest(sourcePdf),
+    `built ${file} is the source one`,
+    digest(sourcePdf),
+  );
+}
 
 console.log(failed ? `doctor: ${failed} check(s) failed` : "doctor: healthy, drivable");
 process.exit(failed ? 1 : 0);

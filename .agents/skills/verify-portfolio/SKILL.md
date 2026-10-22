@@ -5,7 +5,7 @@ description: Drive the portfolio site (Astro static site published at fahridanaa
 
 # Verify portfolio
 
-The user touches a static Astro site. The home page is a notebook sheet with a hero, experience cards, project scraps, and note cards. `/projects` and `/blog` list entries, each with a detail page. `/art` shows drawings. `/assets/cv.pdf` is the CV. Everything is baked at build time, so the target is `dist/`, served by `astro preview`, not the dev server.
+The user touches a static Astro site. The home page is a notebook sheet with a hero, experience cards, project scraps, and note cards. `/projects` and `/blog` list entries, each with a detail page. `/art` shows drawings. `/assets/cv.pdf` is the full-stack CV; the backend and frontend PDFs stay in `public/assets/` but are not linked. Everything is baked at build time, so the target is `dist/`, served by `astro preview`, not the dev server.
 
 Requires Node 22.12 or newer, `npm install` already run, and `bb` on PATH for the browser steps.
 
@@ -41,7 +41,7 @@ node .agents/skills/verify-portfolio/scripts/serve.mjs status
 node .agents/skills/verify-portfolio/scripts/doctor.mjs
 ```
 
-Read-only, exits 1 on any failure. It checks that the server answers, that eight routes return 200, that the home title is `Fahridana Ahmad Rayyansyah`, that `dist/` is not stale against the sources, and that the served `/assets/cv.pdf` is byte-identical to `dist/assets/cv.pdf`, which is in turn identical to `public/assets/cv.pdf`. Run it first whenever a drive looks wrong. A stale `dist/` is the most common cause.
+Read-only, exits 1 on any failure. It checks that the server answers, that eleven routes return 200, that the removed `/cv` returns 404, that the home title is `Fahridana Ahmad Rayyansyah`, that `dist/` is not stale against the sources, and that the four served PDFs (`cv.pdf` and the three lane PDFs) are byte-identical to their `dist/` and `public/` copies. Run it first whenever a drive looks wrong. A stale `dist/` is the most common cause.
 
 ## Drive
 
@@ -89,7 +89,7 @@ Both act only on the ids recorded in `.verify/`. Proofs under `.verify/proofs/` 
 - Site mode persists in `localStorage["site-mode"]` and an inline head script applies it before paint. A leftover `personal` hides Experience, Projects, and the Projects nav link. Reset with `await p.evaluate(() => localStorage.removeItem("site-mode"))` then `p.goto` again.
 - The Art bookmark exists in the HTML of every page but is hidden by CSS in work mode. `curl` counts three section links while the browser shows two. Assert on the snapshot, not on the raw HTML.
 - Content is baked at build time. An MDX edit without a rebuild changes nothing. Doctor catches it as `dist is current` failing.
-- The CV PDF layout is owned by `npm run cv:build` and `scripts/cv-check.mjs`. This harness proves the file is served and current, not that its spacing is right.
+- The CV PDF layout is owned by `npm run cv:build` and `scripts/cv-check.mjs`. This harness proves the four files are served and current, not that their spacing is right. The lane selection lives in `cv/resume.json`.
 
 ## Helpers
 

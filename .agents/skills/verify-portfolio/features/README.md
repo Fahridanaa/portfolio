@@ -5,7 +5,7 @@ This directory is the maintained source for verifying the user-facing behavior o
 ## Baseline preconditions
 
 - Launch with `node .agents/skills/verify-portfolio/scripts/serve.mjs start`, which serves `dist/` at `http://127.0.0.1:4400`. Read [../SKILL.md](../SKILL.md) for the full launch, doctor, and cleanup contract.
-- Run `node .agents/skills/verify-portfolio/scripts/doctor.mjs` and require `doctor: healthy, drivable` before any drive. It proves the served build is current and the CV asset is the source one.
+- Run `node .agents/skills/verify-portfolio/scripts/doctor.mjs` and require `doctor: healthy, drivable` before any drive. It proves the served build is current and the CV assets are the source ones.
 - Open one browser session with `drive.mjs open` and close it when the run ends.
 - Start in work mode. The baseline snapshot shows `switch "Site mode, work"` without `[checked]`. If it shows `[checked]`, the previous run left personal mode behind. Reset it as [site-mode.md](site-mode.md) says.
 - Never drive a browser or a server that this run did not open.
