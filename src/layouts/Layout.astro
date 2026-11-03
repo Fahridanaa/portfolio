@@ -1,6 +1,7 @@
 ---
 import "@/styles/global.css";
 import Navbar from "@/components/ui/nav/Navbar.astro";
+import BackgroundArt from "@/components/ui/BackgroundArt.astro";
 interface Props {
 	title: string;
 	description?: string;
@@ -69,6 +70,7 @@ const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
 		<title>{title}</title>
 	</head>
 	<body>
+		<BackgroundArt />
 		<div class="nav-progress" data-nav-progress aria-hidden="true">
 			<span></span>
 			<span></span>

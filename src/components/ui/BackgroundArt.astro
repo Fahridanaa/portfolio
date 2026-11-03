@@ -1,0 +1,67 @@
+---
+import { Image } from "astro:assets";
+import ryoSketch from "@/assets/background/ryo-sketch.png";
+import ryoLive from "@/assets/background/ryo-live.png";
+---
+
+<div class="bg-art" aria-hidden="true">
+	<Image
+		src={ryoSketch}
+		alt=""
+		widths={[320, 480, 720]}
+		sizes="480px"
+		loading="eager"
+		class="bg-art-image bg-art-left"
+	/>
+	<Image
+		src={ryoLive}
+		alt=""
+		widths={[340, 520, 780]}
+		sizes="480px"
+		loading="eager"
+		class="bg-art-image bg-art-right"
+	/>
+</div>
+
+<style>
+	.bg-art {
+		--art-opacity: 0.14;
+		--art-width: 30rem;
+		position: fixed;
+		inset: 0;
+		/* Below the sheet, so the paper hides the art edge. */
+		z-index: 0;
+		display: none;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	/* Full height in a fixed 480px column; cover crops the sides. */
+	.bg-art :global(.bg-art-image) {
+		position: absolute;
+		inset-block: 0;
+		width: var(--art-width);
+		height: 100%;
+		object-fit: cover;
+		opacity: var(--art-opacity);
+		mix-blend-mode: multiply;
+	}
+
+	/* Centered on the desk, so a narrow window shows the face and a wide one
+	   shows the whole image. */
+	.bg-art :global(.bg-art-left) {
+		left: calc((100% - var(--sheet-max)) / 4 - var(--art-width) / 2);
+		object-position: 44% 24%;
+	}
+
+	.bg-art :global(.bg-art-right) {
+		right: calc((100% - var(--sheet-max)) / 4 - var(--art-width) / 2);
+		object-position: 47% 24%;
+	}
+
+	@media (min-width: 1360px) {
+		.bg-art {
+			display: block;
+		}
+	}
+</style>
