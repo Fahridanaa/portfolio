@@ -32,3 +32,6 @@ bun.lockb
 
 # verification scratch
 .verify/
+
+# bb workflow and council scratch
+.bb/
