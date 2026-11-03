@@ -33,6 +33,7 @@
 
 @layer base {
   :root {
+    --sheet-max: 80rem;
     --paper-warm: #fffef8;
     --paper-deep: #f1f4e9;
     --desk: #cfd9d5;
@@ -93,6 +94,7 @@
 
 @layer components {
   .notebook-sheet {
+    max-width: var(--sheet-max);
     position: relative;
     isolation: isolate;
     background:
