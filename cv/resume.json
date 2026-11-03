@@ -1,7 +1,7 @@
 {
   "basics": {
     "name": "Fahridana Ahmad Rayyansyah",
-    "location": "Indonesia",
+    "location": "Surabaya, Indonesia \u00b7 open to Jakarta \u00b7 available now",
     "phone": "+6285196991224",
     "email": "fahridanaaa@gmail.com",
     "url": "fahridanaa.my.id",
@@ -110,7 +110,7 @@
     },
     {
       "id": "muara",
-      "name": "muara",
+      "name": "muara, Job-Board Aggregator",
       "role": "Independent project",
       "date": "Oct 2026 \u2013 Present",
       "points": {
@@ -231,6 +231,7 @@
           "Laravel",
           "Gin",
           "PostgreSQL",
+          "MySQL",
           "Redis"
         ]
       },
@@ -244,7 +245,8 @@
       {
         "category": "Testing",
         "items": [
-          "k6"
+          "k6",
+          "Jest"
         ]
       }
     ]
@@ -374,7 +376,7 @@
     },
     "fullstack": {
       "label": "Full-Stack",
-      "summary": "Full-stack engineer. Built an HRIS end to end, the Go service that bills seats through Midtrans and the screens HR uses for records, leave, overtime and attendance.",
+      "summary": "Full-stack developer. Rewrote the appraisal system 200+ employees use, from PHP to Laravel 12 on MySQL, and cut 8 to 12 working days of manual entry a year; built the Go service that bills seats through Midtrans and the Next.js screens HR runs records, leave, overtime and attendance on.",
       "keywords": [
         "TypeScript",
         "Go",
@@ -387,8 +389,8 @@
         {
           "id": "multispunindo",
           "points": [
-            "rewrite",
             "sync",
+            "rewrite",
             "dashboard"
           ]
         },
@@ -396,18 +398,16 @@
           "id": "80andco",
           "points": [
             "pipeline",
-            "interface"
+            "interface",
+            "library"
           ]
         }
       ],
       "projects": [
         {
-          "id": "hris",
+          "id": "muara",
           "points": [
-            "billing",
-            "proration",
-            "attendance",
-            "routes"
+            "tool"
           ]
         },
         {
@@ -428,10 +428,12 @@
           ]
         },
         {
-          "id": "portfolio",
+          "id": "hris",
           "points": [
-            "astro",
-            "og"
+            "billing",
+            "proration",
+            "attendance",
+            "routes"
           ]
         }
       ],

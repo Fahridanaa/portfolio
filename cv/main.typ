@@ -62,8 +62,8 @@
 
 // --- HEADER ---
 
-#let header-items = (
-  cv.basics.location,
+#let header-place = (cv.basics.location,).filter(x => x != none)
+#let header-contact = (
   if show_phone { link("tel:" + cv.basics.phone)[#cv.basics.phone] },
   cv.basics.email,
   cv.basics.url,
@@ -72,9 +72,13 @@
 ).filter(x => x != none)
 
 #block(width: 100%)[#align(center)[#text(size: 18pt, weight: "bold")[#cv.basics.name]]]
-#v(1.05em)
+#v(1.0em)
 #block(width: 100%)[
-  #align(center)[#text(size: 9.5pt)[#header-items.join("  |  ")]]
+  #align(center)[#text(size: 9.5pt)[#header-place.join("  |  ")]]
+]
+#v(0.28em)
+#block(width: 100%)[
+  #align(center)[#text(size: 9.5pt)[#header-contact.join("  |  ")]]
 ]
 
 // --- SUMMARY ---
