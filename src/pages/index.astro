@@ -79,12 +79,16 @@ const currentYear = new Date().getFullYear();
 					<div>
 						<div class="camera-print">
 							<span class="camera-pin" aria-hidden="true"></span>
+							{/* 366px = max-w-sm minus the print frame's padding and border; below that, 100vw minus the sheet and frame padding. */}
 							<Image
 								src={me}
 								alt="Portrait of Fahridana Ahmad Rayyansyah"
 								loading="eager"
-								width={2048}
-								height={2048}
+								fetchpriority="high"
+								width={366}
+								height={366}
+								widths={[366, 549, 732, 1098]}
+								sizes="(min-width: 422px) 366px, calc(100vw - 56px)"
 								class="aspect-square w-full rounded-sm object-cover"
 							/>
 							<p class="camera-caption">me</p>
