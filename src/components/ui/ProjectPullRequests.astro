@@ -15,7 +15,7 @@ const repoData = OPEN_SOURCE_REPOS.find((item) => item.name === repo);
 		<section class="mt-10" aria-labelledby="merged-pull-requests">
 			<div class="flex flex-wrap items-end justify-between gap-2">
 				<div>
-					<p class="sketch-label mb-2 text-[0.62rem]">upstream</p>
+					<p class="sketch-label mb-2 text-xs">upstream</p>
 					<h2
 						id="merged-pull-requests"
 						class="text-xl font-black uppercase tracking-normal text-brand-ink sm:text-2xl"
@@ -23,7 +23,7 @@ const repoData = OPEN_SOURCE_REPOS.find((item) => item.name === repo);
 						Merged pull requests
 					</h2>
 				</div>
-				<span class="font-mono text-[0.62rem] font-bold uppercase tracking-normal text-brand-graphite">
+				<span class="font-mono text-xs font-bold uppercase tracking-normal text-brand-graphite">
 					{repoData.pulls.length} merged · {repoData.language}
 				</span>
 			</div>

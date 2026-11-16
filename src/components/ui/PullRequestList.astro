@@ -31,7 +31,7 @@ const mergedDateFormat = new Intl.DateTimeFormat("en-US", {
 					<span
 						class:list={[
 							"shrink-0 font-mono font-black text-brand-graphite",
-							compact ? "w-9 pt-0.5 text-[0.68rem]" : "w-10 pt-0.5 text-[0.66rem]",
+							compact ? "w-9 pt-0.5 text-xs" : "w-10 pt-0.5 text-xs",
 						]}
 					>
 						#{pr.number}
@@ -48,7 +48,7 @@ const mergedDateFormat = new Intl.DateTimeFormat("en-US", {
 							<span class="mt-1 block text-xs leading-relaxed text-brand-graphite">
 								{pr.summary}
 							</span>
-							<span class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[0.6rem] font-bold uppercase tracking-normal">
+							<span class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs font-bold uppercase tracking-normal">
 								<span class="text-brand-green">
 									merged {mergedDateFormat.format(new Date(pr.mergedAt))}
 								</span>

@@ -66,7 +66,7 @@ const mergedPrs = (repo: string | null) =>
 					<a
 						href="#personal"
 						aria-label={`Personal projects, ${groups.personal.length}`}
-						class="sketch-label gap-1.5 text-[0.68rem] transition-colors hover:bg-brand-highlighter/80"
+						class="sketch-label gap-1.5 text-xs transition-colors hover:bg-brand-highlighter/80"
 					>
 						{PROJECT_GROUPS.personal.label}
 						<span class="text-brand-green">{groups.personal.length}</span>
@@ -74,7 +74,7 @@ const mergedPrs = (repo: string | null) =>
 					<a
 						href="#open-source"
 						aria-label={`Open source, ${groups.openSource.length} projects`}
-						class="sketch-label gap-1.5 text-[0.68rem] transition-colors hover:bg-brand-highlighter/80"
+						class="sketch-label gap-1.5 text-xs transition-colors hover:bg-brand-highlighter/80"
 					>
 						{PROJECT_GROUPS.openSource.label}
 						<span class="text-brand-green">{groups.openSource.length}</span>
@@ -82,7 +82,7 @@ const mergedPrs = (repo: string | null) =>
 					<a
 						href="#university"
 						aria-label={`University projects, ${groups.university.length}`}
-						class="sketch-label gap-1.5 text-[0.68rem] transition-colors hover:bg-brand-highlighter/80"
+						class="sketch-label gap-1.5 text-xs transition-colors hover:bg-brand-highlighter/80"
 					>
 						{PROJECT_GROUPS.university.label}
 						<span class="text-brand-green">{groups.university.length}</span>

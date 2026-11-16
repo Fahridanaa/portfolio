@@ -15,7 +15,7 @@ const mergedTotal = OPEN_SOURCE_REPOS.reduce(
 	0,
 );
 const labelRow =
-	"flex items-center justify-between gap-2 border-b border-dashed border-brand-ink/25 pb-1.5 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite";
+	"flex items-center justify-between gap-2 border-b border-dashed border-brand-ink/25 pb-1.5 font-mono text-xs font-bold uppercase tracking-normal text-brand-graphite";
 ---
 
 <section id="projects" class="notebook-section compact-section">
@@ -43,7 +43,7 @@ const labelRow =
 				<span>Open source · {mergedTotal} merged</span>
 				<a
 					href="/projects/"
-					class="sketch-label -my-1 gap-1.5 text-[0.68rem] transition-colors hover:bg-brand-highlighter/80"
+					class="sketch-label -my-1 gap-1.5 text-xs transition-colors hover:bg-brand-highlighter/80"
 				>
 					All projects
 					<span class="text-brand-green" aria-hidden="true">→</span>
@@ -61,7 +61,7 @@ const labelRow =
 							<div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
 								<a
 									href={`/projects/${repo.projectSlug}/`}
-									class="text-base font-black leading-tight text-brand-ink underline decoration-brand-green/30 decoration-2 underline-offset-4 transition-colors hover:decoration-brand-green"
+									class="inline-flex min-h-6 items-center text-base font-black leading-tight text-brand-ink underline decoration-brand-green/30 decoration-2 underline-offset-4 transition-colors hover:decoration-brand-green"
 								>
 									{repo.name}
 								</a>
@@ -69,11 +69,11 @@ const labelRow =
 									href={repo.url}
 									target="_blank"
 									rel="noopener noreferrer"
-									class="font-mono text-[0.65rem] font-bold uppercase tracking-normal text-brand-graphite transition-colors hover:text-brand-green"
+									class="inline-flex min-h-6 items-center font-mono text-xs font-bold uppercase tracking-normal text-brand-graphite transition-colors hover:text-brand-green"
 								>
 									github ↗
 								</a>
-								<span class="ml-auto font-mono text-[0.65rem] font-bold uppercase tracking-normal text-brand-graphite">
+								<span class="ml-auto font-mono text-xs font-bold uppercase tracking-normal text-brand-graphite">
 									{repo.language} · {repo.pulls.length} merged
 								</span>
 							</div>

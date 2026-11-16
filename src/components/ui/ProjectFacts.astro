@@ -13,7 +13,7 @@ const sourceLabel =
 ---
 
 <div>
-	<p class="sketch-label mb-2 text-[0.62rem]">links</p>
+	<p class="sketch-label mb-2 text-xs">links</p>
 	<div class="flex flex-wrap gap-2">
 		{frontmatter.demo && (
 			<ProjectButton href={frontmatter.demo} icon="external" text="Demo" />
@@ -27,7 +27,7 @@ const sourceLabel =
 	</div>
 </div>
 <div>
-	<p class="sketch-label mb-2 text-[0.62rem]">stack</p>
+	<p class="sketch-label mb-2 text-xs">stack</p>
 	<div class="flex flex-wrap gap-2">
 		{frontmatter.stack.map((tech: string) => (
 			<TechStack tech={tech} size="small" isLazy={false} />

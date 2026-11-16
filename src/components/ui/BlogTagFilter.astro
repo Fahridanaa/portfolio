@@ -14,7 +14,7 @@ const { tags, total, active } = Astro.props;
 	<a
 		href="/blog/"
 		class:list={[
-			"sketch-label gap-1.5 text-[0.68rem] transition-colors",
+			"sketch-label gap-1.5 text-xs transition-colors",
 			!active ? "bg-brand-highlighter" : "hover:bg-brand-highlighter/80",
 		]}
 		aria-current={!active ? "page" : undefined}
@@ -26,7 +26,7 @@ const { tags, total, active } = Astro.props;
 			<a
 				href={`/blog/tags/${tag.slug}/`}
 				class:list={[
-					"sketch-label gap-1.5 text-[0.68rem] transition-colors",
+					"sketch-label gap-1.5 text-xs transition-colors",
 					active === tag.slug
 						? "bg-brand-highlighter"
 						: "hover:bg-brand-highlighter/80",

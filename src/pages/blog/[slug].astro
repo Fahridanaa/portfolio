@@ -90,7 +90,7 @@ const ogImage = `/blog/${entry.id}/og.png?v=${ogVersion}`;
 									</time>
 									<span aria-hidden="true">/</span>
 									<span>{readingTime} min read</span>
-									{entry.data.draft && <span class="sketch-label text-[0.62rem]">draft</span>}
+									{entry.data.draft && <span class="sketch-label text-xs">draft</span>}
 								</div>
 								<BlogTags tags={entry.data.tags} linked />
 							</div>
@@ -119,7 +119,7 @@ const ogImage = `/blog/${entry.id}/og.png?v=${ogVersion}`;
 											<li class={heading.depth === 3 ? "pl-4" : ""}>
 												<a
 													href={`#${heading.slug}`}
-													class="hover:text-brand-green hover:underline">
+													class="inline-flex min-h-6 items-center hover:text-brand-green hover:underline">
 													{heading.text}
 												</a>
 											</li>
