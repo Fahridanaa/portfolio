@@ -1,0 +1,85 @@
+name: Refresh open source pull requests
+
+on:
+  schedule:
+    # Monday 08:00 Asia/Jakarta (UTC+7).
+    - cron: "0 1 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: refresh-open-source
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Refresh the list
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          node --experimental-strip-types scripts/refresh-open-source.mjs
+          --body-file "$RUNNER_TEMP/pull-request.md"
+
+      - run: npm test
+
+      - run: npm run build
+
+      - name: Detect changes
+        id: changes
+        run: |
+          if git diff --quiet -- src/data/open-source.ts; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push the branch
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch --force-create bot/open-source-prs
+          git add src/data/open-source.ts
+          git commit -m "chore: refresh merged open source pull requests"
+          git push --force origin bot/open-source-prs
+
+      - name: Open or update the pull request
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          body="$RUNNER_TEMP/pull-request.md"
+          existing=$(gh pr list --head bot/open-source-prs --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            gh pr edit "$existing" --body-file "$body"
+            exit 0
+          fi
+
+          if ! output=$(gh pr create \
+            --base main \
+            --head bot/open-source-prs \
+            --title "chore: refresh merged open source pull requests" \
+            --body-file "$body" 2>&1); then
+            if printf '%s' "$output" | grep -q "not permitted to create"; then
+              echo "::notice title=Open the pull request manually::GitHub Actions cannot create pull requests in this repository. Open https://github.com/${{ github.repository }}/compare/main...bot/open-source-prs?expand=1"
+              exit 0
+            fi
+            printf '%s\n' "$output" >&2
+            exit 1
+          fi
+
+          printf '%s\n' "$output"
