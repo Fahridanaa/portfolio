@@ -1,0 +1,40 @@
+---
+import type { BlogTag } from "@/utils/blog";
+
+interface Props {
+	tags: BlogTag[];
+	total: number;
+	active?: string;
+}
+
+const { tags, total, active } = Astro.props;
+---
+
+<nav aria-label="Filter notes by tag" class="flex flex-wrap gap-2">
+	<a
+		href="/blog/"
+		class:list={[
+			"sketch-label gap-1.5 text-[0.68rem] transition-colors",
+			!active ? "bg-brand-highlighter" : "hover:bg-brand-highlighter/80",
+		]}
+		aria-current={!active ? "page" : undefined}
+	>
+		All notes <span class="text-brand-green">{total}</span>
+	</a>
+	{
+		tags.map((tag) => (
+			<a
+				href={`/blog/tags/${tag.slug}/`}
+				class:list={[
+					"sketch-label gap-1.5 text-[0.68rem] transition-colors",
+					active === tag.slug
+						? "bg-brand-highlighter"
+						: "hover:bg-brand-highlighter/80",
+				]}
+				aria-current={active === tag.slug ? "page" : undefined}
+			>
+				{tag.label} <span class="text-brand-green">{tag.count}</span>
+			</a>
+		))
+	}
+</nav>

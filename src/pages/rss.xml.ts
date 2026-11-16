@@ -5,8 +5,8 @@ import { BLOG_FEED_TITLE } from "@/data/site";
 import { byNewestDate } from "@/utils/sort";
 
 export const GET: APIRoute = async (context) => {
-	// Read the collection directly: the feed lists every published note,
-	// whatever work or personal mode the site is in.
+	// Read the collection directly so drafts stay out of the feed in every
+	// build, including the dev server where getBlogEntries() shows them.
 	const entries = (await getCollection("blog"))
 		.filter((entry) => !entry.data.draft)
 		.sort(byNewestDate);

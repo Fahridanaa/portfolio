@@ -5,7 +5,12 @@ import Layout from "@/layouts/Layout.astro";
 import BlogBanner from "@/components/ui/BlogBanner.astro";
 import PaperNav from "@/components/ui/PaperNav.astro";
 import BlogTags from "@/components/ui/BlogTags.astro";
-import { estimateReadingTime, formatBlogDate } from "@/utils/blog";
+import NotePager from "@/components/ui/NotePager.astro";
+import {
+	estimateReadingTime,
+	formatBlogDate,
+	type BlogEntry,
+} from "@/utils/blog";
 import { ogImageVersion } from "@/utils/og";
 import { blogPostingJsonLd } from "@/utils/structured-data";
 import { SITE_NAME } from "@/data/site";
@@ -13,13 +18,23 @@ import { SITE_NAME } from "@/data/site";
 export async function getStaticPaths() {
 	const entries = await getBlogEntries();
 
-	return entries.map((entry) => ({
+	return entries.map((entry, index) => ({
 		params: { slug: entry.id },
-		props: { entry },
+		props: {
+			entry,
+			newer: entries[index - 1],
+			older: entries[index + 1],
+		},
 	}));
 }
 
-const { entry } = Astro.props;
+interface Props {
+	entry: BlogEntry;
+	newer?: BlogEntry;
+	older?: BlogEntry;
+}
+
+const { entry, newer, older } = Astro.props;
 const { Content, headings } = await render(entry);
 const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
 const readingTime = estimateReadingTime(entry.body);
@@ -71,7 +86,7 @@ const ogImage = `/blog/${entry.id}/og.png?v=${ogVersion}`;
 							<span>{readingTime} min read</span>
 							{entry.data.draft && <span class="sketch-label text-[0.62rem]">draft</span>}
 						</div>
-						<BlogTags tags={entry.data.tags} />
+						<BlogTags tags={entry.data.tags} linked />
 					</div>
 				</header>
 
@@ -83,7 +98,6 @@ const ogImage = `/blog/${entry.id}/og.png?v=${ogVersion}`;
 							<Content />
 						</section>
 					</div>
-
 					<!-- <aside class="lg:sticky lg:top-8 lg:self-start">
 						<div class="paper-scrap scrap-right p-4">
 							<p class="sketch-label mb-4">on this note</p>
@@ -112,6 +126,8 @@ const ogImage = `/blog/${entry.id}/og.png?v=${ogVersion}`;
 						</div>
 					</aside> -->
 				<!-- </div> -->
+
+				<NotePager older={older} newer={newer} />
 			</article>
 		</main>
 	</div>

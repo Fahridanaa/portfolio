@@ -1,0 +1,65 @@
+---
+import { getBlogEntries } from "@/lib/content";
+import Layout from "@/layouts/Layout.astro";
+import BlogArchive from "@/components/ui/BlogArchive.astro";
+import BlogTagFilter from "@/components/ui/BlogTagFilter.astro";
+import {
+	collectBlogTags,
+	groupBlogEntriesByYear,
+	tagSlug,
+	type BlogEntry,
+	type BlogTag,
+} from "@/utils/blog";
+
+export async function getStaticPaths() {
+	const entries = await getBlogEntries();
+
+	return collectBlogTags(entries).map((tag) => ({
+		params: { tag: tag.slug },
+		props: {
+			tag,
+			entries: entries.filter((entry) =>
+				entry.data.tags.some((entryTag) => tagSlug(entryTag) === tag.slug)
+			),
+		},
+	}));
+}
+
+interface Props {
+	tag: BlogTag;
+	entries: BlogEntry[];
+}
+
+const { tag, entries } = Astro.props;
+const allEntries = await getBlogEntries();
+const tags = collectBlogTags(allEntries);
+const yearGroups = groupBlogEntriesByYear(entries);
+---
+
+<Layout
+	title={`Notes tagged ${tag.label}`}
+	section="Blog"
+	description={`Notes tagged ${tag.label} on Fahridana Ahmad Rayyansyah's blog.`}
+	image="/blog/og.png"
+>
+	<div
+		class="notebook-sheet mx-auto min-h-dvh w-full overflow-hidden px-5 sm:px-8 lg:px-12">
+
+		<article class="notebook-section page-top mx-auto max-w-5xl">
+			<header class="mb-10 space-y-4">
+				<p class="sketch-label">note filter</p>
+				<h1
+					class="max-w-[18ch] text-pretty text-4xl font-black leading-[0.98] text-brand-ink sm:text-5xl">
+					Notes tagged <span class="text-brand-green">{tag.label}</span>
+				</h1>
+				<p class="max-w-[62ch] text-lg leading-relaxed text-brand-graphite">
+					{tag.count} {tag.count === 1 ? "note" : "notes"} with this tag.
+				</p>
+				<BlogTagFilter tags={tags} total={allEntries.length} active={tag.slug} />
+				<div class="soft-rule flex-1"></div>
+			</header>
+
+			<BlogArchive yearGroups={yearGroups} />
+		</article>
+	</div>
+</Layout>

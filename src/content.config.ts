@@ -1,7 +1,6 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
-import { MODES } from "./utils/mode";
 
 const assetPath = z.string().regex(/^\/assets\//, "must be a path under /assets/");
 
@@ -47,7 +46,6 @@ const blogCollection = defineCollection({
         tags: z.array(z.string()).default([]),
         banner: assetPath.nullable().default(null),
         draft: z.boolean().default(false),
-        mode: z.enum(MODES).default("personal"),
         lang: z.string().default("en"),
     }),
 });

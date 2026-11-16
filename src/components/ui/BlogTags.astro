@@ -1,12 +1,16 @@
 ---
-import { normalizeTag } from "@/utils/blog";
+import { normalizeTag, tagSlug } from "@/utils/blog";
 
 interface Props {
 	tags: string[];
 	size?: "small" | "normal";
+	linked?: boolean;
 }
 
-const { tags, size = "normal" } = Astro.props;
+const { tags, size = "normal", linked = false } = Astro.props;
+const tagClass = `font-mono font-bold lowercase tracking-normal text-brand-graphite transition-colors ${
+	size === "small" ? "text-[0.72rem]" : "text-sm"
+}`;
 ---
 
 {
@@ -14,15 +18,16 @@ const { tags, size = "normal" } = Astro.props;
 		<ul class="flex flex-wrap gap-x-3 gap-y-1" aria-label="Blog tags">
 			{tags.map((tag) => (
 				<li>
-					<span
-						class={`font-mono font-bold lowercase tracking-normal text-brand-graphite ${
-							size === "small"
-								? "text-[0.72rem]"
-								: "text-sm"
-						}`}
-					>
-						{normalizeTag(tag)}
-					</span>
+					{linked ? (
+						<a
+							href={`/blog/tags/${tagSlug(tag)}/`}
+							class={`${tagClass} hover:text-brand-green hover:underline`}
+						>
+							{normalizeTag(tag)}
+						</a>
+					) : (
+						<span class={tagClass}>{normalizeTag(tag)}</span>
+					)}
 				</li>
 			))}
 		</ul>
