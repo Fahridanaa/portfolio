@@ -4,7 +4,7 @@ const MIN_WIDTH = 1360;
 const TARGET_FPS = 24;
 const MAX_PIXELS = 1_600_000;
 
-const SHADER = /* wgsl */ `
+const WEBGPU_SHADER = /* wgsl */ `
 struct Uniforms {
   resolution: vec2f,
   time: f32,
@@ -94,6 +94,106 @@ fn fs(@builtin(position) position: vec4f) -> @location(0) vec4f {
 }
 `;
 
+// The WebGL shader mirrors the WGSL above line for line. Keep them in sync so
+// both renderers draw the same ink.
+const WEBGL_VERTEX_SHADER = /* glsl */ `#version 300 es
+void main() {
+  vec2 positions[3] = vec2[3](
+    vec2(-1.0, -1.0),
+    vec2(3.0, -1.0),
+    vec2(-1.0, 3.0)
+  );
+  gl_Position = vec4(positions[gl_VertexID], 0.0, 1.0);
+}
+`;
+
+const WEBGL_FRAGMENT_SHADER = /* glsl */ `#version 300 es
+precision highp float;
+
+uniform vec2 u_resolution;
+uniform float u_time;
+
+out vec4 outColor;
+
+float hash21(vec2 p) {
+  vec3 p3 = fract(vec3(p.x, p.y, p.x) * 0.1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  return fract((p3.x + p3.y) * p3.z);
+}
+
+float valueNoise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  vec2 w = f * f * (3.0 - 2.0 * f);
+  float a = hash21(i);
+  float b = hash21(i + vec2(1.0, 0.0));
+  float c = hash21(i + vec2(0.0, 1.0));
+  float d = hash21(i + vec2(1.0, 1.0));
+  return mix(mix(a, b, w.x), mix(c, d, w.x), w.y);
+}
+
+float fbm(vec2 p) {
+  float value = 0.0;
+  float amplitude = 0.5;
+  vec2 q = p;
+  for (int i = 0; i < 3; i++) {
+    value += amplitude * valueNoise(q);
+    q = q * 2.03 + vec2(17.1, 9.7);
+    amplitude *= 0.5;
+  }
+  return value;
+}
+
+vec3 tone(float n) {
+  vec3 green = vec3(0.16, 0.34, 0.20);
+  vec3 blue = vec3(0.30, 0.44, 0.56);
+  return mix(green, blue, smoothstep(0.38, 0.78, n));
+}
+
+void main() {
+  // gl_FragCoord starts at the bottom-left; WebGPU positions start at the
+  // top-left, so flip y to keep both renderers on the same pattern.
+  vec2 position = vec2(gl_FragCoord.x, u_resolution.y - gl_FragCoord.y);
+  vec2 uv = position / u_resolution;
+  float aspect = u_resolution.x / u_resolution.y;
+  vec2 p = vec2(uv.x * aspect, uv.y) * 1.45;
+  float t = u_time * 0.012;
+
+  // Two offset noise fields pull the pattern apart very slowly. The second
+  // field also feeds the filaments, so the lines never slide like a texture.
+  vec2 q = vec2(
+    fbm(p * 0.85 + vec2(0.0, t * 0.55)),
+    fbm(p * 0.85 + vec2(4.7, -t * 0.42))
+  );
+  float n = fbm(p + q * 1.35 + vec2(t * 0.12, -t * 0.08));
+  float n2 = fbm(p * 1.7 + q * 0.9 + vec2(8.2, 3.1));
+
+  // A diluted ink wash holds the color; thin filaments give it a drawn edge.
+  float wash = smoothstep(0.40, 0.80, n);
+  float alpha = wash * 0.18;
+  float f = n * 22.0 + n2 * 4.0 + u_time * 0.06;
+  float distanceToLine = abs(fract(f + 0.5) - 0.5);
+  float width = max(fwidth(f), 0.001);
+  float line = 1.0 - smoothstep(0.25, 1.05, distanceToLine / width);
+  alpha += line * 0.17;
+
+  vec3 color = mix(tone(n), vec3(0.13, 0.27, 0.18), line * 0.35);
+  color = mix(color, vec3(0.18, 0.36, 0.22), smoothstep(0.55, 0.9, n2) * 0.2);
+
+  // Static per-pixel noise stops wide washes from banding on 8-bit screens.
+  float dither = (hash21(position.xy) - 0.5) * 0.006;
+  alpha = clamp(alpha + dither, 0.0, 0.36);
+
+  outColor = vec4(color * alpha, alpha);
+}
+`;
+
+type Renderer = {
+	draw(time: number): void;
+	destroy(): void;
+	lost: Promise<unknown> | null;
+};
+
 function pageVisible() {
 	const prerendering = (
 		document as Document & { prerendering?: boolean }
@@ -109,7 +209,7 @@ export function startAmbientBackground(canvas: HTMLCanvasElement) {
 		if (booted || !wide.matches || !pageVisible()) return;
 		booted = true;
 		void boot(canvas, wide).catch((error: unknown) => {
-			console.warn("[ambient] WebGPU background disabled.", error);
+			console.warn("[ambient] Background disabled.", error);
 		});
 	};
 
@@ -120,46 +220,8 @@ export function startAmbientBackground(canvas: HTMLCanvasElement) {
 }
 
 async function boot(canvas: HTMLCanvasElement, wide: MediaQueryList) {
-	const gpu = navigator.gpu;
-	if (!gpu) return;
-
-	const adapter = await gpu.requestAdapter({ powerPreference: "low-power" });
-	if (!adapter) return;
-
-	const device = await adapter.requestDevice();
-	const context = canvas.getContext("webgpu");
-	if (!context) return;
-
-	const format = gpu.getPreferredCanvasFormat();
-	context.configure({ device, format, alphaMode: "premultiplied" });
-
-	const module = device.createShaderModule({ code: SHADER });
-	const compilation = await module.getCompilationInfo();
-	const errors = compilation.messages.filter(
-		(message) => message.type === "error",
-	);
-	if (errors.length > 0) {
-		throw new Error(errors.map((message) => message.message).join("\n"));
-	}
-
-	const pipeline = device.createRenderPipeline({
-		layout: "auto",
-		vertex: { module, entryPoint: "vs" },
-		fragment: {
-			module,
-			entryPoint: "fs",
-			targets: [{ format }],
-		},
-	});
-
-	const uniforms = device.createBuffer({
-		size: 16,
-		usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
-	});
-	const bindGroup = device.createBindGroup({
-		layout: pipeline.getBindGroupLayout(0),
-		entries: [{ binding: 0, resource: { buffer: uniforms } }],
-	});
+	const renderer = await createRenderer(canvas);
+	if (!renderer) return;
 
 	const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 	let width = 0;
@@ -187,27 +249,7 @@ async function boot(canvas: HTMLCanvasElement, wide: MediaQueryList) {
 	};
 
 	const draw = () => {
-		device.queue.writeBuffer(
-			uniforms,
-			0,
-			new Float32Array([width, height, time, 0]),
-		);
-		const encoder = device.createCommandEncoder();
-		const pass = encoder.beginRenderPass({
-			colorAttachments: [
-				{
-					view: context.getCurrentTexture().createView(),
-					clearValue: { r: 0, g: 0, b: 0, a: 0 },
-					loadOp: "clear",
-					storeOp: "store",
-				},
-			],
-		});
-		pass.setPipeline(pipeline);
-		pass.setBindGroup(0, bindGroup);
-		pass.draw(3);
-		pass.end();
-		device.queue.submit([encoder.finish()]);
+		renderer.draw(time);
 	};
 
 	const stop = () => {
@@ -220,7 +262,7 @@ async function boot(canvas: HTMLCanvasElement, wide: MediaQueryList) {
 		stopped = true;
 		stop();
 		document.documentElement.removeAttribute("data-ambient");
-		device.destroy();
+		renderer.destroy();
 	};
 
 	const tick = (now: number) => {
@@ -295,7 +337,166 @@ async function boot(canvas: HTMLCanvasElement, wide: MediaQueryList) {
 		show();
 		start();
 	});
-	device.lost.then((info) => {
-		if (info.reason !== "destroyed") teardown();
+	if (renderer.lost) {
+		renderer.lost.then((info) => {
+			if ((info as GPUDeviceLostInfo).reason !== "destroyed") teardown();
+		});
+	}
+}
+
+async function createRenderer(
+	canvas: HTMLCanvasElement,
+): Promise<Renderer | null> {
+	try {
+		const renderer = await createWebGPURenderer(canvas);
+		if (renderer) return renderer;
+	} catch (error) {
+		console.warn("[ambient] WebGPU failed; trying WebGL.", error);
+	}
+	return createWebGLRenderer(canvas);
+}
+
+async function createWebGPURenderer(
+	canvas: HTMLCanvasElement,
+): Promise<Renderer | null> {
+	const gpu = navigator.gpu;
+	if (!gpu) return null;
+
+	const adapter = await gpu.requestAdapter({ powerPreference: "low-power" });
+	if (!adapter) return null;
+
+	const device = await adapter.requestDevice();
+	const context = canvas.getContext("webgpu");
+	if (!context) {
+		device.destroy();
+		return null;
+	}
+
+	const format = gpu.getPreferredCanvasFormat();
+	context.configure({ device, format, alphaMode: "premultiplied" });
+
+	const module = device.createShaderModule({ code: WEBGPU_SHADER });
+	const compilation = await module.getCompilationInfo();
+	const errors = compilation.messages.filter(
+		(message) => message.type === "error",
+	);
+	if (errors.length > 0) {
+		device.destroy();
+		throw new Error(errors.map((message) => message.message).join("\n"));
+	}
+
+	const pipeline = device.createRenderPipeline({
+		layout: "auto",
+		vertex: { module, entryPoint: "vs" },
+		fragment: {
+			module,
+			entryPoint: "fs",
+			targets: [{ format }],
+		},
 	});
+
+	const uniforms = device.createBuffer({
+		size: 16,
+		usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+	});
+	const bindGroup = device.createBindGroup({
+		layout: pipeline.getBindGroupLayout(0),
+		entries: [{ binding: 0, resource: { buffer: uniforms } }],
+	});
+
+	return {
+		draw(time) {
+			device.queue.writeBuffer(
+				uniforms,
+				0,
+				new Float32Array([canvas.width, canvas.height, time, 0]),
+			);
+			const encoder = device.createCommandEncoder();
+			const pass = encoder.beginRenderPass({
+				colorAttachments: [
+					{
+						view: context.getCurrentTexture().createView(),
+						clearValue: { r: 0, g: 0, b: 0, a: 0 },
+						loadOp: "clear",
+						storeOp: "store",
+					},
+				],
+			});
+			pass.setPipeline(pipeline);
+			pass.setBindGroup(0, bindGroup);
+			pass.draw(3);
+			pass.end();
+			device.queue.submit([encoder.finish()]);
+		},
+		destroy() {
+			device.destroy();
+		},
+		lost: device.lost,
+	};
+}
+
+function createWebGLRenderer(canvas: HTMLCanvasElement): Renderer | null {
+	const gl = canvas.getContext("webgl2", {
+		alpha: true,
+		antialias: false,
+		depth: false,
+		stencil: false,
+		premultipliedAlpha: true,
+		powerPreference: "low-power",
+	});
+	if (!gl) return null;
+
+	const compile = (type: number, source: string) => {
+		const shader = gl.createShader(type);
+		if (!shader) throw new Error("Unable to create a WebGL shader.");
+		gl.shaderSource(shader, source);
+		gl.compileShader(shader);
+		if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+			const log = gl.getShaderInfoLog(shader);
+			gl.deleteShader(shader);
+			throw new Error(log ?? "WebGL shader compilation failed.");
+		}
+		return shader;
+	};
+
+	const program = gl.createProgram();
+	if (!program) throw new Error("Unable to create a WebGL program.");
+	const vertex = compile(gl.VERTEX_SHADER, WEBGL_VERTEX_SHADER);
+	const fragment = compile(gl.FRAGMENT_SHADER, WEBGL_FRAGMENT_SHADER);
+	gl.attachShader(program, vertex);
+	gl.attachShader(program, fragment);
+	gl.linkProgram(program);
+	gl.deleteShader(vertex);
+	gl.deleteShader(fragment);
+	if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+		const log = gl.getProgramInfoLog(program);
+		gl.deleteProgram(program);
+		throw new Error(log ?? "WebGL program linking failed.");
+	}
+	gl.useProgram(program);
+
+	const resolution = gl.getUniformLocation(program, "u_resolution");
+	const time = gl.getUniformLocation(program, "u_time");
+
+	// The full-screen triangle needs no buffers, but WebGL2 still wants a
+	// vertex array bound.
+	const vao = gl.createVertexArray();
+	gl.bindVertexArray(vao);
+
+	return {
+		draw(seconds) {
+			gl.viewport(0, 0, canvas.width, canvas.height);
+			gl.clearColor(0, 0, 0, 0);
+			gl.clear(gl.COLOR_BUFFER_BIT);
+			gl.uniform2f(resolution, canvas.width, canvas.height);
+			gl.uniform1f(time, seconds);
+			gl.drawArrays(gl.TRIANGLES, 0, 3);
+		},
+		destroy() {
+			gl.deleteVertexArray(vao);
+			gl.deleteProgram(program);
+			gl.getExtension("WEBGL_lose_context")?.loseContext();
+		},
+		lost: null,
+	};
 }
