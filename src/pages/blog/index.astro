@@ -1,10 +1,13 @@
 ---
 import { getBlogEntries } from "@/lib/content";
 import Layout from "@/layouts/Layout.astro";
-import BlogEntryCard from "@/components/ui/BlogEntryCard.astro";
-import { groupBlogEntriesByYear } from "@/utils/blog";
+import BlogArchive from "@/components/ui/BlogArchive.astro";
+import BlogTagFilter from "@/components/ui/BlogTagFilter.astro";
+import { collectBlogTags, groupBlogEntriesByYear } from "@/utils/blog";
 
-const yearGroups = groupBlogEntriesByYear(await getBlogEntries());
+const entries = await getBlogEntries();
+const yearGroups = groupBlogEntriesByYear(entries);
+const tags = collectBlogTags(entries);
 ---
 
 <Layout
@@ -16,7 +19,7 @@ const yearGroups = groupBlogEntriesByYear(await getBlogEntries());
 		class="notebook-sheet mx-auto min-h-dvh w-full overflow-hidden px-5 sm:px-8 lg:px-12">
 
 		<article class="notebook-section page-top mx-auto max-w-5xl">
-			<header class="mb-10 space-y-2">
+			<header class="mb-10 space-y-4">
 				<h1
 					class="max-w-[11ch] text-pretty text-5xl font-black leading-[0.98] text-brand-ink sm:text-6xl">
 					Blog Notes
@@ -25,23 +28,13 @@ const yearGroups = groupBlogEntriesByYear(await getBlogEntries());
 					Casual notes, small thoughts, debugging stories, and things I want
 					to remember out loud.
 				</p>
+				<BlogTagFilter tags={tags} total={entries.length} />
 				<div class="soft-rule flex-1"></div>
 			</header>
 
 			{
 				yearGroups.length > 0 ? (
-					yearGroups.map((group) => (
-						<section>
-							<h2 class="mb-6 mt-12 text-3xl font-black text-brand-ink first:mt-12">
-								{group.year}
-							</h2>
-							<div class="grid gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-								{group.entries.map((entry, index) => (
-									<BlogEntryCard entry={entry} index={index} />
-								))}
-							</div>
-						</section>
-					))
+					<BlogArchive yearGroups={yearGroups} />
 				) : (
 					<div class="paper-scrap scrap-left mx-auto mt-8 max-w-2xl p-6">
 						<p class="sketch-label mb-4">empty page</p>

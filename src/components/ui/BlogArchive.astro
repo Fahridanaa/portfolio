@@ -1,0 +1,31 @@
+---
+import BlogEntryCard from "@/components/ui/BlogEntryCard.astro";
+import type { YearGroup } from "@/utils/blog";
+
+interface Props {
+	yearGroups: YearGroup[];
+}
+
+const { yearGroups } = Astro.props;
+---
+
+{
+	yearGroups.map((group, groupIndex) => (
+		<section
+			aria-labelledby={`year-${group.year}`}
+			class={groupIndex > 0 ? "mt-12" : ""}
+		>
+			<h2
+				id={`year-${group.year}`}
+				class="mb-6 text-3xl font-black text-brand-ink"
+			>
+				{group.year}
+			</h2>
+			<div class="grid gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+				{group.entries.map((entry, index) => (
+					<BlogEntryCard entry={entry} index={index} />
+				))}
+			</div>
+		</section>
+	))
+}

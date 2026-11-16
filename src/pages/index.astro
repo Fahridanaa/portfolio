@@ -10,22 +10,13 @@ import SectionHeader from "@/components/ui/SectionHeader.astro";
 import ArtGrid from "@/components/ui/ArtGrid.astro";
 import ProjectShelf from "@/components/ui/ProjectShelf.astro";
 import { getBlogEntries, getExperiences, getProjectGroups } from "@/lib/content";
-import { DEFAULT_MODE } from "@/utils/mode";
 import { STICKY_NOTE_CLASSES } from "@/utils/blog";
 import { personJsonLd } from "@/utils/structured-data";
 
 const projectGroups = await getProjectGroups();
 
 const blogEntries = await getBlogEntries();
-const workBlogEntries = blogEntries
-	.filter((entry) => entry.data.mode === DEFAULT_MODE)
-	.slice(0, 5);
-const personalBlogEntries = blogEntries
-	.filter((entry) => entry.data.mode !== DEFAULT_MODE)
-	.slice(0, 5);
-const personalBlogPlaceholders = Array.from({
-	length: Math.max(0, 5 - personalBlogEntries.length),
-});
+const latestBlogEntries = blogEntries.slice(0, 5);
 
 const sortedExperiences = await getExperiences();
 
@@ -123,7 +114,7 @@ const currentYear = new Date().getFullYear();
 			</section>
 		</article>
 
-		<section id="experience" data-mode-block="work" class="notebook-section compact-section">
+		<section id="experience" class="notebook-section compact-section">
 			<SectionHeader title="Experience" doodle="experience" />
 			<div class="experience-list mt-6">
 				{
@@ -138,7 +129,7 @@ const currentYear = new Date().getFullYear();
 
 		<ProjectShelf personal={projectGroups.personal} />
 
-		<section id="art" data-mode-block="personal" class="notebook-section compact-section">
+		<section id="art" class="notebook-section compact-section">
 			<SectionHeader title="Art & Drawings" doodle="art" />
 			<ArtGrid limit={5} />
 		</section>
@@ -146,46 +137,14 @@ const currentYear = new Date().getFullYear();
 		<section id="blog" class="notebook-section compact-section">
 			<div class="mb-6">
 				<div>
-					<SectionHeader title="Latest Note" />
+					<SectionHeader title="Latest Notes" />
 				</div>
 			</div>
 			<div class="mt-8 grid gap-5 md:grid-cols-3">
 				{
-					workBlogEntries.map((entry, index) => (
+					latestBlogEntries.map((entry, index) => (
 						<BlogEntryCard entry={entry} index={index} />
 					))
-				}
-				{
-					personalBlogEntries.map((entry, index) => (
-						<BlogEntryCard entry={entry} index={index} />
-					))
-				}
-				{
-					personalBlogPlaceholders.map((_, index) => {
-						const slotIndex = personalBlogEntries.length + index;
-						const tiltClass = STICKY_NOTE_CLASSES[slotIndex];
-
-						return (
-							<article data-mode-block="personal" class={`sticky-note ${tiltClass} flex min-h-56 flex-col p-4`}>
-								<div class="relative z-[1] flex flex-1 flex-col justify-between gap-2">
-									<p class="font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite">
-										empty sticky
-									</p>
-									<div class="space-y-2">
-										<h3 class="text-pretty text-3xl font-black leading-tight text-brand-ink">
-											Soon
-										</h3>
-										<p class="break-words text-sm leading-relaxed text-brand-graphite">
-											A note is still being scribbled. It can stay messy until it is ready.
-										</p>
-									</div>
-									<p class="font-mono text-xs font-black uppercase tracking-normal text-brand-green">
-										draft pile
-									</p>
-								</div>
-							</article>
-						);
-					})
 				}
 				<div class="sticky-note-stack min-h-56 self-start">
 					<span class="sticky-note-stack-layer sticky-note-stack-layer-back" aria-hidden="true"></span>

@@ -120,9 +120,9 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
-  /* Decorations. One block per surface, keyed by mode (html[data-mode]). */
+  /* Decorations. One block per surface. */
 
-  /* surface: paper. mode: all. */
+  /* surface: paper. */
   .notebook-sheet::before {
     position: absolute;
     top: 0;
@@ -196,12 +196,6 @@
     to {
       transform: scaleY(1);
     }
-  }
-
-  /* surface: desk. mode: personal. */
-  html[data-mode="personal"] {
-    --desk: #c2d5c3;
-    --desk-grid: rgba(46, 92, 55, 0.2);
   }
 
   .notebook-section {

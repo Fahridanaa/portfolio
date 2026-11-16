@@ -12,8 +12,38 @@ export const STICKY_NOTE_CLASSES = [
 	"sticky-note-yellow-right",
 ];
 
+export function tagSlug(tag: string) {
+	return tag.trim().toLowerCase().replace(/^#/, "").replace(/\s+/g, "-");
+}
+
 export function normalizeTag(tag: string) {
-	return `#${tag.trim().toLowerCase().replace(/^#/, "").replace(/\s+/g, "-")}`;
+	return `#${tagSlug(tag)}`;
+}
+
+export type BlogTag = {
+	slug: string;
+	label: string;
+	count: number;
+};
+
+type TaggedEntry = { data: { tags: string[] } };
+
+export function collectBlogTags(entries: TaggedEntry[]): BlogTag[] {
+	const counts = new Map<string, number>();
+
+	for (const entry of entries) {
+		const seen = new Set<string>();
+		for (const tag of entry.data.tags) {
+			const slug = tagSlug(tag);
+			if (!slug || seen.has(slug)) continue;
+			seen.add(slug);
+			counts.set(slug, (counts.get(slug) ?? 0) + 1);
+		}
+	}
+
+	return [...counts.entries()]
+		.map(([slug, count]) => ({ slug, label: `#${slug}`, count }))
+		.sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
 }
 
 export function formatBlogDate(date: Date) {
