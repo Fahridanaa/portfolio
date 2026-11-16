@@ -6,6 +6,7 @@ import type { ImageMetadata } from "astro";
 import ProjectFacts from "@/components/ui/ProjectFacts.astro";
 import PaperNav from "@/components/ui/PaperNav.astro";
 import ProjectPullRequests from "@/components/ui/ProjectPullRequests.astro";
+import { ogImageVersion } from "@/utils/og";
 
 export type Props = {
 	frontmatter: ProjectMeta;
@@ -21,7 +22,14 @@ const cover = covers[`/public/assets/projects/${slug}/cover.webp`]?.default;
 const showCover = frontmatter.hasImage && Boolean(cover);
 ---
 
-<Layout title={frontmatter.title} hideNavbar>
+<Layout
+	title={frontmatter.title}
+	section="Projects"
+	description={frontmatter.description}
+	image={`/projects/${slug}/og.png?v=${ogImageVersion(frontmatter)}`}
+	imageAlt={`Text preview for ${frontmatter.title}`}
+	hideNavbar
+>
 	<div
 		class="notebook-sheet mx-auto min-h-dvh w-full overflow-clip px-5 sm:px-8 lg:px-12">
 		<PaperNav backHref="/projects" label="Project navigation" />

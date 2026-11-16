@@ -2,8 +2,10 @@
 import "@/styles/global.css";
 import Navbar from "@/components/ui/nav/Navbar.astro";
 import AmbientBackground from "@/components/ui/AmbientBackground.astro";
+import { SITE_DESCRIPTION, SITE_NAME } from "@/data/site";
 interface Props {
 	title: string;
+	section?: string;
 	description?: string;
 	image?: string;
 	imageAlt?: string;
@@ -14,11 +16,10 @@ interface Props {
 	lang?: string;
 }
 
-const defaultDescription =
-	"Fahridana Ahmad Rayyansyah's casual software portfolio.";
 const {
 	title,
-	description = defaultDescription,
+	section,
+	description = SITE_DESCRIPTION,
 	image,
 	imageAlt = title,
 	imageType = "image/png",
@@ -27,6 +28,12 @@ const {
 	hideNavbar = false,
 	lang = "en",
 } = Astro.props;
+// One pattern everywhere: "<page> / <section> / <site>", with the home page
+// titled by the site name alone.
+const pageTitle =
+	title === SITE_NAME
+		? title
+		: [title, section, SITE_NAME].filter(Boolean).join(" / ");
 const baseUrl = Astro.site ?? Astro.url;
 const pageUrl = canonical ? new URL(canonical, baseUrl).toString() : Astro.url.href;
 const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
@@ -44,13 +51,13 @@ const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
 		<meta name="theme-color" content="#fbfaf2" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="canonical" href={pageUrl} />
-		<meta property="og:title" content={title} />
+		<meta property="og:title" content={pageTitle} />
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content={type} />
 		<meta property="og:url" content={pageUrl} />
-		<meta property="og:site_name" content="Fahridana Ahmad Rayyansyah" />
+		<meta property="og:site_name" content={SITE_NAME} />
 		<meta name="twitter:card" content={imageUrl ? "summary_large_image" : "summary"} />
-		<meta name="twitter:title" content={title} />
+		<meta name="twitter:title" content={pageTitle} />
 		<meta name="twitter:description" content={description} />
 		{
 			imageUrl && (
@@ -67,7 +74,7 @@ const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
 		}
 		<meta name="generator" content={Astro.generator} />
 		<script is:inline src="/mode-boot.js"></script>
-		<title>{title}</title>
+		<title>{pageTitle}</title>
 	</head>
 	<body>
 		<AmbientBackground />
