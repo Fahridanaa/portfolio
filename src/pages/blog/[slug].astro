@@ -32,12 +32,12 @@ const ogVersion = ogImageVersion(entry.data);
 	image={`/blog/${entry.id}/og.png?v=${ogVersion}`}
 	imageAlt={`Text preview for ${entry.data.title}`}
 	type="article"
-	canonical={`/blog/${entry.id}`}
+	canonical={`/blog/${entry.id}/`}
 	lang={entry.data.lang}
 	hideNavbar>
 	<div
 		class="notebook-sheet mx-auto min-h-dvh w-full overflow-clip px-5 sm:px-8 lg:px-12">
-		<PaperNav backHref="/blog" label="Blog navigation" />
+		<PaperNav backHref="/blog/" label="Blog navigation" />
 
 		<article class="notebook-section mx-auto max-w-5xl pt-16">
 			<BlogBanner entry={entry} />

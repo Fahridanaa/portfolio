@@ -1,9 +1,11 @@
 ---
 import ModeSwitch from "@/components/ui/ModeSwitch.astro";
 
-const path = Astro.url.pathname;
-const isActive = (href: string) =>
-  href === "/" ? path === "/" : path === href || path.startsWith(href + "/");
+const path = Astro.url.pathname.replace(/\/$/, "");
+const isActive = (href: string) => {
+  const base = href.replace(/\/$/, "");
+  return base === "" ? path === "" : path === base || path.startsWith(base + "/");
+};
 ---
 
 <header class="bookmark-bar sticky top-0 z-50 h-0">
@@ -18,24 +20,24 @@ const isActive = (href: string) =>
 			class="pointer-events-auto flex flex-nowrap items-start gap-1.5 font-mono text-[11px] font-black uppercase sm:text-xs">
 			<span data-mode-block="work" class="contents">
 				<a
-					class:list={["bookmark", "bookmark-projects", { "is-active": isActive("/projects") }]}
-					href="/projects"
-					aria-current={isActive("/projects") ? "page" : undefined}>
+					class:list={["bookmark", "bookmark-projects", { "is-active": isActive("/projects/") }]}
+					href="/projects/"
+					aria-current={isActive("/projects/") ? "page" : undefined}>
 					Projects
 				</a>
 			</span>
 			<span data-mode-block="personal" class="contents">
 				<a
-					class:list={["bookmark", "bookmark-art", { "is-active": isActive("/art") }]}
-					href="/art"
-					aria-current={isActive("/art") ? "page" : undefined}>
+					class:list={["bookmark", "bookmark-art", { "is-active": isActive("/art/") }]}
+					href="/art/"
+					aria-current={isActive("/art/") ? "page" : undefined}>
 					Art
 				</a>
 			</span>
 			<a
-				class:list={["bookmark", "bookmark-notes", { "is-active": isActive("/blog") }]}
-				href="/blog"
-				aria-current={isActive("/blog") ? "page" : undefined}>
+				class:list={["bookmark", "bookmark-notes", { "is-active": isActive("/blog/") }]}
+				href="/blog/"
+				aria-current={isActive("/blog/") ? "page" : undefined}>
 				Notes
 			</a>
 		</nav>
