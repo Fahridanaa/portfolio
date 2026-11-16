@@ -27,6 +27,7 @@ const newTabLinks = {
 // https://astro.build/config
 export default defineConfig({
     site: 'https://fahridanaa.my.id',
+    trailingSlash: 'always',
     integrations: [react(), mdx(), sitemap()],
     markdown: {
         processor: satteri({ hastPlugins: [newTabLinks] }),

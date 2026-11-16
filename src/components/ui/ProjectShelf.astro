@@ -42,7 +42,7 @@ const labelRow =
 			<div class={`${labelRow} min-h-8`}>
 				<span>Open source · {mergedTotal} merged</span>
 				<a
-					href="/projects"
+					href="/projects/"
 					class="sketch-label -my-1 gap-1.5 text-[0.68rem] transition-colors hover:bg-brand-highlighter/80"
 				>
 					All projects
@@ -60,7 +60,7 @@ const labelRow =
 						>
 							<div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
 								<a
-									href={`/projects/${repo.projectSlug}`}
+									href={`/projects/${repo.projectSlug}/`}
 									class="text-base font-black leading-tight text-brand-ink underline decoration-brand-green/30 decoration-2 underline-offset-4 transition-colors hover:decoration-brand-green"
 								>
 									{repo.name}
