@@ -82,7 +82,7 @@ npm run cv:build   # typst compile, then scripts/cv-check.mjs
 npm run cv:apply   # the phone variant, git-ignored
 ```
 
-`scripts/cv-check.mjs` enforces one page, heading order, the four skills labels, and minimum gaps. Read it before changing the layout. The phone variant stays out of git on purpose.
+`scripts/cv-check.mjs` enforces one page, heading order, the four skills labels, and minimum gaps. Read it before changing the layout. The phone variant stays out of git on purpose: it reads `basics.phone` from `cv/contact.local.json`, which is untracked, so the tracked `cv/resume.json` holds no phone.
 
 ## Traps
 

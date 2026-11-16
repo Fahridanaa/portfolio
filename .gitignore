@@ -6,6 +6,9 @@ cv/output.pdf
 cv/*-cv.pdf
 cv/.build/
 
+# private CV contact details
+cv/contact.local.json
+
 # generated types
 .astro/
 

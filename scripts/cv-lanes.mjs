@@ -5,13 +5,22 @@
 // feeds all three PDFs, so a correction cannot land in one lane and miss the
 // others. This module turns a lane into the flat document cv/main.typ renders.
 
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 export const LANE_IDS = ["backend", "frontend", "fullstack"];
 
+// The phone is private, so it lives in an untracked cv/contact.local.json and
+// is merged into the facts only when that file exists. cv:apply is the one
+// build that prints it.
 export function readResume(root = process.cwd()) {
-  return JSON.parse(readFileSync(path.join(root, "cv/resume.json"), "utf8"));
+  const resume = JSON.parse(readFileSync(path.join(root, "cv/resume.json"), "utf8"));
+  const localPath = path.join(root, "cv/contact.local.json");
+  if (existsSync(localPath)) {
+    const local = JSON.parse(readFileSync(localPath, "utf8"));
+    if (local.phone) resume.basics = { ...resume.basics, phone: local.phone };
+  }
+  return resume;
 }
 
 function indexById(entries, kind) {
