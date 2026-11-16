@@ -1,11 +1,18 @@
 ---
-import { Image } from "astro:assets";
+import { getImage, Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
-import SocialButton from "@/components/ui/SocialButton.astro";
 import me from "@/../public/assets/me.jpg";
 import ExperienceCard from "@/components/ui/ExperienceCard.astro";
 import BlogEntryCard from "@/components/ui/BlogEntryCard.astro";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SOCIAL_LINKS } from "@/data/site";
+import { OPEN_SOURCE_REPOS } from "@/data/open-source";
+import {
+	CV_HREF,
+	EMAIL,
+	SITE_DESCRIPTION,
+	SITE_NAME,
+	SITE_TAGLINE,
+	SOCIAL_LINKS,
+} from "@/data/site";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import ArtGrid from "@/components/ui/ArtGrid.astro";
 import ProjectShelf from "@/components/ui/ProjectShelf.astro";
@@ -18,17 +25,47 @@ const projectGroups = await getProjectGroups();
 const blogEntries = await getBlogEntries();
 const latestBlogEntries = blogEntries.slice(0, 5);
 
+const mergedPrTotal = OPEN_SOURCE_REPOS.reduce(
+	(total, repo) => total + repo.pulls.length,
+	0
+);
+const mergedPrWords = [
+	"Zero",
+	"One",
+	"Two",
+	"Three",
+	"Four",
+	"Five",
+	"Six",
+	"Seven",
+	"Eight",
+	"Nine",
+	"Ten",
+	"Eleven",
+	"Twelve",
+];
+const mergedPrLabel =
+	mergedPrWords[mergedPrTotal] ?? String(mergedPrTotal);
+
 const sortedExperiences = await getExperiences();
+
+const portraitWidths = [366, 549, 732, 1098];
+const portraitSrcSet = (
+	await Promise.all(
+		portraitWidths.map((width) =>
+			getImage({ src: me, width, format: "webp" })
+		)
+	)
+)
+	.map((image, index) => `${image.src} ${portraitWidths[index]}w`)
+	.join(", ");
 
 const person = {
 	name: SITE_NAME,
 	jobTitle: SITE_TAGLINE,
 	description: SITE_DESCRIPTION,
 	image: "/assets/me.jpg",
-	email:
-		SOCIAL_LINKS.find((link) => link.href.startsWith("mailto:"))?.href.slice(
-			"mailto:".length
-		) ?? "",
+	email: EMAIL,
 	sameAs: SOCIAL_LINKS.filter((link) => link.href.startsWith("https://")).map(
 		(link) => link.href
 	),
@@ -49,62 +86,139 @@ const currentYear = new Date().getFullYear();
 			<section
 				class="grid w-full items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
 				<div class="min-w-0 space-y-6">
+					<Image
+						src={me}
+						alt=""
+						width={128}
+						height={128}
+						loading="eager"
+						class="float-right ml-4 mb-1 mt-1 h-16 w-16 rotate-[-2deg] rounded-sm border-2 border-white object-cover shadow-[0_2px_0_rgba(36,49,42,0.22)] ring-1 ring-brand-ink/25 lg:hidden"
+					/>
 					<div class="space-y-3">
 						<h1
-							class="text-3xl text-pretty font-black leading-[0.98] text-brand-ink sm:text-4xl lg:text-5xl">
+							class="text-3xl text-pretty font-black leading-[0.98] text-brand-ink sm:text-4xl lg:text-5xl"
+						>
 							<span class="text-nowrap"><span class="ink-underline font-black text-brand-green">Fahri</span>dana</span> Ahmad Rayyansyah
 						</h1>
 						<p
-							class="text-xl font-semibold leading-snug text-brand-graphite sm:text-2xl">
+							class="text-xl font-semibold leading-snug text-brand-graphite sm:text-2xl"
+						>
 							<span class="ink-underline font-black text-brand-green">
 								Full-stack Developer
 							</span>
 						</p>
 					</div>
-					<div
-						class="max-w-[58ch] space-y-3 text-base leading-relaxed text-brand-graphite sm:text-lg">
-						<p>
-							I'm a software engineer with about a year of experience.
-							I build things on the internet, move across frontend and
-							backend, and dip into infra when needed. I like keeping
-							things simple. Lately I've been diving into AI and learning
-							to harness it instead of letting it take the wheel.
-						</p>
+					<p
+						class="max-w-[58ch] text-pretty text-base leading-relaxed text-brand-graphite sm:text-lg"
+					>
+						I ship production web features.{" "}
+						<a href="#experience" class="hero-inline-link">Two roles</a> so far: a
+						Laravel performance-appraisal system for quarterly reviews, and a
+						Next.js video-summarization tool.{" "}
+						<a href="#projects" class="hero-inline-link">{mergedPrLabel} of my pull requests are merged</a>{" "}
+						into open-source projects I don't own.
+					</p>
+					<div class="flex flex-wrap items-center gap-x-5 gap-y-3">
+						<div class="flex flex-wrap gap-3">
+							<a
+								href={`mailto:${EMAIL}`}
+								class="hero-ink-button hero-ink-button-primary"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="17"
+									height="17"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.6"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									aria-hidden="true"
+								>
+									<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path>
+									<rect x="2" y="4" width="20" height="16" rx="2"></rect>
+								</svg>
+								Email me
+							</a>
+							<a
+								href={CV_HREF}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="hero-ink-button hero-ink-button-secondary"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="17"
+									height="17"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.6"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									aria-hidden="true"
+								>
+									<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path>
+									<path d="M14 2v5a1 1 0 0 0 1 1h5"></path>
+									<path d="M10 9H8"></path>
+									<path d="M16 13H8"></path>
+									<path d="M16 17H8"></path>
+								</svg>
+								CV (PDF)
+								<span class="sr-only">(opens in a new tab)</span>
+							</a>
+						</div>
+						<nav aria-label="Profiles" class="flex items-center gap-5">
+							{
+								SOCIAL_LINKS.map((item) => (
+									<a
+										href={item.href}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="hero-text-link"
+									>
+										{item.label}
+										<span aria-hidden="true">↗</span>
+										<span class="sr-only">(opens in a new tab)</span>
+									</a>
+								))
+							}
+						</nav>
 					</div>
-					<div class="flex flex-wrap gap-3" aria-label="Social links">
-						{
-							SOCIAL_LINKS.map((item) => (
-								<SocialButton
-									href={item.href}
-									title={item.title}
-									ariaLabel={item.ariaLabel}
-									iconSrc={item.iconSrc}
-								/>
-							))
-						}
-					</div>
+					<p class="hero-email">
+						<span class="hero-email-label">Email</span>
+						<a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+					</p>
 				</div>
 
-				<div class="relative mx-auto w-full max-w-sm">
+				<div class="relative mx-auto hidden w-full max-w-sm lg:block">
 					<div>
 						<div class="camera-print">
 							<span class="camera-pin" aria-hidden="true"></span>
-							{/* 366px = max-w-sm minus the print frame's padding and border; below that, 100vw minus the sheet and frame padding. */}
-							<Image
-								src={me}
-								alt="Portrait of Fahridana Ahmad Rayyansyah"
-								loading="eager"
-								fetchpriority="high"
-								width={366}
-								height={366}
-								widths={[366, 549, 732, 1098]}
-								sizes="(min-width: 422px) 366px, calc(100vw - 56px)"
-								class="aspect-square w-full rounded-sm object-cover"
-							/>
+							{/* 366px = max-w-sm minus the print frame's padding and border. The source is keyed to lg, so phones select the 1x1 data URI instead of the hidden portrait. */}
+							<picture>
+								<source
+									media="(min-width: 1024px)"
+									type="image/webp"
+									srcset={portraitSrcSet}
+									sizes="366px"
+								/>
+								<img
+									src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+									alt="Portrait of Fahridana Ahmad Rayyansyah"
+									width={366}
+									height={366}
+									loading="eager"
+									fetchpriority="high"
+									class="aspect-square w-full rounded-sm object-cover"
+								/>
+							</picture>
 							<p class="camera-caption">me</p>
 						</div>
 						<div
-							class="sticky-note absolute -bottom-4 -left-4 rotate-12 max-w-56 p-4 text-sm font-semibold leading-relaxed text-brand-ink">
+							class="sticky-note absolute -bottom-4 -left-4 rotate-12 max-w-56 p-4 text-sm font-semibold leading-relaxed text-brand-ink"
+						>
 							<p>
 							  This is me :)
 							</p>
@@ -180,3 +294,130 @@ const currentYear = new Date().getFullYear();
 		</footer>
 	</div>
 </Layout>
+
+<style>
+	.hero-ink-button {
+		display: inline-flex;
+		min-height: 2.75rem;
+		align-items: center;
+		justify-content: center;
+		gap: 0.45rem;
+		border: 2px solid var(--ink);
+		border-radius: 3px;
+		padding: 0.55rem 1rem;
+		font-size: 0.95rem;
+		font-weight: 800;
+		line-height: 1;
+		text-decoration: none;
+		transition:
+			transform 150ms ease,
+			box-shadow 150ms ease,
+			background-color 150ms ease;
+	}
+
+	.hero-ink-button-primary {
+		background: var(--ink);
+		color: var(--paper-warm);
+		box-shadow: 3px 3px 0 rgba(46, 92, 55, 0.55);
+		transform: rotate(-0.5deg);
+	}
+
+	.hero-ink-button-primary:hover,
+	.hero-ink-button-primary:focus-visible {
+		background: var(--green);
+		box-shadow: 5px 5px 0 rgba(46, 92, 55, 0.45);
+		transform: translate(-1px, -1px) rotate(-0.5deg);
+	}
+
+	.hero-ink-button-secondary {
+		background: var(--paper-warm);
+		color: var(--ink);
+		box-shadow: 3px 3px 0 rgba(36, 49, 42, 0.16);
+		transform: rotate(0.4deg);
+	}
+
+	.hero-ink-button-secondary:hover,
+	.hero-ink-button-secondary:focus-visible {
+		background: rgba(201, 239, 106, 0.6);
+		box-shadow: 5px 5px 0 rgba(36, 49, 42, 0.14);
+		transform: translate(-1px, -1px) rotate(0.4deg);
+	}
+
+	.hero-text-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.28rem;
+		justify-content: center;
+		min-height: 2.75rem;
+		font-size: 0.95rem;
+		font-weight: 700;
+		color: var(--ink);
+		text-decoration-line: underline;
+		text-decoration-color: rgba(46, 92, 55, 0.35);
+		text-decoration-thickness: 2px;
+		text-underline-offset: 4px;
+	}
+
+	.hero-text-link:hover,
+	.hero-text-link:focus-visible {
+		color: var(--green);
+		text-decoration-color: var(--green);
+	}
+
+	.hero-inline-link {
+		font-weight: 700;
+		color: var(--ink);
+		text-decoration-line: underline;
+		text-decoration-color: rgba(46, 92, 55, 0.35);
+		text-decoration-thickness: 2px;
+		text-underline-offset: 3px;
+	}
+
+	.hero-inline-link:hover,
+	.hero-inline-link:focus-visible {
+		color: var(--green);
+		text-decoration-color: var(--green);
+	}
+
+	.hero-email {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.25rem 0.55rem;
+		font-size: 0.9rem;
+		line-height: 1.5;
+		color: var(--graphite);
+	}
+
+	.hero-email-label {
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+			"Liberation Mono", monospace;
+		font-size: 0.75rem;
+		font-weight: 800;
+		line-height: 1.4;
+		text-transform: uppercase;
+		color: var(--green);
+	}
+
+	.hero-email a {
+		font-weight: 600;
+		color: var(--ink);
+		text-decoration-line: underline;
+		text-decoration-color: rgba(46, 92, 55, 0.35);
+		text-decoration-thickness: 2px;
+		text-underline-offset: 4px;
+	}
+
+	.hero-email a:hover,
+	.hero-email a:focus-visible {
+		color: var(--green);
+		text-decoration-color: var(--green);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.hero-ink-button {
+			transition: none;
+		}
+	}
+</style>

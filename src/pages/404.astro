@@ -1,8 +1,8 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { SOCIAL_LINKS } from "@/data/site";
+import { EMAIL } from "@/data/site";
 
-const emailHref = SOCIAL_LINKS.find((link) => link.href.startsWith("mailto:"))?.href;
+const emailHref = `mailto:${EMAIL}`;
 
 const places = [
 	{

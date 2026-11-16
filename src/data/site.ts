@@ -5,36 +5,23 @@ export const SITE_DESCRIPTION =
 
 export const BLOG_FEED_TITLE = `${SITE_NAME} — Blog Notes`;
 
-export interface SocialLink {
-  href: string;
-  title: string;
-  ariaLabel: string;
-  iconSrc: string;
+export const EMAIL = "fahridanaaa@gmail.com";
+
+export const CV_HREF = "/assets/cv.pdf";
+
+export interface TextLink {
+	href: string;
+	label: string;
 }
 
-export const SOCIAL_LINKS: SocialLink[] = [
-  {
-    href: "mailto:fahridanaaa@gmail.com",
-    title: "email",
-    ariaLabel: "email",
-    iconSrc: "/assets/icons/gmail.png",
-  },
-  {
-    href: "https://www.linkedin.com/in/fahridana-ahmad-rayyansyah/",
-    title: "linkedIn",
-    ariaLabel: "linkedIn",
-    iconSrc: "/assets/icons/linkedin.png",
-  },
-  {
-    href: "https://github.com/Fahridanaa",
-    title: "github",
-    ariaLabel: "github",
-    iconSrc: "/assets/icons/github.png",
-  },
-  {
-    href: "/assets/cv.pdf",
-    title: "cv",
-    ariaLabel: "cv",
-    iconSrc: "/assets/icons/profile.png",
-  },
+/** Text links sit next to the two ink buttons in the hero. */
+export const SOCIAL_LINKS: TextLink[] = [
+	{
+		href: "https://github.com/Fahridanaa",
+		label: "GitHub",
+	},
+	{
+		href: "https://www.linkedin.com/in/fahridana-ahmad-rayyansyah/",
+		label: "LinkedIn",
+	},
 ];
