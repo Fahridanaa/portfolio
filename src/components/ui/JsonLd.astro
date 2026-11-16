@@ -1,0 +1,13 @@
+---
+import { serializeJsonLd, type JsonLd } from "@/utils/structured-data";
+
+interface Props {
+	data: JsonLd;
+}
+
+const { data } = Astro.props;
+---
+
+<!-- A data block, not an executed script, so the CSP script-src hashes do not
+     apply. Keep it inline so crawlers need no second request. -->
+<script type="application/ld+json" is:inline set:html={serializeJsonLd(data)} />
