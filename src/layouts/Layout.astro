@@ -13,6 +13,8 @@ interface Props {
 	type?: "website" | "article";
 	canonical?: string;
 	hideNavbar?: boolean;
+	/** Set when the page renders its own <main> after its page navigation. */
+	ownMain?: boolean;
 	lang?: string;
 }
 
@@ -26,6 +28,7 @@ const {
 	type = "website",
 	canonical,
 	hideNavbar = false,
+	ownMain = false,
 	lang = "en",
 } = Astro.props;
 // One pattern everywhere: "<page> / <section> / <site>", with the home page
@@ -93,10 +96,16 @@ const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
 			class="depth-control fixed left-4 top-4 z-[60] -translate-y-20 rounded-md bg-brand-paper px-4 py-2 font-semibold text-brand-ink transition-transform duration-200 focus-visible:translate-y-0">
 			Skip To Content
 		</a>
-		<main id="main-content" class="relative min-h-dvh">
-			{!hideNavbar && <Navbar />}
-			<slot />
-		</main>
+		{!hideNavbar && <Navbar />}
+		{
+			ownMain ? (
+				<slot />
+			) : (
+				<main id="main-content" tabindex="-1" class="relative min-h-dvh">
+					<slot />
+				</main>
+			)
+		}
 	</body>
 	<script>
 		import { shouldTrackNavigation } from "@/utils/nav-progress";
@@ -165,6 +174,12 @@ const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
 	html {
 		scroll-behavior: smooth;
 		scrollbar-gutter: stable;
+	}
+
+	/* The skip link focuses main as a scroll target. A ring around the whole
+	   sheet reads as a rendering fault, so main has no outline. */
+	main:focus {
+		outline: none;
 	}
 
 	::-webkit-scrollbar {
