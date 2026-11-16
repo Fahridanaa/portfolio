@@ -5,14 +5,14 @@ import SocialButton from "@/components/ui/SocialButton.astro";
 import me from "@/../public/assets/me.jpg";
 import ExperienceCard from "@/components/ui/ExperienceCard";
 import BlogEntryCard from "@/components/ui/BlogEntryCard.astro";
-import { SOCIAL_LINKS } from "@/data/site";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SOCIAL_LINKS } from "@/data/site";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import ArtGrid from "@/components/ui/ArtGrid.astro";
 import ProjectShelf from "@/components/ui/ProjectShelf.astro";
 import { getBlogEntries, getExperiences, getProjectGroups } from "@/lib/content";
 import { DEFAULT_MODE } from "@/utils/mode";
 import { STICKY_NOTE_CLASSES } from "@/utils/blog";
-import { SITE_NAME } from "@/data/site";
+import { personJsonLd } from "@/utils/structured-data";
 
 const projectGroups = await getProjectGroups();
 
@@ -29,10 +29,28 @@ const personalBlogPlaceholders = Array.from({
 
 const sortedExperiences = await getExperiences();
 
+const person = {
+	name: SITE_NAME,
+	jobTitle: SITE_TAGLINE,
+	description: SITE_DESCRIPTION,
+	image: "/assets/me.jpg",
+	email:
+		SOCIAL_LINKS.find((link) => link.href.startsWith("mailto:"))?.href.slice(
+			"mailto:".length
+		) ?? "",
+	sameAs: SOCIAL_LINKS.filter((link) => link.href.startsWith("https://")).map(
+		(link) => link.href
+	),
+};
+
 const currentYear = new Date().getFullYear();
 ---
 
-<Layout title={SITE_NAME} image="/og.png">
+<Layout
+	title={SITE_NAME}
+	image="/og.png"
+	jsonLd={personJsonLd(Astro.site ?? Astro.url, person)}
+>
 	<div
 		class="notebook-sheet mx-auto min-h-dvh w-full overflow-hidden px-5 sm:px-8 lg:px-12">
 

@@ -7,6 +7,8 @@ import PaperNav from "@/components/ui/PaperNav.astro";
 import BlogTags from "@/components/ui/BlogTags.astro";
 import { estimateReadingTime, formatBlogDate } from "@/utils/blog";
 import { ogImageVersion } from "@/utils/og";
+import { blogPostingJsonLd } from "@/utils/structured-data";
+import { SITE_NAME } from "@/data/site";
 
 export async function getStaticPaths() {
 	const entries = await getBlogEntries();
@@ -23,19 +25,25 @@ const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.d
 const readingTime = estimateReadingTime(entry.body);
 const hasBanner = Boolean(entry.data.banner);
 const ogVersion = ogImageVersion(entry.data);
+const ogImage = `/blog/${entry.id}/og.png?v=${ogVersion}`;
 ---
 
 <Layout
 	title={entry.data.title}
 	section="Blog"
 	description={entry.data.description}
-	image={`/blog/${entry.id}/og.png?v=${ogVersion}`}
+	image={ogImage}
 	imageAlt={`Text preview for ${entry.data.title}`}
 	type="article"
 	canonical={`/blog/${entry.id}/`}
 	lang={entry.data.lang}
 	hideNavbar
-	ownMain>
+	ownMain
+	jsonLd={blogPostingJsonLd(entry, {
+		site: Astro.site ?? Astro.url,
+		image: ogImage,
+		authorName: SITE_NAME,
+	})}>
 	<div
 		class="notebook-sheet mx-auto min-h-dvh w-full overflow-clip px-5 sm:px-8 lg:px-12">
 		<PaperNav backHref="/blog/" label="Blog navigation" />
