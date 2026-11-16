@@ -2,42 +2,28 @@
 title: Sawira
 type: Web Application
 group: university
-description: Sawira is a web app for managing citizen data, archives, correspondence, and zakat distribution, designed to help Villa Bukit Tidar residents. This project was created as a final project in the 4th semester.
+description: A Laravel app for RW administration in Villa Bukit Tidar, covering citizen records, letters, archives, and a SAW/SMART ranking for zakat fitrah.
 date: 2024-04-22
 sourceClient: https://github.com/Fahridanaa/sawira
 stack: ["laravel", "mysql", "bootstrap"]
 ---
-SAWIRA is a web-based e-government app my team and I built during our 4th semester to make administrative tasks simpler for the Villa Bukit Tidar community. The app helps residents with things like managing archives, correspondence, and even zakat fitrah (charitable donations).
 
-In this project, I worked as a full-stack developer, handling both the front-end and back-end. We used the [Stisla](https://github.com/stisla/stisla) template to keep the design clean, user-friendly, and responsive, making the development process smoother.
+### The problem
 
-### Key Features
-- **Warga:**
-    - View and manage family details, including financial data like income and expenses.
-    - Send formal letters to RT.
-- **RT:**
-    - Manage citizen data and track life events like moving out or passing away.
-    - Oversee their specific group of residents.
-- **RW:**
-    - Manage multiple RTs and their residents (from RT1 to RT18).
-    - Handle and process formal letters sent by citizens.
-- **Amil:**
-    - Use SPK (Decision Support System) to identify citizens most in need of zakat fitrah.
-    - View, save, or print SPK results.
+The RW at Villa Bukit Tidar needed one system for its administration: family and citizen records, letters, archives, and the zakat fitrah distribution. The zakat part needed a decision support step, so the amil could rank families from the same data the app already held.
 
-### SPK for Zakat Fitrah Distribution
-One of SAWIRA's standout features is its SPK for distributing zakat fitrah. Using the **SAW** (Simple Additive Weighting) and **SMART** (Simple Multi-Attribute Rating Technique) methods, the system evaluates financial conditions and ranks families in need. This ensures that zakat reaches the poorest citizens in the RW effectively.
+### What I built
 
-![amil-zakat](public/assets/projects/sawira/amil-zakat.png)
+Sawira has four roles. Warga see their family record and send letters to the RT. RT manage their residents and life events such as a move or a death. RW manage the RTs and process the letters. Amil run the zakat fitrah distribution.
 
-### Dashboard Insights
-Each actor has access to a dashboard with diagrams that summarize key data at a glance
-![dashboard](public/assets/projects/sawira/dashboard.png)
+![Sawira dashboard with population charts](public/assets/projects/sawira/dashboard.png)
 
+The team listed me as the front-end developer. In practice I wrote 60 of the repo's 67 non-merge commits, including the SAW and SMART services. I built the Blade layouts and sidebar, the dashboard cards and Chart.js charts, the DataTables behind the citizen, family, and archive screens, and the SAW and SMART wizard: criteria and weights, alternative values, normalization, weighting, ranking, and a PDF export of the result.
 
-### Lessons Learned
-- **System Design:** Designing structured database relationships and ensuring smooth integration of front-end and back-end components.
-- **Decision-Making Systems:** Implementing and fine-tuning the SAW and SMART methods for practical use in SPK.
-- **Team Collaboration:** Coordinating tasks with team members and meeting deadlines effectively.
-- **Full-Stack Development:** Managing both Laravel-based back-end logic and Bootstrap-powered front-end design.
-- **Data Visualization:** Creating dashboard diagrams to present data clearly and intuitively.
+![SAW ranking screen for zakat fitrah](public/assets/projects/sawira/amil-zakat.png)
+
+The ranking uses five criteria: income, dependents, housing condition, debt, and monthly expenses. SAW and SMART produce two rankings from the same data, and the amil can compare them before deciding.
+
+### The result
+
+The result is a working administration app with a decision trail: the amil can compute SAW and SMART rankings from the family data and export a PDF, while the citizen and family screens keep a history instead of overwriting a record. The team also fixed it for HTTPS hosting. The repository is public.

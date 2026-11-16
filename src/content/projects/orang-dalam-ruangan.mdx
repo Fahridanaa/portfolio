@@ -2,10 +2,26 @@
 title: Orang Dalam Ruangan
 type: Web Application
 group: university
-description: Orang Dalam Ruangan is a web app for room reservations in the Department of Information Technology, designed for use by department admins and students/lecturers who want to book rooms. This project was created as a final project in the 3rd semester.
+description: A room booking app for the Department of Information Technology, with a live floor plan, a five-step request form, and an admin approval queue.
 date: 2023-11-15
 sourceClient: https://github.com/Fahridanaa/OrangDalam-PeminjamanRuangan-2F
 stack: ["php", "mysql", "bootstrap", "jquery"]
 ---
 
-Orang Dalam Ruangan is a web app for room reservations in the Department of Information Technology, designed for use by department admins and students/lecturers who want to book rooms. This project was created as a final project in the 3rd semester. It is built with PHP, MySQL, and Bootstrap.
+### The problem
+
+The Department of Information Technology needed one place to see which rooms were free and to handle booking requests from students and lecturers. The final project for our Object-Oriented Programming course was to build it.
+
+### What I built
+
+Orang Dalam Ruangan is a PHP application with its own small MVC core: a router, a controller base, PDO models, and session auth with a role check. There is no PHP framework in the stack.
+
+A user signs in as a student or a lecturer and sees a floor plan. Each room shows its state from the class schedule and the confirmed bookings: free, waiting for approval, or in use. The booking form runs in five steps: choose an event or a class, fill in the details, pick a room on the plan, confirm, and finish. An event request carries an ID card, and the admin can require a letter before approving; an urgent request needs a separate proof document. There is also a class-move flow: a student or lecturer asks to move a scheduled session, and the other side accepts or rejects it.
+
+The admin side is the other half: a queue of requests with the uploaded documents, approve or reject with a note, a history of past bookings, and an inbox of notifications. Every decision writes a notification for the student or lecturer who asked.
+
+I wrote 61 of the repository's 90 non-merge commits. That covers the router, the auth and role middleware, the five-step form, the room detail and floor-plan views, and a large part of the models and admin views.
+
+### The result
+
+The result is a complete flow, not a CRUD demo: a user can find a free room, file a request with the documents, and track the decision; an admin can approve or reject it with the evidence in view. It was the final project for the course, and the repository is public.
