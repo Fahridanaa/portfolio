@@ -1,0 +1,46 @@
+---
+const currentYear = new Date().getFullYear();
+
+const links = [
+	{ href: "/", label: "Home" },
+	{ href: "/blog/", label: "Notes" },
+	{ href: "/projects/", label: "Projects" },
+	{ href: "/art/", label: "Art" },
+];
+---
+
+<footer class="mx-auto mt-16 max-w-5xl pb-10">
+	<div class="soft-rule" aria-hidden="true"></div>
+	<div
+		class="mt-6 flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between"
+	>
+		<div class="space-y-1">
+			<p
+				class="font-mono text-xs font-black uppercase tracking-normal text-brand-ink"
+			>
+				Fahridana Ahmad Rayyansyah
+			</p>
+			<p class="text-sm leading-relaxed text-brand-graphite">
+				Made like a notebook, shipped like a website.
+			</p>
+		</div>
+		<nav
+			aria-label="Site sections"
+			class="flex flex-wrap gap-x-5 gap-y-2 font-mono text-xs font-black uppercase text-brand-ink"
+		>
+			{
+				links.map((link) => (
+					<a
+						href={link.href}
+						class="inline-flex min-h-6 items-center underline decoration-brand-line decoration-2 underline-offset-4 transition-colors hover:text-brand-green hover:decoration-brand-green"
+					>
+						{link.label}
+					</a>
+				))
+			}
+		</nav>
+	</div>
+	<p class="mt-6 text-xs text-brand-graphite">
+		&copy; {currentYear} Fahridana Ahmad Rayyansyah.
+	</p>
+</footer>
