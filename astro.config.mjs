@@ -54,6 +54,11 @@ export default defineConfig({
                 // other directive covers, so img-src must name data:.
                 "img-src 'self' data:",
             ],
+            // Cloudflare injects its Web Analytics beacon from this host. The
+            // path carries a version stamp, so allow the host, not one file.
+            scriptDirective: {
+                resources: ["'self'", "https://static.cloudflareinsights.com"],
+            },
             // Shiki emits inline style attributes; allow them only on
             // style-src-attr, keeping style-src at 'self' + hashes.
             styleDirective: {
