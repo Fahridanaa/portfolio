@@ -34,6 +34,9 @@
 @layer base {
   :root {
     --sheet-max: 80rem;
+    /* Band reserved for the sticky bookmark bar. Its tips reach about 3.8rem
+       with the active tab, and grow on hover; page text starts below all of it. */
+    --bookmark-clearance: 4.5rem;
     --paper-warm: #fffef8;
     --paper-deep: #f1f4e9;
     --desk: #cfd9d5;
@@ -204,6 +207,11 @@
   .notebook-section {
     position: relative;
     padding-block: clamp(1rem, 1.5vw, 2rem);
+  }
+
+  /* First section of a page that shows the bookmark bar. */
+  .page-top {
+    padding-top: var(--bookmark-clearance);
   }
 
   .paper-scrap {
