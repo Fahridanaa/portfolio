@@ -188,8 +188,16 @@ void main() {
 }
 `;
 
+type Strip = {
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+};
+
 type Renderer = {
-	draw(time: number): void;
+	draw(time: number, strips: readonly Strip[]): void;
+	firstFrame(time: number, strips: readonly Strip[]): Promise<boolean>;
 	destroy(): void;
 	lost: Promise<unknown> | null;
 };
@@ -199,6 +207,25 @@ function pageVisible() {
 		document as Document & { prerendering?: boolean }
 	).prerendering;
 	return document.visibilityState === "visible" && !prerendering;
+}
+
+// The 1,280 px sheet is opaque, so only the margins beside it are visible.
+// Returning the sheet itself as the full viewport means a page without a
+// sheet keeps the old full-viewport draw.
+function visibleStrips(width: number, height: number): Strip[] {
+	const sheet = document.querySelector<HTMLElement>(".notebook-sheet");
+	if (!sheet) return [{ x: 0, y: 0, width, height }];
+
+	const rect = sheet.getBoundingClientRect();
+	const left = Math.max(0, Math.min(width, rect.left));
+	const right = Math.max(0, Math.min(width, rect.right));
+	const strips: Strip[] = [];
+	if (left > 0) strips.push({ x: 0, y: 0, width: Math.ceil(left), height });
+	if (right < width) {
+		const start = Math.floor(right);
+		strips.push({ x: start, y: 0, width: width - start, height });
+	}
+	return strips;
 }
 
 export function startAmbientBackground(canvas: HTMLCanvasElement) {
@@ -226,6 +253,7 @@ async function boot(canvas: HTMLCanvasElement, wide: MediaQueryList) {
 	const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 	let width = 0;
 	let height = 0;
+	let strips: Strip[] = [];
 	let time = 0;
 	let lastFrame = performance.now();
 	let frameRequest = 0;
@@ -240,6 +268,33 @@ async function boot(canvas: HTMLCanvasElement, wide: MediaQueryList) {
 		);
 		const nextWidth = Math.max(1, Math.round(cssWidth * scale));
 		const nextHeight = Math.max(1, Math.round(cssHeight * scale));
+		// The canvas fills the viewport but the backing store may be scaled
+		// down, so map the sheet's CSS edges onto the backing store.
+		const styleWidth = Math.max(1, canvas.clientWidth || cssWidth);
+		const styleHeight = Math.max(1, canvas.clientHeight || cssHeight);
+		const scaleX = nextWidth / styleWidth;
+		const scaleY = nextHeight / styleHeight;
+		strips = visibleStrips(styleWidth, styleHeight)
+			.map((strip) => {
+				const x = Math.max(
+					0,
+					Math.min(nextWidth, Math.round(strip.x * scaleX)),
+				);
+				const y = Math.max(
+					0,
+					Math.min(nextHeight, Math.round(strip.y * scaleY)),
+				);
+				const right = Math.max(
+					0,
+					Math.min(nextWidth, Math.round((strip.x + strip.width) * scaleX)),
+				);
+				const bottom = Math.max(
+					0,
+					Math.min(nextHeight, Math.round((strip.y + strip.height) * scaleY)),
+				);
+				return { x, y, width: right - x, height: bottom - y };
+			})
+			.filter((strip) => strip.width > 0 && strip.height > 0);
 		if (nextWidth === width && nextHeight === height) return false;
 		width = nextWidth;
 		height = nextHeight;
@@ -249,7 +304,7 @@ async function boot(canvas: HTMLCanvasElement, wide: MediaQueryList) {
 	};
 
 	const draw = () => {
-		renderer.draw(time);
+		renderer.draw(time, strips);
 	};
 
 	const stop = () => {
@@ -314,7 +369,26 @@ async function boot(canvas: HTMLCanvasElement, wide: MediaQueryList) {
 	};
 
 	resize();
-	draw();
+	// A renderer can return without painting anything (headless Chrome has
+	// done this). Keep the canvas hidden and the plain desk visible unless
+	// the first frame really contains ink.
+	let painted = false;
+	let failed = false;
+	try {
+		painted = await renderer.firstFrame(0, strips);
+	} catch (error) {
+		failed = true;
+		console.warn("[ambient] First frame failed; keeping the plain desk.", error);
+	}
+	if (!painted) {
+		if (!failed) {
+			console.warn(
+				"[ambient] First frame contained no ink; keeping the plain desk.",
+			);
+		}
+		renderer.destroy();
+		return;
+	}
 	show();
 	start();
 
@@ -373,7 +447,12 @@ async function createWebGPURenderer(
 	}
 
 	const format = gpu.getPreferredCanvasFormat();
-	context.configure({ device, format, alphaMode: "premultiplied" });
+	context.configure({
+		device,
+		format,
+		alphaMode: "premultiplied",
+		usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC,
+	});
 
 	const module = device.createShaderModule({ code: WEBGPU_SHADER });
 	const compilation = await module.getCompilationInfo();
@@ -404,29 +483,74 @@ async function createWebGPURenderer(
 		entries: [{ binding: 0, resource: { buffer: uniforms } }],
 	});
 
-	return {
-		draw(time) {
-			device.queue.writeBuffer(
-				uniforms,
-				0,
-				new Float32Array([canvas.width, canvas.height, time, 0]),
-			);
-			const encoder = device.createCommandEncoder();
-			const pass = encoder.beginRenderPass({
-				colorAttachments: [
-					{
-						view: context.getCurrentTexture().createView(),
-						clearValue: { r: 0, g: 0, b: 0, a: 0 },
-						loadOp: "clear",
-						storeOp: "store",
-					},
-				],
-			});
-			pass.setPipeline(pipeline);
-			pass.setBindGroup(0, bindGroup);
+	const render = (
+		seconds: number,
+		strips: readonly Strip[],
+		readback?: { buffer: GPUBuffer; bytesPerRow: number },
+	) => {
+		device.queue.writeBuffer(
+			uniforms,
+			0,
+			new Float32Array([canvas.width, canvas.height, seconds, 0]),
+		);
+		const encoder = device.createCommandEncoder();
+		const texture = context.getCurrentTexture();
+		const pass = encoder.beginRenderPass({
+			colorAttachments: [
+				{
+					view: texture.createView(),
+					clearValue: { r: 0, g: 0, b: 0, a: 0 },
+					loadOp: "clear",
+					storeOp: "store",
+				},
+			],
+		});
+		pass.setPipeline(pipeline);
+		pass.setBindGroup(0, bindGroup);
+		for (const strip of strips) {
+			pass.setScissorRect(strip.x, strip.y, strip.width, strip.height);
 			pass.draw(3);
-			pass.end();
-			device.queue.submit([encoder.finish()]);
+		}
+		pass.end();
+		if (readback) {
+			encoder.copyTextureToBuffer(
+				{ texture },
+				{ buffer: readback.buffer, bytesPerRow: readback.bytesPerRow },
+				{ width: texture.width, height: texture.height },
+			);
+		}
+		device.queue.submit([encoder.finish()]);
+	};
+
+	return {
+		draw(time, strips) {
+			render(time, strips);
+		},
+		async firstFrame(time, strips) {
+			const bytesPerRow = Math.ceil((canvas.width * 4) / 256) * 256;
+			const readback = device.createBuffer({
+				size: bytesPerRow * canvas.height,
+				usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
+			});
+			try {
+				render(time, strips, { buffer: readback, bytesPerRow });
+				await readback.mapAsync(GPUMapMode.READ);
+				const pixels = new Uint8Array(readback.getMappedRange());
+				const rowBytes = canvas.width * 4;
+				for (let y = 0; y < canvas.height; y += 1) {
+					const row = y * bytesPerRow;
+					for (let x = 3; x < rowBytes; x += 4) {
+						if (pixels[row + x] !== 0) {
+							readback.unmap();
+							return true;
+						}
+					}
+				}
+				readback.unmap();
+				return false;
+			} finally {
+				readback.destroy();
+			}
 		},
 		destroy() {
 			device.destroy();
@@ -483,14 +607,46 @@ function createWebGLRenderer(canvas: HTMLCanvasElement): Renderer | null {
 	const vao = gl.createVertexArray();
 	gl.bindVertexArray(vao);
 
-	return {
-		draw(seconds) {
-			gl.viewport(0, 0, canvas.width, canvas.height);
-			gl.clearColor(0, 0, 0, 0);
-			gl.clear(gl.COLOR_BUFFER_BIT);
-			gl.uniform2f(resolution, canvas.width, canvas.height);
-			gl.uniform1f(time, seconds);
+	const draw = (seconds: number, strips: readonly Strip[]) => {
+		gl.viewport(0, 0, canvas.width, canvas.height);
+		gl.disable(gl.SCISSOR_TEST);
+		gl.clearColor(0, 0, 0, 0);
+		gl.clear(gl.COLOR_BUFFER_BIT);
+		gl.uniform2f(resolution, canvas.width, canvas.height);
+		gl.uniform1f(time, seconds);
+		gl.enable(gl.SCISSOR_TEST);
+		for (const strip of strips) {
+			gl.scissor(
+				strip.x,
+				canvas.height - strip.y - strip.height,
+				strip.width,
+				strip.height,
+			);
 			gl.drawArrays(gl.TRIANGLES, 0, 3);
+		}
+		gl.disable(gl.SCISSOR_TEST);
+	};
+
+	return {
+		draw,
+		async firstFrame(seconds, strips) {
+			draw(seconds, strips);
+			if (gl.isContextLost()) return false;
+			const pixels = new Uint8Array(canvas.width * canvas.height * 4);
+			gl.readPixels(
+				0,
+				0,
+				canvas.width,
+				canvas.height,
+				gl.RGBA,
+				gl.UNSIGNED_BYTE,
+				pixels,
+			);
+			if (gl.getError() !== gl.NO_ERROR) return false;
+			for (let offset = 3; offset < pixels.length; offset += 4) {
+				if (pixels[offset] !== 0) return true;
+			}
+			return false;
 		},
 		destroy() {
 			gl.deleteVertexArray(vao);
