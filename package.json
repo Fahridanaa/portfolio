@@ -12,6 +12,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "test": "node --test --experimental-strip-types tests/*.test.ts",
+    "open-source:refresh": "node --experimental-strip-types scripts/refresh-open-source.mjs",
     "cv:build": "node scripts/cv-build.mjs",
     "cv:watch": "node scripts/cv-build.mjs --watch",
     "cv:apply": "node scripts/cv-build.mjs --apply"

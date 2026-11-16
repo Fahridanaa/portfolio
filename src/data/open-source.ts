@@ -18,14 +18,27 @@ export interface OpenSourceRepo {
 }
 
 /**
+ * Repositories that stay out of the list below. Coursework and team builds:
+ * the HRIS team project and the QuickTube sales-channel course. Add a
+ * repository here when a merged pull request must never be reported.
+ */
+export const OPEN_SOURCE_EXCLUDED_REPOS: string[] = [
+	"SukaMajuu/hris2",
+	"SukaMajuu/hris",
+	"oct-path/QuickTube-SalesChannel",
+];
+
+/**
  * Curated list of merged pull requests to third-party repositories Fahridanaa
  * does not own. Coursework, team repositories, and tutorial PRs are left out;
  * those projects belong to the groups above. The one-line summaries are
  * written by hand.
  *
- * Refresh one repository with:
- * gh pr list --repo <owner/name> --author Fahridanaa --state merged \
- *   --json number,title,url,additions,deletions,mergedAt
+ * The weekly "Refresh open source pull requests" workflow adds pull requests
+ * that merged after the newest entry in each repository. It never rewrites an
+ * entry below and never adds a repository. New entries start with a TODO
+ * summary, so write one before you merge its branch. Run it locally with:
+ *   GITHUB_TOKEN=$(gh auth token) npm run open-source:refresh
  */
 export const OPEN_SOURCE_REPOS: OpenSourceRepo[] = [
 	{
