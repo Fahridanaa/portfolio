@@ -1,0 +1,156 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { SOCIAL_LINKS } from "@/data/site";
+
+const emailHref = SOCIAL_LINKS.find((link) => link.href.startsWith("mailto:"))?.href;
+
+const places = [
+	{
+		href: "/",
+		label: "Home",
+		note: "The front page: who I am and what I do.",
+	},
+	{
+		href: "/projects/",
+		label: "Projects",
+		note: "Personal, open source, and university work.",
+	},
+	{
+		href: "/blog/",
+		label: "Notes",
+		note: "Casual notes and debugging stories.",
+	},
+	{
+		href: "/art/",
+		label: "Art",
+		note: "Sketches from outside work hours.",
+	},
+];
+
+const currentYear = new Date().getFullYear();
+---
+
+<Layout title="Page not found" noindex>
+	<div
+		class="notebook-sheet mx-auto min-h-dvh w-full overflow-hidden px-5 sm:px-8 lg:px-12"
+	>
+		<article class="notebook-section mx-auto max-w-5xl pt-16 pb-10">
+			<header class="max-w-3xl space-y-5">
+				<p class="sketch-label">page not found</p>
+				<h1 class="text-pretty text-brand-ink">
+					<span class="block text-7xl font-black leading-none sm:text-8xl">
+						404
+					</span>
+					<span
+						class="mt-4 block text-3xl font-black leading-[1.02] sm:text-4xl"
+					>
+						This page is not in the notebook.
+					</span>
+				</h1>
+				<p class="max-w-[60ch] text-lg leading-relaxed text-brand-graphite">
+					The link may be old, mistyped, or the page was never written.
+					Nothing is broken on your side.
+				</p>
+				<div class="flex flex-wrap gap-3 pt-1">
+					<a
+						href="/"
+						class="ink-button inline-flex min-h-10 items-center justify-center rounded-sm bg-brand-green px-4 py-2 text-xs font-black uppercase tracking-normal text-white transition-[transform,box-shadow,background-color] duration-150"
+					>
+						Back to home
+					</a>
+					<a
+						href="/blog/"
+						class="ink-button inline-flex min-h-10 items-center justify-center rounded-sm bg-brand-paper px-4 py-2 text-xs font-black uppercase tracking-normal text-brand-ink transition-[transform,box-shadow,background-color] duration-150"
+					>
+						Browse notes
+					</a>
+				</div>
+			</header>
+
+			<div
+				class="mt-12 grid gap-8 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-start"
+			>
+				<nav
+					aria-label="Places to go instead"
+					class="paper-scrap scrap-left p-5 sm:p-6"
+				>
+					<div class="flex flex-wrap items-baseline justify-between gap-2">
+						<p class="sketch-label">index</p>
+						<p
+							class="font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite"
+						>
+							four open pages
+						</p>
+					</div>
+					<ol class="mt-4">
+						{
+							places.map((place, index) => (
+								<li class="border-t border-brand-ink/10 first:border-t-0">
+									<a
+										href={place.href}
+										class="group flex items-start gap-4 py-4 text-brand-ink"
+									>
+										<span
+											class="mt-0.5 font-mono text-xs font-bold tracking-normal text-brand-graphite"
+											aria-hidden="true"
+										>
+											{String(index + 1).padStart(2, "0")}
+										</span>
+										<span class="min-w-0 flex-1">
+											<span class="block text-lg font-black leading-tight transition-colors group-hover:text-brand-green group-focus-visible:text-brand-green">
+												{place.label}
+											</span>
+											<span class="mt-0.5 block text-sm leading-relaxed text-brand-graphite">
+												{place.note}
+											</span>
+										</span>
+										<span
+											class="font-mono text-base font-black leading-6 text-brand-green transition-transform duration-150 group-hover:translate-x-0.5"
+											aria-hidden="true"
+										>
+											→
+										</span>
+									</a>
+								</li>
+							))
+						}
+					</ol>
+				</nav>
+
+				<aside class="sticky-note sticky-note-right p-5">
+					<div class="relative z-[1] space-y-3">
+						<p
+							class="font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite"
+						>
+							lost &amp; found
+						</p>
+						<p class="text-xl font-black leading-tight text-brand-ink">
+							A link of mine sent you here?
+						</p>
+						<p class="text-sm leading-relaxed text-brand-graphite">
+							Tell me which one and I will fix it. A dead link should not
+							outlive the page.
+						</p>
+						{
+							emailHref && (
+								<a
+									href={emailHref}
+									class="inline-flex min-h-6 items-center font-mono text-xs font-black uppercase tracking-normal text-brand-green underline decoration-2 underline-offset-4"
+								>
+									email me
+								</a>
+							)
+						}
+					</div>
+				</aside>
+			</div>
+
+			<footer class="mt-14 border-t border-brand-ink/10 pt-6 text-sm text-brand-graphite">
+				<p class="font-semibold">
+					&copy; {currentYear} Fahridana Ahmad Rayyansyah. Made like a notebook,
+					shipped like a website.
+				</p>
+			</footer>
+		</article>
+	</div>
+</Layout>
