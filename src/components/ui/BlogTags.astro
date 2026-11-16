@@ -9,7 +9,7 @@ interface Props {
 
 const { tags, size = "normal", linked = false } = Astro.props;
 const tagClass = `font-mono font-bold lowercase tracking-normal text-brand-graphite transition-colors ${
-	size === "small" ? "text-[0.72rem]" : "text-sm"
+	size === "small" ? "text-xs" : "text-sm"
 }`;
 ---
 
@@ -21,7 +21,7 @@ const tagClass = `font-mono font-bold lowercase tracking-normal text-brand-graph
 					{linked ? (
 						<a
 							href={`/blog/tags/${tagSlug(tag)}/`}
-							class={`${tagClass} hover:text-brand-green hover:underline`}
+							class={`${tagClass} inline-flex min-h-6 items-center hover:text-brand-green hover:underline`}
 						>
 							{normalizeTag(tag)}
 						</a>

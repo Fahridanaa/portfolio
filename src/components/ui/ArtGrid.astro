@@ -13,6 +13,16 @@ const files = import.meta.glob<{ default: ImageMetadata }>(
 	{ eager: true }
 );
 
+const ART_ALT: Record<string, string> = {
+	box: "Line drawing of a smiling cube with two round eyes.",
+	"neko-neko":
+		"Line drawing of a cat-eared character in a sailor collar and bow, on an orange background.",
+	planet: "Pixel art of red and yellow planets against a dark starfield.",
+	profile:
+		"Pixel art avatar of a person whose head is a framed horse portrait.",
+	rusa: "Animated pixel art of a deer head with wide antlers; a pair of blue eyes opens in the antlers.",
+};
+
 const pieces = Object.entries(files)
 	.map(([path, mod]) => {
 		const file = path.split("/").pop() ?? path;
@@ -20,6 +30,7 @@ const pieces = Object.entries(files)
 		return {
 			image: mod.default,
 			animated: /\.gif$/i.test(file),
+			alt: ART_ALT[name] ?? name.replace(/[-_]+/g, " "),
 			caption: name.replace(/[-_]+/g, " "),
 		};
 	})
@@ -34,6 +45,7 @@ const visible = typeof limit === "number" ? pieces.slice(0, limit) : pieces;
 			<ArtFigure
 				image={piece.image}
 				animated={piece.animated}
+				alt={piece.alt}
 				caption={piece.caption}
 			/>
 		))

@@ -48,14 +48,14 @@ const cover = covers[`/public/assets/projects/${slug}/cover.webp`]?.default;
 	</h3>
 
 	<div class="flex flex-wrap items-center gap-2">
-		<p class="sketch-label text-[0.66rem]">{type}</p>
+		<p class="sketch-label text-xs">{type}</p>
 		<span
-			class="font-mono text-[0.66rem] font-bold uppercase tracking-normal text-brand-graphite"
+			class="font-mono text-xs font-bold uppercase tracking-normal text-brand-graphite"
 		>
 			{projectDateStr}
 		</span>
 		{mergedPrs !== undefined && (
-			<span class="ml-auto font-mono text-[0.66rem] font-bold uppercase tracking-normal text-brand-green">
+			<span class="ml-auto font-mono text-xs font-bold uppercase tracking-normal text-brand-green">
 				{mergedPrs} merged PRs
 			</span>
 		)}
@@ -70,14 +70,14 @@ const cover = covers[`/public/assets/projects/${slug}/cover.webp`]?.default;
 	<div class="mt-auto flex flex-wrap gap-1.5">
 		{visibleTech.map((tech) => (
 			<span
-				class="depth-chip rounded-sm bg-brand-paper/80 px-1.5 py-0.5 font-mono text-[0.66rem] font-bold uppercase tracking-normal text-brand-ink"
+				class="depth-chip rounded-sm bg-brand-paper/80 px-1.5 py-0.5 font-mono text-xs font-bold uppercase tracking-normal text-brand-ink"
 			>
 				{tech}
 			</span>
 		))}
 		{hiddenTechCount > 0 && (
 			<span
-				class="depth-chip rounded-sm bg-brand-green-soft px-1.5 py-0.5 font-mono text-[0.66rem] font-bold uppercase tracking-normal text-brand-green"
+				class="depth-chip rounded-sm bg-brand-green-soft px-1.5 py-0.5 font-mono text-xs font-bold uppercase tracking-normal text-brand-green"
 			>
 				+{hiddenTechCount}
 			</span>

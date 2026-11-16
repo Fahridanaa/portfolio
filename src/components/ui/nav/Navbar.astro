@@ -15,7 +15,7 @@ const isActive = (href: string) => {
 		</a>
 		<nav
 			aria-label="Sections"
-			class="pointer-events-auto flex flex-nowrap items-start gap-1.5 font-mono text-[11px] font-black uppercase sm:text-xs">
+			class="pointer-events-auto flex flex-nowrap items-start gap-1.5 font-mono text-xs font-black uppercase">
 			<a
 				class:list={["bookmark", "bookmark-projects", { "is-active": isActive("/projects/") }]}
 				href="/projects/"
@@ -50,7 +50,7 @@ const isActive = (href: string) => {
 		padding: 0.3rem 0.7rem;
 		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
 			"Liberation Mono", monospace;
-		font-size: 0.72rem;
+		font-size: 0.75rem;
 		font-weight: 900;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
