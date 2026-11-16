@@ -5,29 +5,37 @@ import MiniProjectScrap from "@/components/ui/MiniProjectScrap.astro";
 import ProjectGroupHeader from "@/components/ui/ProjectGroupHeader.astro";
 import { OPEN_SOURCE_REPOS } from "@/data/open-source";
 import { PROJECT_GROUPS } from "@/data/project-groups";
+import { byNewestDate } from "@/utils/sort";
+import type { CollectionEntry } from "astro:content";
 
 const groups = await getProjectGroups();
 const projectTotal =
 	groups.personal.length + groups.openSource.length + groups.university.length;
+
+const coverFirstThenNewest = (
+	a: CollectionEntry<"projects">,
+	b: CollectionEntry<"projects">
+) =>
+	Number(b.data.hasImage) - Number(a.data.hasImage) || byNewestDate(a, b);
 
 const sections = [
 	{
 		id: "personal",
 		...PROJECT_GROUPS.personal,
 		count: `${groups.personal.length} projects`,
-		projects: groups.personal,
+		projects: [...groups.personal].sort(coverFirstThenNewest),
 	},
 	{
 		id: "open-source",
 		...PROJECT_GROUPS.openSource,
 		count: `${groups.openSource.length} projects`,
-		projects: groups.openSource,
+		projects: [...groups.openSource].sort(coverFirstThenNewest),
 	},
 	{
 		id: "university",
 		...PROJECT_GROUPS.university,
 		count: `${groups.university.length} projects`,
-		projects: groups.university,
+		projects: [...groups.university].sort(coverFirstThenNewest),
 	},
 ];
 
@@ -88,7 +96,7 @@ const mergedPrs = (repo: string | null) =>
 								count={section.count}
 								blurb={section.blurb}
 							/>
-							<div class="mt-6 grid items-start gap-4 sm:grid-cols-2">
+							<div class="mt-6 grid gap-4 sm:grid-cols-2">
 								{section.projects.map((project) => (
 									<MiniProjectScrap
 										project={project.data}

@@ -30,14 +30,16 @@ const cover = covers[`/public/assets/projects/${slug}/cover.webp`]?.default;
 	class="paper-scrap paper-lift group flex flex-col gap-2 p-4"
 >
 	{cover && (
-		<Image
-			src={cover}
-			alt=""
-			loading="lazy"
-			width={640}
-			height={320}
-			class="depth-media -mx-4 -mt-4 w-full rounded-t-[2px]"
-		/>
+		<div class="-mx-4 -mt-4 overflow-hidden rounded-t-[2px]">
+			<Image
+				src={cover}
+				alt=""
+				loading="lazy"
+				width={640}
+				height={320}
+				class="depth-media block w-full"
+			/>
+		</div>
 	)}
 	<h3
 		class="text-pretty text-base font-black leading-tight text-brand-ink sm:text-lg"
