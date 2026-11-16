@@ -2,7 +2,7 @@
 import "@/styles/global.css";
 import Navbar from "@/components/ui/nav/Navbar.astro";
 import AmbientBackground from "@/components/ui/AmbientBackground.astro";
-import { SITE_DESCRIPTION, SITE_NAME } from "@/data/site";
+import { BLOG_FEED_TITLE, SITE_DESCRIPTION, SITE_NAME } from "@/data/site";
 interface Props {
 	title: string;
 	section?: string;
@@ -51,6 +51,12 @@ const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
 		<meta name="theme-color" content="#fbfaf2" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="canonical" href={pageUrl} />
+		<link
+			rel="alternate"
+			type="application/rss+xml"
+			title={BLOG_FEED_TITLE}
+			href={new URL("/rss.xml", baseUrl).toString()}
+		/>
 		<meta property="og:title" content={pageTitle} />
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content={type} />

@@ -3,6 +3,8 @@ export const SITE_TAGLINE = "Full-stack Developer";
 export const SITE_DESCRIPTION =
 	"Full-stack developer building web apps and keeping the work simple. Projects, open-source contributions, notes, and drawings by Fahridana Ahmad Rayyansyah.";
 
+export const BLOG_FEED_TITLE = `${SITE_NAME} — Blog Notes`;
+
 export interface SocialLink {
   href: string;
   title: string;
