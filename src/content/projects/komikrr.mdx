@@ -8,6 +8,8 @@ sourceServer: https://github.com/Fahridanaa/comic_scraper_api
 stack: ["svelte", "python", "typescript", "tailwindcss", "postgresql"]
 ---
 
+import DemoVideo from "@/components/ui/DemoVideo.astro";
+
 I learn a framework best by shipping something real. Komikrr was that project: a comic reader with its own data pipeline, not another tutorial.
 
 ### The problem
@@ -18,7 +20,14 @@ I wanted to take SvelteKit past the tutorial stage. A reader gave me the pieces 
 
 Komikrr is a SvelteKit 2 app on Svelte 5. The home page has a featured carousel, a popular row, and a latest-updates grid. Genre pages group the library, the comic page carries the metadata and chapter list, and the reader renders a chapter as one vertical strip with previous and next links.
 
-![Komikrr home page and chapter reader](public/assets/projects/komikrr/demo.gif)
+<DemoVideo
+	webm="/assets/projects/komikrr/demo.webm"
+	mp4="/assets/projects/komikrr/demo.mp4"
+	poster="/assets/projects/komikrr/demo-poster.webp"
+	label="Komikrr home page and chapter reader"
+	width={1200}
+	height={612}
+/>
 
 The data comes from a second repo, `comic_scraper_api`. It takes a Komikcast title, parses the metadata and chapter list with BeautifulSoup, and downloads the chapter images with `aiohttp`. Three downloads run at a time, with retries and backoff, a random user agent, and a two-to-five second delay between requests. Covers go to Cloudinary under `{slug}`; pages go under `{slug}/chapter-{n}`. Metadata goes to PostgreSQL through SQLAlchemy. Folders that already exist are skipped, so a rerun continues where the last one stopped.
 

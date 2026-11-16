@@ -1,0 +1,82 @@
+---
+type Props = {
+	webm: string;
+	mp4: string;
+	poster: string;
+	label: string;
+	width: number;
+	height: number;
+};
+
+const { webm, mp4, poster, label, width, height } = Astro.props;
+---
+
+<figure data-demo-video>
+	<video
+		class="block h-auto w-full rounded-[2px] bg-[#0f1512] shadow-[0_1px_0_rgba(36,49,42,0.12)]"
+		width={width}
+		height={height}
+		poster={poster}
+		muted
+		loop
+		playsinline
+		preload="none"
+		aria-label={label}
+	>
+		<source src={webm} type="video/webm" />
+		<source src={mp4} type="video/mp4" />
+		<a href={mp4}>Download the demo video</a>
+	</video>
+	<button
+		type="button"
+		class="ml-auto mt-1.5 hidden w-fit min-h-6 cursor-pointer items-center border-0 bg-transparent px-0.5 font-mono text-[0.8rem] font-bold uppercase leading-none tracking-normal text-brand-ink/70 underline underline-offset-[0.2em] hover:text-brand-ink focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-brand-green"
+		data-demo-toggle
+	>
+		Play demo
+	</button>
+</figure>
+
+<script>
+	const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+	for (const figure of document.querySelectorAll<HTMLElement>("[data-demo-video]")) {
+		const video = figure.querySelector("video");
+		const toggle = figure.querySelector<HTMLButtonElement>("[data-demo-toggle]");
+		if (!video || !toggle) continue;
+
+		let pausedByVisitor = false;
+
+		const syncToggle = () => {
+			toggle.textContent = video.paused ? "Play demo" : "Pause demo";
+		};
+
+		const start = () => {
+			video.play().catch(() => {});
+		};
+
+		toggle.classList.replace("hidden", "flex");
+		video.addEventListener("play", syncToggle);
+		video.addEventListener("pause", syncToggle);
+
+		toggle.addEventListener("click", () => {
+			if (video.paused) {
+				pausedByVisitor = false;
+				start();
+			} else {
+				pausedByVisitor = true;
+				video.pause();
+			}
+		});
+
+		reduceMotion.addEventListener("change", () => {
+			if (reduceMotion.matches) {
+				video.pause();
+			} else if (!pausedByVisitor) {
+				start();
+			}
+		});
+
+		if (!reduceMotion.matches) start();
+		syncToggle();
+	}
+</script>
