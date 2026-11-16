@@ -1,0 +1,110 @@
+---
+import { Image } from "astro:assets";
+import ryoSketch from "@/assets/background/ryo-sketch.webp";
+import ryoLive from "@/assets/background/ryo-live.webp";
+---
+
+<div class="ambient" aria-hidden="true">
+	<div class="ambient-fallback">
+		<Image
+			src={ryoSketch}
+			alt=""
+			widths={[320, 480, 720]}
+			sizes="480px"
+			loading="eager"
+			class="ambient-image ambient-left"
+		/>
+		<Image
+			src={ryoLive}
+			alt=""
+			widths={[320, 480, 720]}
+			sizes="480px"
+			loading="eager"
+			class="ambient-image ambient-right"
+		/>
+	</div>
+	<canvas class="ambient-canvas" data-ambient-canvas></canvas>
+</div>
+
+<script>
+	import { startAmbientBackground } from "@/utils/ambient-background";
+
+	const canvas = document.querySelector<HTMLCanvasElement>(
+		"[data-ambient-canvas]",
+	);
+	if (canvas) startAmbientBackground(canvas);
+</script>
+
+<style>
+	.ambient {
+		--art-opacity: 0.14;
+		--art-width: 30rem;
+		position: fixed;
+		inset: 0;
+		/* Below the sheet, so the paper hides the art edge. */
+		z-index: 0;
+		display: none;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	.ambient-canvas {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		mix-blend-mode: multiply;
+		transition: opacity 700ms ease;
+	}
+
+	:global(html[data-ambient="on"]) .ambient-canvas {
+		opacity: 1;
+	}
+
+	.ambient-fallback {
+		position: absolute;
+		inset: 0;
+		transition: opacity 700ms ease;
+	}
+
+	:global(html[data-ambient="on"]) .ambient-fallback {
+		opacity: 0;
+	}
+
+	/* Full height in a fixed 480px column; cover crops the sides. */
+	.ambient :global(.ambient-image) {
+		position: absolute;
+		inset-block: 0;
+		width: var(--art-width);
+		height: 100%;
+		object-fit: cover;
+		opacity: var(--art-opacity);
+		mix-blend-mode: multiply;
+	}
+
+	/* Centered on the desk, so a narrow window shows the face and a wide one
+	   shows the whole image. */
+	.ambient :global(.ambient-left) {
+		left: calc((100% - var(--sheet-max)) / 4 - var(--art-width) / 2);
+		object-position: 44% 24%;
+	}
+
+	.ambient :global(.ambient-right) {
+		right: calc((100% - var(--sheet-max)) / 4 - var(--art-width) / 2);
+		object-position: 47% 24%;
+	}
+
+	@media (min-width: 1360px) {
+		.ambient {
+			display: block;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ambient-canvas,
+		.ambient-fallback {
+			transition: none;
+		}
+	}
+</style>
