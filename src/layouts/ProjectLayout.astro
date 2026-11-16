@@ -5,6 +5,7 @@ import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import ProjectFacts from "@/components/ui/ProjectFacts.astro";
 import PaperNav from "@/components/ui/PaperNav.astro";
+import ReadingFooter from "@/components/ui/ReadingFooter.astro";
 import ProjectPullRequests from "@/components/ui/ProjectPullRequests.astro";
 import { ogImageVersion } from "@/utils/og";
 
@@ -32,7 +33,7 @@ const showCover = frontmatter.hasImage && Boolean(cover);
 	ownMain
 >
 	<div
-		class="notebook-sheet mx-auto min-h-dvh w-full overflow-clip px-5 sm:px-8 lg:px-12">
+		class="notebook-sheet notebook-sheet-plain mx-auto min-h-dvh w-full overflow-clip px-5 sm:px-8 lg:px-12">
 		<PaperNav backHref="/projects/" label="Project navigation" />
 		<main id="main-content" tabindex="-1" class="relative min-h-dvh">
 			<article class="notebook-section mx-auto max-w-5xl pt-16">
@@ -80,7 +81,7 @@ const showCover = frontmatter.hasImage && Boolean(cover);
 				}
 
 				<section
-					class="prose prose-lg relative mt-8 max-w-none break-words text-brand-graphite prose-headings:text-brand-ink prose-a:text-brand-green prose-strong:text-brand-ink prose-ul:list-disc prose-p:my-[0.75em]">
+					class="prose prose-lg reading-measure relative mt-8 break-words text-brand-graphite prose-headings:text-brand-ink prose-a:text-brand-green prose-strong:text-brand-ink prose-ul:list-disc prose-p:my-[0.75em]">
 					<slot />
 				</section>
 
@@ -89,5 +90,7 @@ const showCover = frontmatter.hasImage && Boolean(cover);
 				)}
 			</article>
 		</main>
+
+		<ReadingFooter />
 	</div>
 </Layout>
