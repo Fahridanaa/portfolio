@@ -1,0 +1,67 @@
+---
+import type { OpenSourcePullRequest } from "@/data/open-source";
+
+interface Props {
+	pulls: OpenSourcePullRequest[];
+	compact?: boolean;
+}
+
+const { pulls, compact = false } = Astro.props;
+const mergedDateFormat = new Intl.DateTimeFormat("en-US", {
+	month: "short",
+	day: "numeric",
+	year: "numeric",
+	timeZone: "UTC",
+});
+---
+
+<ul>
+	{
+		pulls.map((pr) => (
+			<li class="border-t border-dashed border-brand-ink/15 first:border-t-0">
+				<a
+					href={pr.url}
+					target="_blank"
+					rel="noopener noreferrer"
+					class:list={[
+						"group flex transition-colors hover:bg-white/50",
+						compact ? "gap-2 px-0 py-1.5" : "gap-3 px-4 py-3 sm:px-5",
+					]}
+				>
+					<span
+						class:list={[
+							"shrink-0 font-mono font-black text-brand-graphite",
+							compact ? "w-9 pt-0.5 text-[0.68rem]" : "w-10 pt-0.5 text-[0.66rem]",
+						]}
+					>
+						#{pr.number}
+					</span>
+					{compact ? (
+						<span class="min-w-0 flex-1 text-[0.8rem] font-semibold leading-snug text-brand-ink decoration-brand-green/40 underline-offset-4 group-hover:underline">
+							{pr.title}
+						</span>
+					) : (
+						<span class="min-w-0 flex-1">
+							<span class="block text-sm font-bold leading-snug text-brand-ink decoration-brand-green/40 underline-offset-4 group-hover:underline">
+								{pr.title}
+							</span>
+							<span class="mt-1 block text-xs leading-relaxed text-brand-graphite">
+								{pr.summary}
+							</span>
+							<span class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[0.6rem] font-bold uppercase tracking-normal">
+								<span class="text-brand-green">
+									merged {mergedDateFormat.format(new Date(pr.mergedAt))}
+								</span>
+								<span class="text-brand-green">+{pr.additions}</span>
+								<span class="text-brand-graphite">−{pr.deletions}</span>
+								<span class="ml-auto text-brand-graphite transition-colors group-hover:text-brand-green">
+									view pr ↗
+								</span>
+							</span>
+						</span>
+					)}
+				</a>
+			</li>
+		))
+	}
+</ul>

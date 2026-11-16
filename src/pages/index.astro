@@ -8,12 +8,12 @@ import BlogEntryCard from "@/components/ui/BlogEntryCard.astro";
 import { SOCIAL_LINKS } from "@/data/site";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
 import ArtGrid from "@/components/ui/ArtGrid.astro";
-import MiniProjectScrap from "@/components/ui/MiniProjectScrap.astro";
-import { getBlogEntries, getExperiences, getProjects } from "@/lib/content";
+import ProjectShelf from "@/components/ui/ProjectShelf.astro";
+import { getBlogEntries, getExperiences, getProjectGroups } from "@/lib/content";
 import { DEFAULT_MODE } from "@/utils/mode";
 import { STICKY_NOTE_CLASSES } from "@/utils/blog";
 
-const latestProjects = (await getProjects()).slice(0, 5);
+const projectGroups = await getProjectGroups();
 
 const blogEntries = await getBlogEntries();
 const workBlogEntries = blogEntries
@@ -113,43 +113,7 @@ const currentYear = new Date().getFullYear();
 			</div>
 		</section>
 
-		<section id="projects" data-mode-block="work" class="notebook-section compact-section">
-			<SectionHeader title="Projects" doodle="projects" />
-			<div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-				{
-					latestProjects.map((project) => (
-						<MiniProjectScrap project={project.data} slug={project.id} />
-					))
-				}
-				<a
-					href="/projects"
-					class="paper-scrap scrap-no-tape paper-lift group flex min-h-40 flex-col items-center justify-center gap-3 p-5 text-center text-brand-ink"
-				>
-					<p
-						class="font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite"
-					>
-						project index
-					</p>
-					<div class="space-y-3">
-						<h3
-							class="text-pretty text-2xl font-black leading-tight"
-						>
-							All Projects
-						</h3>
-						<p
-							class="text-sm leading-relaxed text-brand-graphite"
-						>
-							Open the full stack of built things.
-						</p>
-					</div>
-					<p
-						class="font-mono text-xs font-black uppercase tracking-normal text-brand-green"
-					>
-						open list →
-					</p>
-				</a>
-			</div>
-		</section>
+		<ProjectShelf personal={projectGroups.personal} />
 
 		<section id="art" data-mode-block="personal" class="notebook-section compact-section">
 			<SectionHeader title="Art & Drawings" doodle="art" />

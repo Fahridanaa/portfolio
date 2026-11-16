@@ -1,0 +1,40 @@
+---
+import type { ProjectMeta } from "@/models/project";
+
+interface Props {
+	project: ProjectMeta;
+	slug: string;
+}
+
+const { project, slug } = Astro.props;
+const visibleTech = project.stack.slice(0, 2);
+const hiddenTechCount = project.stack.length - visibleTech.length;
+---
+
+<a
+	href={`/projects/${slug}`}
+	class="paper-scrap paper-lift group flex sm:min-h-36 flex-col gap-2 p-3.5 text-brand-ink"
+>
+	<h3 class="text-pretty text-sm font-black leading-tight sm:text-base">
+		{project.title}
+	</h3>
+	<p class="line-clamp-2 text-[0.8rem] leading-relaxed text-brand-graphite">
+		{project.description}
+	</p>
+	<div class="mt-auto flex flex-wrap gap-1">
+		{visibleTech.map((tech) => (
+			<span
+				class="depth-chip rounded-sm bg-brand-paper/80 px-1.5 py-0.5 font-mono text-[0.62rem] font-bold uppercase tracking-normal text-brand-ink"
+			>
+				{tech}
+			</span>
+		))}
+		{hiddenTechCount > 0 && (
+			<span
+				class="depth-chip rounded-sm bg-brand-green-soft px-1.5 py-0.5 font-mono text-[0.62rem] font-bold uppercase tracking-normal text-brand-green"
+			>
+				+{hiddenTechCount}
+			</span>
+		)}
+	</div>
+</a>
