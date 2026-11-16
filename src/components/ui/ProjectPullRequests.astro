@@ -1,0 +1,35 @@
+---
+import { OPEN_SOURCE_REPOS } from "@/data/open-source";
+import PullRequestList from "@/components/ui/PullRequestList.astro";
+
+interface Props {
+	repo: string;
+}
+
+const { repo } = Astro.props;
+const repoData = OPEN_SOURCE_REPOS.find((item) => item.name === repo);
+---
+
+{
+	repoData && (
+		<section class="mt-10" aria-labelledby="merged-pull-requests">
+			<div class="flex flex-wrap items-end justify-between gap-2">
+				<div>
+					<p class="sketch-label mb-2 text-[0.62rem]">upstream</p>
+					<h2
+						id="merged-pull-requests"
+						class="text-xl font-black uppercase tracking-normal text-brand-ink sm:text-2xl"
+					>
+						Merged pull requests
+					</h2>
+				</div>
+				<span class="font-mono text-[0.62rem] font-bold uppercase tracking-normal text-brand-graphite">
+					{repoData.pulls.length} merged · {repoData.language}
+				</span>
+			</div>
+			<div class="paper-scrap scrap-no-tape mt-4 overflow-hidden">
+				<PullRequestList pulls={repoData.pulls} />
+			</div>
+		</section>
+	)
+}

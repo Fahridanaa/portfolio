@@ -9,6 +9,8 @@ interface Props {
 }
 
 const { frontmatter } = Astro.props;
+const sourceLabel =
+	frontmatter.group === "open-source" ? "Repository" : "Client";
 ---
 
 <div>
@@ -18,7 +20,7 @@ const { frontmatter } = Astro.props;
 			<ProjectButton href={frontmatter.demo} icon={ExternalLink} text="Demo" />
 		)}
 		{frontmatter.sourceClient && (
-			<ProjectButton href={frontmatter.sourceClient} icon={Code} text="Client" />
+			<ProjectButton href={frontmatter.sourceClient} icon={Code} text={sourceLabel} />
 		)}
 		{frontmatter.sourceServer && (
 			<ProjectButton href={frontmatter.sourceServer} icon={Code} text="API" />

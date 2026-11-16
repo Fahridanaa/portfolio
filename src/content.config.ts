@@ -10,6 +10,8 @@ const projectCollection = defineCollection({
     schema: z.object({
         title: z.string(),
         type: z.string(),
+        group: z.enum(["university", "personal", "open-source"]).default("personal"),
+        repo: z.string().nullable().default(null),
         hasImage: z.boolean().default(true),
         date: z.coerce.date(),
         description: z.string(),

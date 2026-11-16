@@ -4,9 +4,10 @@ import type { ProjectMeta } from "@/models/project";
 interface Props {
 	project: ProjectMeta;
 	slug: string;
+	index?: number;
 }
 
-const { project, slug } = Astro.props;
+const { project, slug, index } = Astro.props;
 const { title, type, stack, description, date } = project;
 const visibleTech = stack.slice(0, 4);
 const hiddenTechCount = stack.length - visibleTech.length;
@@ -33,6 +34,14 @@ const projectDateStr = date.toLocaleDateString("en-US", {
 		>
 			{projectDateStr}
 		</span>
+		{index !== undefined && (
+			<span
+				class="ml-auto font-mono text-[0.6rem] font-bold uppercase tracking-normal text-brand-graphite/60"
+				aria-hidden="true"
+			>
+				{String(index).padStart(2, "0")}
+			</span>
+		)}
 	</div>
 
 	<p

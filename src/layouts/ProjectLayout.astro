@@ -5,6 +5,7 @@ import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import ProjectFacts from "@/components/ui/ProjectFacts.astro";
 import PaperNav from "@/components/ui/PaperNav.astro";
+import ProjectPullRequests from "@/components/ui/ProjectPullRequests.astro";
 
 export type Props = {
 	frontmatter: ProjectMeta;
@@ -72,6 +73,10 @@ const showCover = frontmatter.hasImage && Boolean(cover);
 				class="prose prose-lg relative mt-8 max-w-none break-words text-brand-graphite prose-headings:text-brand-ink prose-a:text-brand-green prose-strong:text-brand-ink prose-ul:list-disc prose-p:my-[0.75em]">
 				<slot />
 			</section>
-		</article>
+
+			{frontmatter.repo && (
+				<ProjectPullRequests repo={frontmatter.repo} />
+			)}
+			</article>
 	</div>
 </Layout>
