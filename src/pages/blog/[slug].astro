@@ -26,7 +26,8 @@ const ogVersion = ogImageVersion(entry.data);
 ---
 
 <Layout
-	title={`${entry.data.title} / Blog`}
+	title={entry.data.title}
+	section="Blog"
 	description={entry.data.description}
 	image={`/blog/${entry.id}/og.png?v=${ogVersion}`}
 	imageAlt={`Text preview for ${entry.data.title}`}

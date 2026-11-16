@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 
-// Bump when the OG image layout in src/pages/blog/[slug]/og.png.ts changes.
-const OG_TEMPLATE_VERSION = 2;
+// Bump when the OG image layout in src/utils/og-image.ts changes.
+const OG_TEMPLATE_VERSION = 3;
 
 // Cache-buster for the social preview image: changes whenever the visible OG
 // inputs change, so editors do not have to remember to bump it by hand.

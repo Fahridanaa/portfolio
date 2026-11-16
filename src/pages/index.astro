@@ -12,6 +12,7 @@ import ProjectShelf from "@/components/ui/ProjectShelf.astro";
 import { getBlogEntries, getExperiences, getProjectGroups } from "@/lib/content";
 import { DEFAULT_MODE } from "@/utils/mode";
 import { STICKY_NOTE_CLASSES } from "@/utils/blog";
+import { SITE_NAME } from "@/data/site";
 
 const projectGroups = await getProjectGroups();
 
@@ -31,7 +32,7 @@ const sortedExperiences = await getExperiences();
 const currentYear = new Date().getFullYear();
 ---
 
-<Layout title="Fahridana Ahmad Rayyansyah">
+<Layout title={SITE_NAME} image="/og.png">
 	<div
 		class="notebook-sheet mx-auto min-h-dvh w-full overflow-hidden px-5 sm:px-8 lg:px-12">
 
