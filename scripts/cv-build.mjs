@@ -6,6 +6,8 @@
 //
 // The resolver writes cv/.build/<lane>.json, which main.typ reads. A lane is a
 // selection of named points, so a text correction lands in all three at once.
+// The phone that cv:apply prints comes from cv/contact.local.json, which is
+// untracked; the tracked facts hold no phone.
 
 import { execFileSync } from "node:child_process";
 import { copyFileSync, mkdirSync, watch, writeFileSync } from "node:fs";
@@ -34,6 +36,11 @@ function build() {
 
   for (const lane of targets) {
     if (!docs[lane]) throw new Error(`unknown lane: ${lane}`);
+    if (apply && !docs[lane].basics.phone) {
+      throw new Error(
+        'cv:apply needs {"phone": "+62..."} in cv/contact.local.json, which is untracked',
+      );
+    }
     const out = apply
       ? path.join(ROOT, `cv/fahridana-rayyansyah-${lane}-cv.pdf`)
       : path.join(OUT, `cv-${lane}.pdf`);
