@@ -35,7 +35,7 @@
     "@astrojs/check": "^0.9.12",
     "@types/node": "^26.6.6",
     "@webgpu/types": "^0.1.74",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   },
   "overrides": {
     "satori": {
