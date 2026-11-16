@@ -3,7 +3,7 @@ import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
 import SocialButton from "@/components/ui/SocialButton.astro";
 import me from "@/../public/assets/me.jpg";
-import ExperienceCard from "@/components/ui/ExperienceCard";
+import ExperienceCard from "@/components/ui/ExperienceCard.astro";
 import BlogEntryCard from "@/components/ui/BlogEntryCard.astro";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SOCIAL_LINKS } from "@/data/site";
 import SectionHeader from "@/components/ui/SectionHeader.astro";
@@ -120,7 +120,7 @@ const currentYear = new Date().getFullYear();
 				{
 					sortedExperiences.map((experience) => (
 						<div class="experience-item">
-							<ExperienceCard experience={experience.data} client:load />
+							<ExperienceCard experience={experience.data} />
 						</div>
 					))
 				}

@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
 import mdx from "@astrojs/mdx";
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
@@ -28,7 +27,7 @@ const newTabLinks = {
 export default defineConfig({
     site: 'https://fahridanaa.my.id',
     trailingSlash: 'always',
-    integrations: [react(), mdx(), sitemap()],
+    integrations: [mdx(), sitemap()],
     markdown: {
         processor: satteri({ hastPlugins: [newTabLinks] }),
     },
