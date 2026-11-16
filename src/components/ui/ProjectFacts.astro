@@ -1,8 +1,7 @@
 ---
 import type { ProjectMeta } from "@/models/project";
-import ProjectButton from "@/components/ui/ProjectButton";
+import ProjectButton from "@/components/ui/ProjectButton.astro";
 import TechStack from "@/components/ui/TechStack.astro";
-import { Code, ExternalLink } from "lucide-react";
 
 interface Props {
 	frontmatter: ProjectMeta;
@@ -17,13 +16,13 @@ const sourceLabel =
 	<p class="sketch-label mb-2 text-[0.62rem]">links</p>
 	<div class="flex flex-wrap gap-2">
 		{frontmatter.demo && (
-			<ProjectButton href={frontmatter.demo} icon={ExternalLink} text="Demo" />
+			<ProjectButton href={frontmatter.demo} icon="external" text="Demo" />
 		)}
 		{frontmatter.sourceClient && (
-			<ProjectButton href={frontmatter.sourceClient} icon={Code} text={sourceLabel} />
+			<ProjectButton href={frontmatter.sourceClient} icon="code" text={sourceLabel} />
 		)}
 		{frontmatter.sourceServer && (
-			<ProjectButton href={frontmatter.sourceServer} icon={Code} text="API" />
+			<ProjectButton href={frontmatter.sourceServer} icon="code" text="API" />
 		)}
 	</div>
 </div>

@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { createElement, type CSSProperties } from "react";
+import { createElement, type CSSProperties, type JSXNode } from "satori/jsx";
 import satori from "satori";
 import sharp from "sharp";
 import { splitText } from "@/utils/og";
@@ -12,11 +12,8 @@ const boldFontData = await fs.readFile(
 	path.resolve("src/assets/fonts/og/DejaVuSans-Bold.ttf")
 );
 
-const el = (
-	type: string,
-	style: CSSProperties,
-	children?: Parameters<typeof createElement>[2]
-) => createElement(type, { style }, children);
+const el = (type: string, style: CSSProperties, children?: JSXNode): JSXNode =>
+	createElement(type, { style, children }) as unknown as JSXNode;
 
 type OgImageOptions = {
 	title: string;

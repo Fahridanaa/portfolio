@@ -1,0 +1,101 @@
+---
+import type { ExperienceMeta } from "@/models/experience";
+
+interface Props {
+  experience: ExperienceMeta;
+}
+
+const { experience } = Astro.props;
+
+const monthYear = new Intl.DateTimeFormat("en", {
+  month: "short",
+  year: "numeric",
+});
+const formatMonthYear = (date: Date) => monthYear.format(date);
+
+const startLabel = formatMonthYear(experience.startDate);
+const endLabel = formatMonthYear(experience.endDate);
+---
+
+<details class="experience-entry" open>
+  <summary class="experience-row">
+    <span class="experience-rail" aria-hidden="true">
+      <span class="experience-dot"></span>
+    </span>
+
+    <img
+      src={experience.logo}
+      alt={`${experience.company} logo`}
+      width="44"
+      height="44"
+      class="depth-media h-11 w-11 shrink-0 rounded-md bg-white p-1.5 object-contain"
+    />
+
+    <div class="flex min-w-0 flex-col justify-between gap-1 sm:flex-row sm:items-center sm:gap-4">
+      <div class="min-w-0">
+        <div class="flex flex-col gap-0.5 sm:flex-row sm:items-center sm:gap-2">
+          <h3 class="truncate text-base font-black leading-tight text-brand-ink sm:text-lg">
+            {experience.company}
+          </h3>
+          <div class="flex flex-row flex-wrap gap-1.5">
+            <span class="shrink-0 rounded-sm bg-brand-green-soft/80 px-2 py-0.5 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-green">
+              {experience.type}
+            </span>
+            <span class="shrink-0 rounded-sm bg-white/60 px-2 py-0.5 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite ring-1 ring-brand-green/10">
+              {experience.isRemote ? "Remote" : "OnSite"}
+            </span>
+          </div>
+        </div>
+        <p class="mt-1 flex flex-col text-sm font-semibold text-brand-graphite sm:flex-row sm:items-center sm:truncate">
+          <span class="text-brand-green">{experience.role}</span>
+          <span class="mx-1.5 hidden sm:inline">•</span>
+          {experience.location}
+        </p>
+      </div>
+      <span class="experience-period shrink-0 text-left sm:text-center">
+        <time datetime={experience.startDate.toISOString()}>{startLabel}</time>
+        <span aria-hidden="true"> – </span>
+        <span class="sr-only">to</span>
+        <time datetime={experience.endDate.toISOString()}>{endLabel}</time>
+      </span>
+    </div>
+
+    <span class="experience-cue" aria-hidden="true">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </span>
+  </summary>
+
+  <div class="experience-note">
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true" class="w-11"></div>
+    <div class="flex flex-col gap-6">
+      <ul class="min-w-0 list-inside list-disc space-y-1 text-base leading-relaxed text-brand-graphite">
+        {experience.bullets.map((bullet) => <li>{bullet}</li>)}
+      </ul>
+
+      {
+        experience.techStack.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {experience.techStack.map((tech) => (
+              <span class="depth-chip rounded-sm bg-brand-paper/80 px-2 py-1 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-ink">
+                {tech}
+              </span>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</details>

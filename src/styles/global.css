@@ -285,23 +285,27 @@
     align-items: flex-start;
     width: 100%;
     cursor: pointer;
-    border: none;
-    background: none;
-    font: inherit;
-    color: inherit;
-    text-align: left;
+    list-style: none;
     gap: 0.25rem;
     padding: 0.75rem 3rem 0.75rem 1rem;
     transition: background-color 160ms ease;
   }
 
+  .experience-row::-webkit-details-marker {
+    display: none;
+  }
+
+  .experience-row::marker {
+    content: "";
+  }
+
   .experience-row:hover,
   .experience-row:focus-visible,
-  .experience-entry.is-open .experience-row {
+  .experience-entry[open] .experience-row {
     background: rgba(255, 255, 255, 0.28);
   }
 
-  .experience-year-cell {
+  .experience-rail {
     position: relative;
     display: none;
     min-height: 2.9rem;
@@ -309,32 +313,16 @@
     justify-content: center;
   }
 
-  .experience-item:not(:last-child) .experience-year-cell::after {
-    position: absolute;
-    top: calc(50% + 0.95rem);
-    bottom: -2.35rem;
-    left: 50%;
-    width: 2px;
+  .experience-dot {
+    width: 0.5rem;
+    height: 0.5rem;
     border-radius: 999px;
-    background: linear-gradient(
-      180deg,
-      rgba(36, 49, 42, 0.36),
-      rgba(36, 49, 42, 0.36) 88%,
-      transparent
-    );
-    content: "";
-    transform: translateX(-50%);
+    background: rgba(36, 49, 42, 0.36);
+    box-shadow: 0 0 0 3px rgba(241, 244, 233, 0.9);
   }
 
-  .experience-year {
-    color: rgba(36, 49, 42, 0.72);
-    font-family:
-      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-      monospace;
-    font-size: 0.76rem;
-    font-weight: 800;
-    letter-spacing: 0;
-    text-transform: uppercase;
+  .experience-period {
+    white-space: nowrap;
   }
 
   .experience-cue {
@@ -354,7 +342,7 @@
     transition: transform 180ms ease;
   }
 
-  .experience-entry.is-open .experience-cue {
+  .experience-entry[open] .experience-cue {
     transform: translateY(-50%) rotate(180deg);
   }
 
@@ -362,19 +350,6 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 0.9rem;
-    padding: 0 3rem 0 1rem;
-    max-height: 0;
-    overflow: clip;
-    opacity: 0;
-    transition:
-      max-height 200ms cubic-bezier(0.16, 1, 0.3, 1),
-      opacity 150ms ease-out,
-      padding 150ms ease-out;
-  }
-
-  .experience-entry.is-open .experience-note {
-    max-height: 2000px;
-    opacity: 1;
     padding: 0.75rem 3rem 0.75rem 1rem;
   }
 
@@ -397,8 +372,23 @@
       padding: 0.9rem 3rem 0.9rem 1rem;
     }
 
-    .experience-year-cell {
+    .experience-rail {
       display: flex;
+    }
+
+    .experience-item:not(:last-child) .experience-entry::after {
+      position: absolute;
+      top: 3rem;
+      bottom: -2.5rem;
+      left: calc(1rem + 2.4rem);
+      z-index: 1;
+      width: 2px;
+      border-radius: 999px;
+      background: linear-gradient(
+        rgba(36, 49, 42, 0.36),
+        rgba(36, 49, 42, 0.18)
+      );
+      content: "";
     }
 
     .experience-entry .experience-note {
@@ -412,23 +402,6 @@
     .experience-note > div:first-child,
     .experience-note > div:nth-child(2) {
       display: block;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .experience-item:not(:last-child) .experience-entry.is-open::after {
-      position: absolute;
-      top: 6.65rem;
-      bottom: -1.45rem;
-      left: calc(1rem + 2.4rem);
-      z-index: 1;
-      width: 2px;
-      border-radius: 999px;
-      background: linear-gradient(
-        rgba(36, 49, 42, 0.36),
-        rgba(36, 49, 42, 0.18)
-      );
-      content: "";
     }
   }
 
