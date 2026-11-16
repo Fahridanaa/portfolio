@@ -3,6 +3,7 @@ import { getProjectGroups } from "@/lib/content";
 import Layout from "@/layouts/Layout.astro";
 import MiniProjectScrap from "@/components/ui/MiniProjectScrap.astro";
 import ProjectGroupHeader from "@/components/ui/ProjectGroupHeader.astro";
+import { OPEN_SOURCE_REPOS } from "@/data/open-source";
 import { PROJECT_GROUPS } from "@/data/project-groups";
 
 const groups = await getProjectGroups();
@@ -29,6 +30,9 @@ const sections = [
 		projects: groups.university,
 	},
 ];
+
+const mergedPrs = (repo: string | null) =>
+	OPEN_SOURCE_REPOS.find((item) => item.name === repo)?.pulls.length;
 ---
 
 <Layout title="Projects / Fahridana Ahmad Rayyansyah">
@@ -50,7 +54,7 @@ const sections = [
 					<a
 						href="#personal"
 						aria-label={`Personal projects, ${groups.personal.length}`}
-						class="sketch-label gap-1.5 text-[0.62rem] transition-colors hover:bg-brand-highlighter/80"
+						class="sketch-label gap-1.5 text-[0.68rem] transition-colors hover:bg-brand-highlighter/80"
 					>
 						{PROJECT_GROUPS.personal.label}
 						<span class="text-brand-green">{groups.personal.length}</span>
@@ -58,7 +62,7 @@ const sections = [
 					<a
 						href="#open-source"
 						aria-label={`Open source, ${groups.openSource.length} projects`}
-						class="sketch-label gap-1.5 text-[0.62rem] transition-colors hover:bg-brand-highlighter/80"
+						class="sketch-label gap-1.5 text-[0.68rem] transition-colors hover:bg-brand-highlighter/80"
 					>
 						{PROJECT_GROUPS.openSource.label}
 						<span class="text-brand-green">{groups.openSource.length}</span>
@@ -66,7 +70,7 @@ const sections = [
 					<a
 						href="#university"
 						aria-label={`University projects, ${groups.university.length}`}
-						class="sketch-label gap-1.5 text-[0.62rem] transition-colors hover:bg-brand-highlighter/80"
+						class="sketch-label gap-1.5 text-[0.68rem] transition-colors hover:bg-brand-highlighter/80"
 					>
 						{PROJECT_GROUPS.university.label}
 						<span class="text-brand-green">{groups.university.length}</span>
@@ -90,6 +94,7 @@ const sections = [
 										project={project.data}
 										slug={project.id}
 										index={index + 1}
+										mergedPrs={mergedPrs(project.data.repo)}
 									/>
 								))}
 							</div>

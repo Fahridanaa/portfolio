@@ -14,36 +14,22 @@ const mergedTotal = OPEN_SOURCE_REPOS.reduce(
 	(total, repo) => total + repo.pulls.length,
 	0,
 );
-const projectTotal = personal.length + OPEN_SOURCE_REPOS.length;
+const labelRow =
+	"flex items-center justify-between gap-2 border-b border-dashed border-brand-ink/25 pb-1.5 font-mono text-[0.68rem] font-bold uppercase tracking-normal text-brand-graphite";
 ---
 
 <section id="projects" data-mode-block="work" class="notebook-section compact-section">
 	<SectionHeader title="Projects" doodle="projects" />
 
-	<div class="mt-3 flex flex-wrap items-center justify-between gap-2">
-		<p
-			class="font-mono text-[0.62rem] font-bold uppercase tracking-normal text-brand-graphite"
-		>
-			{projectTotal} projects · {mergedTotal} merged PRs
-		</p>
-		<a
-			href="/projects"
-			class="sketch-label gap-1.5 text-[0.62rem] transition-colors hover:bg-brand-highlighter/80"
-		>
-			All projects
-			<span class="text-brand-green" aria-hidden="true">→</span>
-		</a>
-	</div>
-
-	<div class="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:gap-6">
-		<div>
+	<div class="mt-5 grid gap-x-6 gap-y-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)]">
+		<div class="flex flex-col">
 			<div
-				class="flex items-baseline justify-between gap-2 border-b border-dashed border-brand-ink/25 pb-1.5 font-mono text-[0.62rem] font-bold uppercase tracking-normal text-brand-graphite"
+				class={`${labelRow} min-h-8`}
 			>
 				<span>Personal</span>
 				<span>{personal.length} projects</span>
 			</div>
-			<div class="mt-3 grid gap-3 sm:grid-cols-2">
+			<div class="mt-3 grid flex-1 gap-3 sm:grid-cols-2">
 				{
 					personal.map((project) => (
 						<CompactProjectCard project={project.data} slug={project.id} />
@@ -52,26 +38,30 @@ const projectTotal = personal.length + OPEN_SOURCE_REPOS.length;
 			</div>
 		</div>
 
-		<div>
-			<div
-				class="flex items-baseline justify-between gap-2 border-b border-dashed border-brand-ink/25 pb-1.5 font-mono text-[0.62rem] font-bold uppercase tracking-normal text-brand-graphite"
-			>
-				<span>Open source</span>
-				<span>{mergedTotal} merged</span>
+		<div class="flex flex-col">
+			<div class={`${labelRow} min-h-8`}>
+				<span>Open source · {mergedTotal} merged</span>
+				<a
+					href="/projects"
+					class="sketch-label -my-1 gap-1.5 text-[0.68rem] transition-colors hover:bg-brand-highlighter/80"
+				>
+					All projects
+					<span class="text-brand-green" aria-hidden="true">→</span>
+				</a>
 			</div>
-			<div class="paper-scrap scrap-no-tape mt-3 overflow-hidden">
+			<div class="paper-scrap scrap-no-tape mt-3 flex flex-1 flex-col overflow-hidden">
 				{
 					OPEN_SOURCE_REPOS.map((repo, index) => (
 						<div
 							class:list={[
-								"px-3 py-3",
+								"flex-1 px-3.5 py-3.5",
 								index > 0 && "border-t border-dashed border-brand-ink/20",
 							]}
 						>
 							<div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
 								<a
 									href={`/projects/${repo.projectSlug}`}
-									class="text-sm font-black leading-tight text-brand-ink underline decoration-brand-green/30 decoration-2 underline-offset-4 transition-colors hover:decoration-brand-green"
+									class="text-base font-black leading-tight text-brand-ink underline decoration-brand-green/30 decoration-2 underline-offset-4 transition-colors hover:decoration-brand-green"
 								>
 									{repo.name}
 								</a>
@@ -79,15 +69,18 @@ const projectTotal = personal.length + OPEN_SOURCE_REPOS.length;
 									href={repo.url}
 									target="_blank"
 									rel="noopener noreferrer"
-									class="font-mono text-[0.55rem] font-bold uppercase tracking-normal text-brand-graphite transition-colors hover:text-brand-green"
+									class="font-mono text-[0.65rem] font-bold uppercase tracking-normal text-brand-graphite transition-colors hover:text-brand-green"
 								>
 									github ↗
 								</a>
-								<span class="ml-auto font-mono text-[0.55rem] font-bold uppercase tracking-normal text-brand-graphite">
+								<span class="ml-auto font-mono text-[0.65rem] font-bold uppercase tracking-normal text-brand-graphite">
 									{repo.language} · {repo.pulls.length} merged
 								</span>
 							</div>
-							<div class="mt-1.5">
+							<p class="mt-1 text-xs leading-relaxed text-brand-graphite">
+								{repo.description}
+							</p>
+							<div class="mt-2">
 								<PullRequestList pulls={repo.pulls} compact />
 							</div>
 						</div>

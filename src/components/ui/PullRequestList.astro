@@ -25,19 +25,19 @@ const mergedDateFormat = new Intl.DateTimeFormat("en-US", {
 					rel="noopener noreferrer"
 					class:list={[
 						"group flex transition-colors hover:bg-white/50",
-						compact ? "gap-2 px-3 py-1.5" : "gap-3 px-4 py-3 sm:px-5",
+						compact ? "gap-2 px-0 py-1.5" : "gap-3 px-4 py-3 sm:px-5",
 					]}
 				>
 					<span
 						class:list={[
 							"shrink-0 font-mono font-black text-brand-graphite",
-							compact ? "w-8 pt-0.5 text-[0.6rem]" : "w-10 pt-0.5 text-[0.66rem]",
+							compact ? "w-9 pt-0.5 text-[0.68rem]" : "w-10 pt-0.5 text-[0.66rem]",
 						]}
 					>
 						#{pr.number}
 					</span>
 					{compact ? (
-						<span class="min-w-0 flex-1 text-[0.7rem] font-semibold leading-snug text-brand-ink decoration-brand-green/40 underline-offset-4 group-hover:underline">
+						<span class="min-w-0 flex-1 text-[0.8rem] font-semibold leading-snug text-brand-ink decoration-brand-green/40 underline-offset-4 group-hover:underline">
 							{pr.title}
 						</span>
 					) : (
