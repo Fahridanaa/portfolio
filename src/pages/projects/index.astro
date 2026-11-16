@@ -88,12 +88,11 @@ const mergedPrs = (repo: string | null) =>
 								count={section.count}
 								blurb={section.blurb}
 							/>
-							<div class="mt-6 grid gap-4 sm:grid-cols-2">
-								{section.projects.map((project, index) => (
+							<div class="mt-6 grid items-start gap-4 sm:grid-cols-2">
+								{section.projects.map((project) => (
 									<MiniProjectScrap
 										project={project.data}
 										slug={project.id}
-										index={index + 1}
 										mergedPrs={mergedPrs(project.data.repo)}
 									/>
 								))}

@@ -61,7 +61,7 @@ const showCover = frontmatter.hasImage && Boolean(cover);
 						</aside>
 					</div>
 				) : (
-					<div class="sticky-note mt-8 p-4">
+					<div class="sticky-note mt-8 w-full p-4 sm:w-fit sm:max-w-full">
 						<div class="relative z-[1] grid gap-4 sm:grid-cols-[auto_1fr]">
 							<ProjectFacts frontmatter={frontmatter} />
 						</div>
