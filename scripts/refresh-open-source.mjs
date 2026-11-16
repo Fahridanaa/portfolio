@@ -181,10 +181,29 @@ export function latestMergedAt(repos) {
 
 export function mergePulls(repo, fetched) {
 	const known = new Set(repo.pulls.map((pull) => pull.number));
-	const newestNumber = repo.pulls.reduce(
-		(max, pull) => Math.max(max, pull.number),
-		0,
-	);
+	let newest = null;
+	for (const pull of repo.pulls) {
+		if (
+			!newest ||
+			pull.mergedAt > newest.mergedAt ||
+			(pull.mergedAt === newest.mergedAt && pull.number > newest.number)
+		) {
+			newest = pull;
+		}
+	}
+	const newestFetched =
+		newest && fetched.find((pr) => pr.number === newest.number);
+	const isNewer = (pr) => {
+		if (!newest) return true;
+		if (typeof newestFetched?.mergedAt === "string") {
+			return pr.mergedAt > newestFetched.mergedAt;
+		}
+		const mergedAt = pr.mergedAt.slice(0, 10);
+		return (
+			mergedAt > newest.mergedAt ||
+			(mergedAt === newest.mergedAt && pr.number > newest.number)
+		);
+	};
 	const added = fetched
 		.filter(
 			(pr) =>
@@ -192,7 +211,7 @@ export function mergePulls(repo, fetched) {
 				typeof pr.mergedAt === "string" &&
 				pr.mergedAt.length > 0,
 		)
-		.filter((pr) => !known.has(pr.number) && pr.number > newestNumber)
+		.filter((pr) => !known.has(pr.number) && isNewer(pr))
 		.map((pr) => ({
 			number: pr.number,
 			title: pr.title,

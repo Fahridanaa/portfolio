@@ -60,14 +60,24 @@ test("mergePulls adds a newer merged PR and keeps the curated entry", () => {
 	assert.deepEqual(result.repo.pulls[1], repo.pulls[0]);
 });
 
-test("mergePulls ignores duplicate and older PR numbers", () => {
+test("mergePulls ignores duplicates and PRs merged before the newest entry", () => {
+	const result = mergePulls(repo, [
+		pr(215, "2026-10-24T06:45:55Z"),
+		pr(200, "2026-10-01T10:00:00Z"),
+	]);
+
+	assert.equal(result.added.length, 0);
+	assert.equal(result.repo, repo);
+});
+
+test("mergePulls adds a lower-numbered PR merged after the newest entry", () => {
 	const result = mergePulls(repo, [
 		pr(215, "2026-10-24T06:45:55Z"),
 		pr(200, "2026-11-16T10:00:00Z"),
 	]);
 
-	assert.equal(result.added.length, 0);
-	assert.equal(result.repo, repo);
+	assert.equal(result.added.length, 1);
+	assert.equal(result.repo.pulls[0].number, 200);
 });
 
 test("mergePulls ignores PRs by other authors", () => {
@@ -78,8 +88,11 @@ test("mergePulls ignores PRs by other authors", () => {
 	assert.equal(result.added.length, 0);
 });
 
-test("mergePulls accepts a same-day PR with a higher number", () => {
-	const result = mergePulls(repo, [pr(216, "2026-10-24T23:00:00Z")]);
+test("mergePulls accepts a same-day PR merged after the newest entry", () => {
+	const result = mergePulls(repo, [
+		pr(215, "2026-10-24T06:45:55Z"),
+		pr(216, "2026-10-24T23:00:00Z"),
+	]);
 
 	assert.equal(result.added.length, 1);
 	assert.equal(result.repo.pulls[0].number, 216);
@@ -87,6 +100,7 @@ test("mergePulls accepts a same-day PR with a higher number", () => {
 
 test("mergePulls sorts added PRs newest first", () => {
 	const result = mergePulls(repo, [
+		pr(215, "2026-10-24T06:45:55Z"),
 		pr(216, "2026-11-15T10:00:00Z"),
 		pr(217, "2026-11-16T10:00:00Z"),
 	]);
