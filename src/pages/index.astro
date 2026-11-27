@@ -1,7 +1,5 @@
 ---
-import { getImage, Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
-import me from "@/../public/assets/me.jpg";
 import ExperienceCard from "@/components/ui/ExperienceCard.astro";
 import BlogEntryCard from "@/components/ui/BlogEntryCard.astro";
 import { OPEN_SOURCE_REPOS } from "@/data/open-source";
@@ -49,17 +47,6 @@ const mergedPrLabel =
 
 const sortedExperiences = await getExperiences();
 
-const portraitWidths = [366, 549, 732, 1098];
-const portraitSrcSet = (
-	await Promise.all(
-		portraitWidths.map((width) =>
-			getImage({ src: me, width, format: "webp" })
-		)
-	)
-)
-	.map((image, index) => `${image.src} ${portraitWidths[index]}w`)
-	.join(", ");
-
 const person = {
 	name: SITE_NAME,
 	jobTitle: SITE_TAGLINE,
@@ -84,23 +71,25 @@ const currentYear = new Date().getFullYear();
 
 		<article id="hero" class="notebook-section page-top pb-10 md:pb-16">
 			<section
-				class="grid w-full items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+				class="hero-layout grid w-full items-center gap-8">
 				<div class="min-w-0 space-y-6">
-					<Image
-						src={me}
-						alt=""
-						width={128}
-						height={128}
-						loading="eager"
-						class="float-right ml-4 mb-1 mt-1 h-16 w-16 rotate-[-2deg] rounded-sm border-2 border-white object-cover shadow-[0_2px_0_rgba(36,49,42,0.22)] ring-1 ring-brand-ink/25 lg:hidden"
-					/>
 					<div class="space-y-3">
 						<h1
-							class="text-3xl text-pretty font-black leading-[0.98] text-brand-ink sm:text-4xl lg:text-5xl"
+							data-intro-step="name"
+							class="hero-name text-3xl text-pretty font-black leading-[0.98] text-brand-ink sm:text-4xl lg:text-5xl"
 						>
-							<span class="text-nowrap"><span class="ink-underline font-black text-brand-green">Fahri</span>dana</span> Ahmad Rayyansyah
+							<span class="intro-word"
+								><span class="text-nowrap"
+									><span class="ink-underline font-black text-brand-green"
+										>Fahri</span
+									>dana</span
+								></span
+							>{" "}
+							<span class="intro-word">Ahmad</span>{" "}
+							<span class="intro-word">Rayyansyah</span>
 						</h1>
 						<p
+							data-intro-step="role"
 							class="text-xl font-semibold leading-snug text-brand-graphite sm:text-2xl"
 						>
 							<span class="ink-underline font-black text-brand-green">
@@ -108,123 +97,98 @@ const currentYear = new Date().getFullYear();
 							</span>
 						</p>
 					</div>
-					<p
-						class="max-w-[58ch] text-pretty text-base leading-relaxed text-brand-graphite sm:text-lg"
-					>
-						I ship production web features.{" "}
-						<a href="#experience" class="hero-inline-link">Two roles</a> so far: a
-						Laravel performance-appraisal system for quarterly reviews, and a
-						Next.js video-summarization tool.{" "}
-						<a href="#projects" class="hero-inline-link">{mergedPrLabel} of my pull requests are merged</a>{" "}
-						into open-source projects I don't own.
-					</p>
-					<div class="flex flex-wrap items-center gap-x-5 gap-y-3">
-						<div class="flex flex-wrap gap-3">
-							<a
-								href={`mailto:${EMAIL}`}
-								class="hero-ink-button hero-ink-button-primary"
+					<div class="hero-lower">
+						<p
+							data-intro-step="pitch"
+							class="max-w-[58ch] text-pretty text-base leading-relaxed text-brand-graphite sm:text-lg"
+						>
+							I ship production web features.{" "}
+							<a href="#experience" class="hero-inline-link">Two roles</a> so far: a
+							Laravel performance-appraisal system for quarterly reviews, and a
+							Next.js video-summarization tool.{" "}
+							<a href="#projects" class="hero-inline-link">{mergedPrLabel} of my pull requests are merged</a>{" "}
+							into open-source projects I don't own.
+						</p>
+						<div class="hero-contact">
+							<div
+								data-intro-step="actions"
+								class="flex flex-wrap items-center gap-x-5 gap-y-3"
 							>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="17"
-									height="17"
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2.6"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									aria-hidden="true"
-								>
-									<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path>
-									<rect x="2" y="4" width="20" height="16" rx="2"></rect>
-								</svg>
-								Email me
-							</a>
-							<a
-								href={CV_HREF}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="hero-ink-button hero-ink-button-secondary"
-							>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="17"
-									height="17"
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2.6"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									aria-hidden="true"
-								>
-									<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path>
-									<path d="M14 2v5a1 1 0 0 0 1 1h5"></path>
-									<path d="M10 9H8"></path>
-									<path d="M16 13H8"></path>
-									<path d="M16 17H8"></path>
-								</svg>
-								CV (PDF)
-								<span class="sr-only">(opens in a new tab)</span>
-							</a>
-						</div>
-						<nav aria-label="Profiles" class="flex items-center gap-5">
-							{
-								SOCIAL_LINKS.map((item) => (
+								<div class="flex flex-wrap gap-3">
 									<a
-										href={item.href}
+										href={`mailto:${EMAIL}`}
+										class="hero-ink-button hero-ink-button-primary"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="17"
+											height="17"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2.6"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											aria-hidden="true"
+										>
+											<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path>
+											<rect x="2" y="4" width="20" height="16" rx="2"></rect>
+										</svg>
+										Email me
+									</a>
+									<a
+										href={CV_HREF}
 										target="_blank"
 										rel="noopener noreferrer"
-										class="hero-text-link"
+										class="hero-ink-button hero-ink-button-secondary"
 									>
-										{item.label}
-										<span aria-hidden="true">↗</span>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="17"
+											height="17"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2.6"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											aria-hidden="true"
+										>
+											<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path>
+											<path d="M14 2v5a1 1 0 0 0 1 1h5"></path>
+											<path d="M10 9H8"></path>
+											<path d="M16 13H8"></path>
+											<path d="M16 17H8"></path>
+										</svg>
+										CV (PDF)
 										<span class="sr-only">(opens in a new tab)</span>
 									</a>
-								))
-							}
-						</nav>
-					</div>
-					<p class="hero-email">
-						<span class="hero-email-label">Email</span>
-						<a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-					</p>
-				</div>
-
-				<div class="relative mx-auto hidden w-full max-w-sm lg:block">
-					<div>
-						<div class="camera-print">
-							<span class="camera-pin" aria-hidden="true"></span>
-							{/* 366px = max-w-sm minus the print frame's padding and border. The source is keyed to lg, so phones select the 1x1 data URI instead of the hidden portrait. */}
-							<picture>
-								<source
-									media="(min-width: 1024px)"
-									type="image/webp"
-									srcset={portraitSrcSet}
-									sizes="366px"
-								/>
-								<img
-									src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-									alt="Portrait of Fahridana Ahmad Rayyansyah"
-									width={366}
-									height={366}
-									loading="eager"
-									fetchpriority="high"
-									class="aspect-square w-full rounded-sm object-cover"
-								/>
-							</picture>
-							<p class="camera-caption">me</p>
-						</div>
-						<div
-							class="sticky-note absolute -bottom-4 -left-4 rotate-12 max-w-56 p-4 text-sm font-semibold leading-relaxed text-brand-ink"
-						>
-							<p>
-							  This is me :)
+								</div>
+								<nav aria-label="Profiles" class="flex items-center gap-5">
+									{
+										SOCIAL_LINKS.map((item) => (
+											<a
+												href={item.href}
+												target="_blank"
+												rel="noopener noreferrer"
+												class="hero-text-link"
+											>
+												{item.label}
+												<span aria-hidden="true">↗</span>
+												<span class="sr-only">(opens in a new tab)</span>
+											</a>
+										))
+									}
+								</nav>
+							</div>
+							<p data-intro-step="email" class="hero-email">
+								<span class="hero-email-label">Email</span>
+								<a href={`mailto:${EMAIL}`}>{EMAIL}</a>
 							</p>
 						</div>
 					</div>
 				</div>
+
 			</section>
 		</article>
 
@@ -233,7 +197,7 @@ const currentYear = new Date().getFullYear();
 			<div class="experience-list mt-6">
 				{
 					sortedExperiences.map((experience) => (
-						<div class="experience-item">
+						<div class="experience-item" data-reveal-item="row">
 							<ExperienceCard experience={experience.data} />
 						</div>
 					))
@@ -260,7 +224,7 @@ const currentYear = new Date().getFullYear();
 						<BlogEntryCard entry={entry} index={index} />
 					))
 				}
-				<div class="sticky-note-stack min-h-56 self-start">
+				<div class="sticky-note-stack min-h-56 self-start" data-reveal-item="stack">
 					<span class="sticky-note-stack-layer sticky-note-stack-layer-back" aria-hidden="true"></span>
 					<span class="sticky-note-stack-layer sticky-note-stack-layer-mid" aria-hidden="true"></span>
 					<a
@@ -286,7 +250,7 @@ const currentYear = new Date().getFullYear();
 			</div>
 		</section>
 
-		<footer class="mx-auto max-w-5xl py-10 text-center text-sm text-brand-graphite">
+		<footer data-reveal-item="rise" class="mx-auto max-w-5xl py-10 text-center text-sm text-brand-graphite">
 			<p class="font-semibold">
 				&copy; {currentYear} Fahridana Ahmad Rayyansyah. Made like a notebook,
 				shipped like a website.
@@ -418,6 +382,35 @@ const currentYear = new Date().getFullYear();
 	@media (prefers-reduced-motion: reduce) {
 		.hero-ink-button {
 			transition: none;
+		}
+	}
+
+	/* ---- hero layout: a title page, no portrait ---- */
+
+	.hero-lower,
+	.hero-contact {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	@media (min-width: 1024px) {
+		.hero-name {
+			max-width: 18ch;
+			font-size: clamp(3.75rem, 5.6vw, 5.25rem);
+			line-height: 0.94;
+		}
+
+		.hero-lower {
+			display: grid;
+			grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+			gap: 3rem;
+			align-items: start;
+		}
+
+		.hero-contact {
+			padding-left: 2rem;
+			border-left: 1px solid var(--line);
 		}
 	}
 </style>

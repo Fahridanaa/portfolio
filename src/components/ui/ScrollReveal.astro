@@ -1,0 +1,225 @@
+---
+/**
+ * Entrance animations for everything below the hero. Each piece of the page
+ * carries data-reveal-item="<kind>"; src/scripts/scroll-reveal.js sets
+ * <html data-reveal> before paint, hides the items, and adds .is-in as each one
+ * scrolls into view. --reveal-delay (set by the script) staggers items that
+ * arrive together.
+ *
+ * Every rule is gated on html[data-reveal], so no JS, reduced motion, and a
+ * failed script all show the finished page. Keyframes with only a "from" keep
+ * the element's own resting transform (the notebook tilts) as the end state.
+ */
+---
+
+<style is:global>
+	@media screen {
+		html[data-reveal] [data-reveal-item]:not(.is-in) {
+			opacity: 0;
+		}
+	}
+
+	/* ------- plain rise: labels, experience rows, footer ------- */
+
+	@keyframes reveal-rise {
+		from {
+			opacity: 0;
+			transform: translateY(1.1rem);
+		}
+	}
+
+	html[data-reveal] [data-reveal-item="rise"].is-in,
+	html[data-reveal] [data-reveal-item="row"].is-in {
+		animation: reveal-rise 620ms cubic-bezier(0.2, 0.8, 0.2, 1)
+			var(--reveal-delay, 0ms) backwards;
+	}
+
+	/* ------- section headings: chip pops, title inks, rule draws ------- */
+
+	@keyframes reveal-chip {
+		from {
+			opacity: 0;
+			transform: scale(0) rotate(-120deg);
+		}
+	}
+
+	@keyframes reveal-ink {
+		from {
+			opacity: 0;
+			filter: blur(6px);
+			transform: translateY(0.4em);
+		}
+	}
+
+	@keyframes reveal-rule {
+		from {
+			clip-path: inset(0 100% 0 0);
+		}
+		to {
+			clip-path: inset(0 0 0 0);
+		}
+	}
+
+	@keyframes reveal-doodle {
+		from {
+			opacity: 0;
+			transform: translateY(-50%) translateX(1.2rem);
+		}
+	}
+
+	html[data-reveal] [data-reveal-item="heading"].is-in .depth-chip {
+		animation: reveal-chip 560ms cubic-bezier(0.2, 1.5, 0.35, 1)
+			var(--reveal-delay, 0ms) backwards;
+	}
+
+	html[data-reveal] [data-reveal-item="heading"].is-in h2 {
+		animation: reveal-ink 640ms cubic-bezier(0.2, 0.8, 0.2, 1)
+			calc(var(--reveal-delay, 0ms) + 100ms) backwards;
+	}
+
+	html[data-reveal] [data-reveal-item="heading"].is-in .soft-rule {
+		animation: reveal-rule 760ms cubic-bezier(0.5, 0.05, 0.2, 1)
+			calc(var(--reveal-delay, 0ms) + 220ms) backwards;
+	}
+
+	html[data-reveal] [data-reveal-item="heading"].is-in .doodle {
+		animation: reveal-doodle 600ms cubic-bezier(0.2, 0.8, 0.2, 1)
+			calc(var(--reveal-delay, 0ms) + 650ms) backwards;
+	}
+
+	/* ------- experience rows: logo and dot pop, the rail draws down ------- */
+
+	@keyframes reveal-pop {
+		from {
+			opacity: 0;
+			transform: scale(0.4) rotate(-10deg);
+		}
+	}
+
+	@keyframes reveal-rail {
+		from {
+			transform: scaleY(0);
+		}
+	}
+
+	@keyframes reveal-slide {
+		from {
+			opacity: 0;
+			transform: translateX(-0.7rem);
+		}
+	}
+
+	html[data-reveal] [data-reveal-item="row"].is-in .experience-row > img {
+		animation: reveal-pop 520ms cubic-bezier(0.2, 1.5, 0.35, 1)
+			calc(var(--reveal-delay, 0ms) + 180ms) backwards;
+	}
+
+	html[data-reveal] [data-reveal-item="row"].is-in .experience-dot {
+		animation: reveal-pop 440ms cubic-bezier(0.2, 1.7, 0.35, 1)
+			calc(var(--reveal-delay, 0ms) + 260ms) backwards;
+	}
+
+	html[data-reveal] [data-reveal-item="row"].is-in .experience-entry::after {
+		transform-origin: top;
+		animation: reveal-rail 760ms cubic-bezier(0.4, 0.1, 0.2, 1)
+			calc(var(--reveal-delay, 0ms) + 380ms) backwards;
+	}
+
+	html[data-reveal] [data-reveal-item="row"].is-in .experience-note li {
+		animation: reveal-slide 480ms cubic-bezier(0.2, 0.8, 0.2, 1)
+			calc(var(--reveal-delay, 0ms) + 360ms + var(--i, 0) * 80ms) backwards;
+	}
+
+	html[data-reveal] [data-reveal-item="row"].is-in .experience-note .depth-chip {
+		animation: reveal-pop 440ms cubic-bezier(0.2, 1.5, 0.35, 1)
+			calc(var(--reveal-delay, 0ms) + 520ms + var(--i, 0) * 60ms) backwards;
+	}
+
+	/* ------- cards: dealt onto the desk with a small overshoot ------- */
+
+	@keyframes reveal-card {
+		from {
+			opacity: 0;
+			transform: rotate(calc(var(--scrap-tilt, 0deg) + 3.5deg))
+				translateY(2rem) scale(0.95);
+		}
+	}
+
+	html[data-reveal] [data-reveal-item="card"].is-in {
+		animation: reveal-card 720ms cubic-bezier(0.2, 1.15, 0.3, 1)
+			var(--reveal-delay, 0ms) backwards;
+	}
+
+	/* ------- notes: slapped on from above ------- */
+
+	@keyframes reveal-note {
+		from {
+			opacity: 0;
+			transform: rotate(calc(var(--scrap-tilt, 0deg) + 10deg))
+				translateY(-1.6rem) scale(1.08);
+		}
+	}
+
+	@keyframes reveal-stack {
+		from {
+			opacity: 0;
+			transform: translateY(1.4rem) rotate(3deg) scale(0.96);
+		}
+	}
+
+	html[data-reveal] [data-reveal-item="note"].is-in {
+		animation: reveal-note 620ms cubic-bezier(0.2, 1.4, 0.35, 1)
+			var(--reveal-delay, 0ms) backwards;
+	}
+
+	html[data-reveal] [data-reveal-item="stack"].is-in {
+		animation: reveal-stack 680ms cubic-bezier(0.2, 1.2, 0.3, 1)
+			var(--reveal-delay, 0ms) backwards;
+	}
+
+	/* ------- art: a print lands, tape sticks, the photo develops ------- */
+
+	@keyframes reveal-print {
+		from {
+			opacity: 0;
+			transform: translateY(1.6rem) rotate(var(--print-tilt, 2.5deg))
+				scale(0.94);
+		}
+	}
+
+	@keyframes reveal-tape {
+		from {
+			opacity: 0;
+			transform: translateX(-50%) rotate(-1.6deg) translateY(-1.1rem)
+				scaleY(0.6);
+		}
+	}
+
+	@keyframes reveal-develop {
+		from {
+			filter: saturate(0) contrast(0.45) brightness(2.2) blur(4px);
+		}
+		to {
+			filter: saturate(0.92) contrast(1.06) brightness(1.02);
+		}
+	}
+
+	[data-reveal-item="print"]:nth-child(even) {
+		--print-tilt: -2.5deg;
+	}
+
+	html[data-reveal] [data-reveal-item="print"].is-in {
+		animation: reveal-print 700ms cubic-bezier(0.2, 1.15, 0.3, 1)
+			var(--reveal-delay, 0ms) backwards;
+	}
+
+	html[data-reveal] [data-reveal-item="print"].is-in .camera-pin {
+		animation: reveal-tape 380ms cubic-bezier(0.2, 1.5, 0.35, 1)
+			calc(var(--reveal-delay, 0ms) + 520ms) backwards;
+	}
+
+	html[data-reveal] [data-reveal-item="print"].is-in > img {
+		animation: reveal-develop 1000ms ease-out
+			calc(var(--reveal-delay, 0ms) + 260ms) backwards;
+	}
+</style>

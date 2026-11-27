@@ -9,6 +9,7 @@ const { title, variant = "default", doodle } = Astro.props;
 ---
 
 <section
+	data-reveal-item="heading"
 	class={`section-heading relative flex items-center gap-3 ${variant === "centered" ? "justify-center" : ""} ${doodle ? "md:pr-56" : ""}`}>
 	{variant === "centered" && (
 		<div class="soft-rule hidden flex-1 md:block"></div>

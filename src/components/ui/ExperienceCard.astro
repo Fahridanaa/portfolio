@@ -81,13 +81,13 @@ const endLabel = formatMonthYear(experience.endDate);
     <div aria-hidden="true"></div>
     <div aria-hidden="true" class="w-11"></div>
     <div class="flex flex-col gap-6">
-      <ul class="min-w-0 list-inside list-disc space-y-1 text-base leading-relaxed text-brand-graphite">
+      <ul data-reveal-stagger class="min-w-0 list-inside list-disc space-y-1 text-base leading-relaxed text-brand-graphite">
         {experience.bullets.map((bullet) => <li>{bullet}</li>)}
       </ul>
 
       {
         experience.techStack.length > 0 && (
-          <div class="flex flex-wrap gap-2">
+          <div data-reveal-stagger class="flex flex-wrap gap-2">
             {experience.techStack.map((tech) => (
               <span class="depth-chip rounded-sm bg-brand-paper/80 px-2 py-1 font-mono text-xs font-bold uppercase tracking-normal text-brand-ink">
                 {tech}
@@ -99,3 +99,80 @@ const endLabel = formatMonthYear(experience.endDate);
     </div>
   </div>
 </details>
+
+<script>
+	// Opening and closing a role animates the note instead of snapping it.
+	// <details> cannot animate its own height, so the click is handled here:
+	// open the element, then animate the note from 0 to its height (or the
+	// reverse, then close). Reduced motion and no JS keep the native toggle.
+	const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+	const busy = new WeakSet<HTMLDetailsElement>();
+
+	document.addEventListener("click", (event) => {
+		const row = (event.target as Element).closest<HTMLElement>(
+			".experience-row",
+		);
+		const entry = row?.parentElement;
+		if (!(entry instanceof HTMLDetailsElement)) return;
+		const note = entry.querySelector<HTMLElement>(".experience-note");
+		if (!note || reduceMotion.matches) return;
+
+		event.preventDefault();
+		if (busy.has(entry)) return;
+		busy.add(entry);
+		note.style.overflow = "hidden";
+
+		const finish = () => {
+			note.style.overflow = "";
+			busy.delete(entry);
+		};
+
+		if (!entry.open) {
+			entry.open = true;
+			const height = note.offsetHeight;
+			note.animate(
+				[
+					{ height: "0px", opacity: 0 },
+					{ height: `${height}px`, opacity: 1 },
+				],
+				{ duration: 420, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" },
+			).onfinish = finish;
+
+			// Bullets slide in and tech chips pop, one after another.
+			note.querySelectorAll("li, .depth-chip").forEach((el, i) => {
+				el.animate(
+					[
+						{ opacity: 0, transform: "translateY(0.55rem) scale(0.94)" },
+						{ opacity: 1, transform: "none" },
+					],
+					{
+						duration: 460,
+						delay: 140 + i * 55,
+						easing: "cubic-bezier(0.2, 1.3, 0.4, 1)",
+						fill: "backwards",
+					},
+				);
+			});
+		} else {
+			// The chevron turns back at once; the note folds, then closes.
+			entry.dataset.closing = "";
+			const fold = note.animate(
+				[
+					{ height: `${note.offsetHeight}px`, opacity: 1 },
+					{ height: "0px", opacity: 0 },
+				],
+				{
+					duration: 200,
+					easing: "cubic-bezier(0.4, 0, 0.6, 1)",
+					fill: "forwards",
+				},
+			);
+			fold.onfinish = () => {
+				entry.open = false;
+				delete entry.dataset.closing;
+				fold.cancel();
+				finish();
+			};
+		}
+	});
+</script>

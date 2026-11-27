@@ -359,11 +359,31 @@
     background: rgba(255, 253, 245, 0.76);
     color: var(--ink);
     transform: translateY(-50%);
-    transition: transform 180ms ease;
+    transition:
+      transform 360ms cubic-bezier(0.3, 1.7, 0.4, 1),
+      background-color 200ms ease,
+      border-color 200ms ease;
   }
 
-  .experience-entry[open] .experience-cue {
+  .experience-row:hover .experience-cue,
+  .experience-row:focus-visible .experience-cue {
+    background: rgba(201, 239, 106, 0.55);
+    border-color: rgba(46, 92, 55, 0.3);
+  }
+
+  /* Closing is quicker than opening, without the overshoot. */
+  .experience-entry[data-closing] .experience-cue,
+  .experience-entry:not([open]) .experience-cue {
+    transition:
+      transform 200ms cubic-bezier(0.4, 0, 0.6, 1),
+      background-color 200ms ease,
+      border-color 200ms ease;
+  }
+
+  .experience-entry[open]:not([data-closing]) .experience-cue {
     transform: translateY(-50%) rotate(180deg);
+    background: var(--highlighter);
+    border-color: rgba(46, 92, 55, 0.35);
   }
 
   .experience-entry .experience-note {

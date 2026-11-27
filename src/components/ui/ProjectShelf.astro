@@ -24,6 +24,7 @@ const labelRow =
 	<div class="mt-5 grid gap-x-6 gap-y-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)]">
 		<div class="flex flex-col">
 			<div
+				data-reveal-item="rise"
 				class={`${labelRow} min-h-8`}
 			>
 				<span>Personal</span>
@@ -39,7 +40,7 @@ const labelRow =
 		</div>
 
 		<div class="flex flex-col">
-			<div class={`${labelRow} min-h-8`}>
+			<div data-reveal-item="rise" class={`${labelRow} min-h-8`}>
 				<span>Open source · {mergedTotal} merged</span>
 				<a
 					href="/projects/"
@@ -49,7 +50,10 @@ const labelRow =
 					<span class="text-brand-green" aria-hidden="true">→</span>
 				</a>
 			</div>
-			<div class="paper-scrap scrap-no-tape mt-3 flex flex-1 flex-col overflow-hidden">
+			<div
+				data-reveal-item="card"
+				class="paper-scrap scrap-no-tape mt-3 flex flex-1 flex-col overflow-hidden"
+			>
 				{
 					OPEN_SOURCE_REPOS.map((repo, index) => (
 						<div

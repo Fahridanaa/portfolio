@@ -2,6 +2,10 @@
 import "@/styles/global.css";
 import Navbar from "@/components/ui/nav/Navbar.astro";
 import AmbientBackground from "@/components/ui/AmbientBackground.astro";
+import EntryIntro from "@/components/ui/EntryIntro.astro";
+import ScrollReveal from "@/components/ui/ScrollReveal.astro";
+import entryIntroUrl from "@/scripts/entry-intro.js?url&no-inline";
+import scrollRevealUrl from "@/scripts/scroll-reveal.js?url&no-inline";
 import { BLOG_FEED_TITLE, SITE_DESCRIPTION, SITE_NAME } from "@/data/site";
 import JsonLd from "@/components/ui/JsonLd.astro";
 import type { JsonLd as JsonLdData } from "@/utils/structured-data";
@@ -46,6 +50,8 @@ const pageTitle =
 const baseUrl = Astro.site ?? Astro.url;
 const pageUrl = canonical ? new URL(canonical, baseUrl).toString() : Astro.url.href;
 const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
+// The entry animation belongs to the site's front door, not to every page.
+const isHome = Astro.url.pathname === "/";
 ---
 
 <!doctype html>
@@ -91,9 +97,13 @@ const imageUrl = image ? new URL(image, baseUrl).toString() : undefined;
 		<meta name="generator" content={Astro.generator} />
 		{jsonLd && <JsonLd data={jsonLd} />}
 		<title>{pageTitle}</title>
+		{isHome && <script is:inline src={entryIntroUrl}></script>}
+		{isHome && <script is:inline src={scrollRevealUrl}></script>}
 	</head>
 	<body>
 		<AmbientBackground />
+		{isHome && <EntryIntro />}
+		{isHome && <ScrollReveal />}
 		<div class="nav-progress" data-nav-progress aria-hidden="true">
 			<span></span>
 			<span></span>
